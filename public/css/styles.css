@@ -1,0 +1,58 @@
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+    padding: 5px 5px;
+    margin: 5px 10px;
+}
+
+#create-user label, input{
+  display: block;
+  margin: 10px;
+}
+
+#login-form{
+  width: 400px;
+  float: right;
+  margin: 500px 0px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 2px solid #000000;
+}
+
+table, th, td {
+   text-align: center;
+   padding: 10px;
+}
+
+tr:nth-child(even){
+  background-color: #d1d1d1
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+th, td{
+  border: 1px solid #000000;
+}
+
+#create-user{
+  border-size:2px;
+  border-style:dashed;
+  border-color:blue;
+  width: 30%;
+  padding: 10px 10px;
+}
+
+h2{
+  text-decoration: underline;
+  color: coral;
+}

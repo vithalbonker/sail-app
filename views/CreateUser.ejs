@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="/public/css/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+       a.action{
+         padding: 0px 10px;
+         margin: 0px 10px;
+       }
+
+       .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        .edit-modal-content input{
+          display:block;
+          margin: 10px 10px;
+        }
+
+        .edit-modal-content label{
+          float: left;
+        }
+
+        #saveUser, #closeModal{
+          float: left;
+          display: inline;
+          margin: 10px 10px;
+        }
+
+
+        /* Modal Content */
+        .edit-modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 40px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+
+        button.link{
+          background:none!important;
+          border:none;
+          padding:0!important;
+          color: -webkit-link;
+          text-decoration:underline;
+          cursor:pointer;
+        }
+    </style>
+  </head>
+  <body>
+    <h2>User Creation Form</h2>
+
+    <div id="create-user">
+      <form action="/users" method="POST">
+        <label>First Name:</label>
+        <input type="text" id="firstName" name="firstName" />
+        <label>Last Name:</label>
+        <input type="text" id="lastName" name="lastName" />
+        <label>Email:</label>
+        <input type="email" id="email" name="email" />
+        <input type="submit" id="createUser" name="createUser" value="Create User"/>
+      </form>
+    </div>
+
+    <h2>User Details</h2>
+    <div id="users-data">
+        <h4>Total records: <%= users.length || '' %></h4>
+        <table id="userstable">
+          <thead>
+              <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Action</th>
+              </tr>
+          </thead>
+
+          <tbody>
+               <% for(var i=0; i < users.length; i++) { %>
+                 <tr>
+                   <td><%= users[i].id %></td>
+                   <td><%= users[i].firstName %></td>
+                   <td><%= users[i].lastName %></td>
+                   <td><%= users[i].email %></td>
+                   <td>
+                       <button class="link">Edit</button>
+                       <div id="edit-modal" class="modal">
+                          <div class="edit-modal-content">
+                              <h3>Change User Details</h3>
+                              <!-- <form action="/users/edit?firstName=<%= users[i].firstName %>&lastName=<%= users[i].lastName %>&email=<%= users[i].email %>" method="POST"> -->
+                              <form action="/users/edit" method="POST">
+                                  <label>ID:</label>
+                                  <input type="text" id="id" name="id" style="border:none;" readonly/>
+                                  <label>First Name:</label>
+                                  <input type="text" id="update_firstName" name="update_firstName" />
+                                  <label>Last Name:</label>
+                                  <input type="text" id="update_lastName" name="update_lastName" />
+                                  <label>Email:</label>
+                                  <input type="email" id="update_email" name="update_email" />
+                                  <input type="submit" id="saveUser" name="saveUser" value="Save Details" />
+                              </form>
+
+                              <button id="closeModal" name="closeModal" onclick="closeEditUser()">Cancel</button>
+                          </div>
+                       </div>
+
+                       <a href='delete?id=<%= users[i].id %>'
+                          onclick="return confirm('Do yo want to delete this user record?')"class="action">Delete</a>
+                   </td>
+                 </tr>
+             <% } %>
+          </tbody>
+        </table>
+     </div>
+
+     <% include ../views/footer %>
+  </body>
+  <script>
+      // Get the modal
+      var modal = document.getElementById('edit-modal');
+      var editLinks = document.getElementsByClassName('link');
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+
+      function closeEditUser(){
+        modal.style.display = "none";
+      }
+
+      for(var i=0;i<editLinks.length;i++){
+        editLinks[i].onclick = function(){
+          modal.style.display = "block";
+        }
+      }
+  </script>
+  <script>
+      $("#createUser").click(function(){
+        window.setTimeout(function(){
+           window.location.reload();
+        }, 5000);        
+      });
+
+      $(document).ready(function(){
+          $(".link").click(function(){
+              $("#id").val($(this).parent().siblings(":first").text());
+              $("#update_firstName").val($(this).parent().siblings(":first").next().text());
+              $("#update_lastName").val($(this).parent().siblings(":first").next().next().text());
+              $("#update_email").val($(this).parent().siblings(":first").next().next().next().text());
+          });
+      });
+  </script>
+</html>
