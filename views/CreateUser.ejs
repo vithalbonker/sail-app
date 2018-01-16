@@ -73,6 +73,9 @@
       </form>
     </div>
 
+    <br>
+    <a href="/scriptpage">Script Page</a>
+
     <h2>User Details</h2>
     <div id="users-data">
         <h4>Total records: <%= users.length || '' %></h4>
@@ -125,7 +128,7 @@
         </table>
      </div>
 
-     <% include ../views/footer %>
+     <% include ../views/Footer %>
   </body>
   <script>
       // Get the modal
@@ -153,7 +156,7 @@
       $("#createUser").click(function(){
         window.setTimeout(function(){
            window.location.reload();
-        }, 5000);        
+        }, 5000);
       });
 
       $(document).ready(function(){

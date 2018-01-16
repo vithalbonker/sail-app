@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const config = require('./config/config');
 
 var users = require('./js/users');
+var script = require('./js/scriptpage');
 var routes = require('./routes/routes');
 
 var app = express();
@@ -22,6 +23,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use('/', routes);
 
 users(app);
+script(app);
 
 app.listen(port, config.ipAddress, function(){
   console.log("Server started on http://" + config.ipAddress + ":" + port);

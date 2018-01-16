@@ -1,0 +1,55 @@
+<html>
+   <head>
+      <style>
+         #script-tree-border{
+           border:1px solid black;
+           margin: 100px 0px 0px 5px;
+           height:700px;
+           width:250px;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="script-tree-border">
+        <div id="jstree">
+            <ul>
+              <li>Root
+
+                 <ul>
+                   <li>Root node 1
+                     <ul>
+                       <li id="child_node_1">Child node 1</li>
+                       <li>Child node 2</li>
+                     </ul>
+                  </li>
+                  <li>Root node 2</li>
+                 </ul>
+
+             </li>
+            </ul>
+        </div>
+      </div>
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/jstree.min.js"></script>
+
+      <script>
+         $(document).ready(function(){
+             $('#jstree').jstree({
+               "core" : {
+                          "check_callback" : true
+                         },
+               "checkbox" : {
+                              "keep_selected_style" : false
+                            },
+               "plugins" : [ "changed", "wholerow", "checkbox", "contextmenu", "dnd", "sort", "state", "unique" ]
+             });
+
+             $('#jstree').on("changed.jstree", function (e, data) {
+                  console.log(data.selected);
+             });
+         });
+      </script>
+   </body>
+</html>
