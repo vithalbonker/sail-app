@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies":{
     "express":"*",
+    "express-validator":"*",
     "body-parser":"*",
     "ejs":"*",
     "nodemon":"*",
