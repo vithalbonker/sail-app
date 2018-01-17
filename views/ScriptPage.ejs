@@ -7,12 +7,27 @@
            height:700px;
            width:250px;
          }
+
+         .tree-action{
+           font-size:10px;
+           display: inline-block;
+           margin: 0px 0px 6px 0px;
+         }
       </style>
    </head>
    <body>
       <div id="script-tree-border">
+        <span>Tree Actions</span>
+        <br>
+        <button class="tree-action" onclick="createFolder();">Create Folder</button>
+        <button class="tree-action" onclick="renameFolder();">Rename Folder</button>
+        <button class="tree-action" onclick="deleteFolder();">Delete Folder</button>
+        <button class="tree-action" onclick="createScript();">Create Script</button>
+        <button class="tree-action" onclick="renameScript();">Rename Script</button>
+        <button class="tree-action" onclick="deleteScript();">Delete Script</button>
+        <hr>
         <div id="jstree">
-            <ul>
+            <!-- <ul>
               <li>Root
 
                  <ul>
@@ -22,11 +37,13 @@
                        <li>Child node 2</li>
                      </ul>
                   </li>
-                  <li>Root node 2</li>
+                  <li>Root node 2
+                    <a>link1</a>
+                  </li>
                  </ul>
 
              </li>
-            </ul>
+            </ul> -->
         </div>
       </div>
 
@@ -35,15 +52,27 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/jstree.min.js"></script>
 
       <script>
-         $(document).ready(function(){
+         $(document).ready(function(){             
              $('#jstree').jstree({
                "core" : {
-                          "check_callback" : true
+                          "check_callback" : true,
+                          'data' : [
+                                      { "id" : "ajson1", "parent" : "#", "text" : "Root", "icon":"/public/images/folder.png" },
+                                      { "id" : "ajson2", "parent" : "ajson1", "text" : "Child 1", "icon":"/public/images/folder.png" },
+                                      { "id" : "ajson3", "parent" : "ajson1", "text" : "Child 2", "icon":"/public/images/file-16-16.ico" },
+                                    ]
                          },
                "checkbox" : {
                               "keep_selected_style" : false
                             },
-               "plugins" : [ "changed", "wholerow", "checkbox", "contextmenu", "dnd", "sort", "state", "unique" ]
+               "types" : {
+        										"#" : { "max_children" : 10, "max_depth" : 10, "valid_children" : ["root"] },
+        										"root" : { "icon" : "/public/images/folder.png", "valid_children" : ["default"] },
+        										"default" : { "icon" : "/public/images/folder.png", "valid_children" : ["default","file"] },
+                            "folder" : { "icon" : "/public/images/folder.png", "valid_children" : ["folder","file"] },
+        										"file" : { "icon" : "/public/images/file-16-16.ico", "valid_children" : [] }
+        								  },
+               "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types" ]
              });
 
              $('#jstree').on("changed.jstree", function (e, data) {
