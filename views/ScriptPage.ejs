@@ -4,7 +4,7 @@
          #script-tree-border{
            border:1px solid black;
            margin: 90px 0px 0px 0px;
-           height:730px;
+           /* height:700px; */
            width:280px;
            font-family: Arial, Helvetica, sans-serif;
            font-size: 11px;
@@ -22,9 +22,13 @@
 
          #jstree{
            border:1px solid black;
-           height:650px;
+           height:642px;
            width:280px;
            overflow:scroll;
+         }
+
+         img{
+           margin: 5px 15px;
          }
       </style>
    </head>
@@ -33,12 +37,10 @@
         <div id="script-tree-border">
           <span>Actions</span>
           <br>
-          <button id="tree-create-folder" onclick="createFolder();">Create Folder</button>
-          <button id="tree-create-script" onclick="createScript();">Create Script</button>
-          <br>
-          <button id="tree-node-rename" onclick="renameNode();">Rename</button>
-          <button id="tree-node-delete" onclick="deleteNode();">Delete</button>
-          <button id="tree-node-display" onclick="displaytree();">Display</button>
+          <img src="/public/images/addfolder-32-32.png" alt="Add Folder" onclick="addFolder();" />
+          <img src="/public/images/addscript-32-32.png" alt="Add Script" onclick="addScript();" />
+          <img src="/public/images/edit-32-32.png" alt="Rename" onclick="renameNode();" />
+          <img src="/public/images/delete-32-32.png" alt="Delete" onclick="deleteNode();" />
           <div id="jstree"></div>
         </div>
       </div>
@@ -52,7 +54,7 @@
                "core" : {
                           "check_callback" : true,
                           'data' : [
-                                      { "id" : "root", "parent" : "#", "text" : "Root", "icon":"/public/images/folder.png" }
+                                      { "id" : "root", "parent" : "#", "text" : "Root", "icon":"/public/images/folder-16-16.png" }
                                     ]
                          //  'data' : {
                          //             'url' : 'data/tree.json'
@@ -63,32 +65,15 @@
                             },
                "types" : {
                             "#" : { "max_children" : 100, "max_depth" : 10, "valid_children" : ["root"] },
-                            "root" : { "icon" : "/public/images/folder.png", "valid_children" : ["folder"] },
-                            "folder" : { "icon" : "/public/images/folder.png", "valid_children" : ["folder","file"] },
+                            "root" : { "icon" : "/public/images/folder-16-16.png", "valid_children" : ["folder"] },
+                            "folder" : { "icon" : "/public/images/folder-16-16.png", "valid_children" : ["folder","file"] },
                             "file" : { "icon" : "/public/images/file-16-16.ico", "valid_children" : [] }
                           },
                "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types" ]
              });
-
-             $('#jstree').on("changed.jstree", function (e, data) {
-                  //console.log(data.selected);
-                  var treeRef = $('#jstree').jstree(true),
-                  rootJson = "[" + treeRef.get_json("root") + "]";
-                  $.ajax({
-                    type:'POST',
-                    url:'/api/tree',
-                    data: JSON.stringify(rootJson),
-                    success:function(){
-                        console.log("SUCCESS: tree data is added to the file");
-                    },
-                    error:function(){
-                        console.log("FALED: failed to add tree data to the file");
-                    }
-                  });
-             });
          });
 
-         function createFolder() {
+         function addFolder() {
             var treeRef = $('#jstree').jstree(true),
             currentSelected = treeRef.get_selected();
             if (!currentSelected.length) {
@@ -96,15 +81,16 @@
               return false;
             }
             currentSelected = currentSelected[0];
-            currentSelected = treeRef.create_node(currentSelected, {
-                            "type": "folder"});
+            currentSelected = treeRef.create_node(currentSelected, {"type": "folder"});
 
             if (currentSelected) {
               treeRef.edit(currentSelected);
             }
+
+            postTreeDataToServer();
         };
 
-        function createScript() {
+        function addScript() {
            var treeRef = $('#jstree').jstree(true),
            currentSelected = treeRef.get_selected();
            if (!currentSelected.length) {
@@ -112,12 +98,13 @@
              return false;
            }
            currentSelected = currentSelected[0];
-           currentSelected = treeRef.create_node(currentSelected, {
-                           "type": "file"});
+           currentSelected = treeRef.create_node(currentSelected, {"type": "file"});
 
            if (currentSelected) {
              treeRef.edit(currentSelected);
            }
+
+           postTreeDataToServer();
        };
 
         function renameNode(){
@@ -132,6 +119,7 @@
           }else{
             currentSelected = currentSelected[0];
             treeRef.edit(currentSelected);
+            postTreeDataToServer();
           }
         };
 
@@ -149,16 +137,28 @@
             else{
                 if(confirm("Are you sure to delete this?")){
                     treeRef.delete_node(currentSelected);
+                    postTreeDataToServer();
                 }
             }
           }
         };
 
-        function displaytree(){
+        function postTreeDataToServer(){
           var treeRef = $('#jstree').jstree(true),
-          rootJson = treeRef.get_json("root").children;
-          console.log(rootJson);
-        };
+          //rootJson = "[" + treeRef.get_json("root") + "]";
+          rootJson = treeRef.get_json("root");
+          $.ajax({
+            type:'POST',
+            url:'/api/tree',
+            data: "[" + JSON.stringify(rootJson) + "]",
+            success:function(){
+                console.log("SUCCESS: tree data is added to the file");
+            },
+            error:function(){
+                console.log("FAILED: failed to add tree data to the file");
+            }
+          });
+        }
       </script>
    </body>
 </html>
