@@ -3,82 +3,162 @@
       <style>
          #script-tree-border{
            border:1px solid black;
-           margin: 100px 0px 0px 5px;
-           height:700px;
-           width:250px;
+           margin: 90px 0px 0px 0px;
+           height:730px;
+           width:280px;
+           font-family: Arial, Helvetica, sans-serif;
+           font-size: 11px;
          }
 
-         .tree-action{
-           font-size:10px;
+         #tree-create-folder, #tree-create-script, #tree-node-rename, #tree-node-delete{
+           font-size:11px;
            display: inline-block;
-           margin: 0px 0px 6px 0px;
+           margin: 10px 0px 6px 6px;
+         }
+
+         #tree-node-delete{
+           margin-left: 35px;
+         }
+
+         #jstree{
+           border:1px solid black;
+           height:650px;
+           width:280px;
+           overflow:scroll;
          }
       </style>
    </head>
    <body>
-      <div id="script-tree-border">
-        <span>Tree Actions</span>
-        <br>
-        <button class="tree-action" onclick="createFolder();">Create Folder</button>
-        <button class="tree-action" onclick="renameFolder();">Rename Folder</button>
-        <button class="tree-action" onclick="deleteFolder();">Delete Folder</button>
-        <button class="tree-action" onclick="createScript();">Create Script</button>
-        <button class="tree-action" onclick="renameScript();">Rename Script</button>
-        <button class="tree-action" onclick="deleteScript();">Delete Script</button>
-        <hr>
-        <div id="jstree">
-            <!-- <ul>
-              <li>Root
-
-                 <ul>
-                   <li>Root node 1
-                     <ul>
-                       <li id="child_node_1">Child node 1</li>
-                       <li>Child node 2</li>
-                     </ul>
-                  </li>
-                  <li>Root node 2
-                    <a>link1</a>
-                  </li>
-                 </ul>
-
-             </li>
-            </ul> -->
+      <div id="script-tree">
+        <div id="script-tree-border">
+          <span>Actions</span>
+          <br>
+          <button id="tree-create-folder" onclick="createFolder();">Create Folder</button>
+          <button id="tree-create-script" onclick="createScript();">Create Script</button>
+          <br>
+          <button id="tree-node-rename" onclick="renameNode();">Rename</button>
+          <button id="tree-node-delete" onclick="deleteNode();">Delete</button>
+          <button id="tree-node-display" onclick="displaytree();">Display</button>
+          <div id="jstree"></div>
         </div>
       </div>
 
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/jstree.min.js"></script>
-
       <script>
-         $(document).ready(function(){             
+         $(document).ready(function(){
              $('#jstree').jstree({
                "core" : {
                           "check_callback" : true,
                           'data' : [
-                                      { "id" : "ajson1", "parent" : "#", "text" : "Root", "icon":"/public/images/folder.png" },
-                                      { "id" : "ajson2", "parent" : "ajson1", "text" : "Child 1", "icon":"/public/images/folder.png" },
-                                      { "id" : "ajson3", "parent" : "ajson1", "text" : "Child 2", "icon":"/public/images/file-16-16.ico" },
+                                      { "id" : "root", "parent" : "#", "text" : "Root", "icon":"/public/images/folder.png" }
                                     ]
-                         },
+                         //  'data' : {
+                         //             'url' : 'data/tree.json'
+                         //            }
+                          },
                "checkbox" : {
                               "keep_selected_style" : false
                             },
                "types" : {
-        										"#" : { "max_children" : 10, "max_depth" : 10, "valid_children" : ["root"] },
-        										"root" : { "icon" : "/public/images/folder.png", "valid_children" : ["default"] },
-        										"default" : { "icon" : "/public/images/folder.png", "valid_children" : ["default","file"] },
+                            "#" : { "max_children" : 100, "max_depth" : 10, "valid_children" : ["root"] },
+                            "root" : { "icon" : "/public/images/folder.png", "valid_children" : ["folder"] },
                             "folder" : { "icon" : "/public/images/folder.png", "valid_children" : ["folder","file"] },
-        										"file" : { "icon" : "/public/images/file-16-16.ico", "valid_children" : [] }
-        								  },
+                            "file" : { "icon" : "/public/images/file-16-16.ico", "valid_children" : [] }
+                          },
                "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types" ]
              });
 
              $('#jstree').on("changed.jstree", function (e, data) {
-                  console.log(data.selected);
+                  //console.log(data.selected);
+                  var treeRef = $('#jstree').jstree(true),
+                  rootJson = "[" + treeRef.get_json("root") + "]";
+                  $.ajax({
+                    type:'POST',
+                    url:'/api/tree',
+                    data: JSON.stringify(rootJson),
+                    success:function(){
+                        console.log("SUCCESS: tree data is added to the file");
+                    },
+                    error:function(){
+                        console.log("FALED: failed to add tree data to the file");
+                    }
+                  });
              });
          });
+
+         function createFolder() {
+            var treeRef = $('#jstree').jstree(true),
+            currentSelected = treeRef.get_selected();
+            if (!currentSelected.length) {
+              alert("Please select a folder before creating new folder");
+              return false;
+            }
+            currentSelected = currentSelected[0];
+            currentSelected = treeRef.create_node(currentSelected, {
+                            "type": "folder"});
+
+            if (currentSelected) {
+              treeRef.edit(currentSelected);
+            }
+        };
+
+        function createScript() {
+           var treeRef = $('#jstree').jstree(true),
+           currentSelected = treeRef.get_selected();
+           if (!currentSelected.length) {
+             alert("Please select a folder before creating new script");
+             return false;
+           }
+           currentSelected = currentSelected[0];
+           currentSelected = treeRef.create_node(currentSelected, {
+                           "type": "file"});
+
+           if (currentSelected) {
+             treeRef.edit(currentSelected);
+           }
+       };
+
+        function renameNode(){
+          var treeRef = $('#jstree').jstree(true),
+          currentSelected = treeRef.get_selected();
+          if (!currentSelected.length) {
+             alert("Please select a folder before renaming");
+             return false;
+          }
+          if(currentSelected == "root"){
+            alert("Root folder cannot be renamed!!!");
+          }else{
+            currentSelected = currentSelected[0];
+            treeRef.edit(currentSelected);
+          }
+        };
+
+        function deleteNode() {
+          var treeRef = $('#jstree').jstree(true),
+          currentSelected = treeRef.get_selected();
+          if (!currentSelected.length) {
+            alert("Please select a folder before deleting");
+            return false;
+          }
+          else{
+            if(currentSelected == "root"){
+              alert("Root folder cannot be deleted!!!");
+            }
+            else{
+                if(confirm("Are you sure to delete this?")){
+                    treeRef.delete_node(currentSelected);
+                }
+            }
+          }
+        };
+
+        function displaytree(){
+          var treeRef = $('#jstree').jstree(true),
+          rootJson = treeRef.get_json("root").children;
+          console.log(rootJson);
+        };
       </script>
    </body>
 </html>
