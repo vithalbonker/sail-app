@@ -25,3 +25,15 @@ Capturing data of dynamic HTML
 validation messages using jquery
 --------------------------------
 http://jsfiddle.net/aoksoh69/17/
+
+
+jsTree good reference links
+----------------------------
+https://www.jstree.com/
+https://www.javascripting.com/view/jstree
+jsTree operations code - http://jsfiddle.net/ba75Y/2/
+
+jQuery AJAX tutorial
+--------------------
+https://www.youtube.com/watch?v=fEYx8dQr_cQ&list=PLoYCgNOIyGABdI2V8I_SWo22tFpgh2s6_&index=7
+https://www.youtube.com/watch?v=5nL7X1UMWsc&index=8&list=PLoYCgNOIyGABdI2V8I_SWo22tFpgh2s6_
