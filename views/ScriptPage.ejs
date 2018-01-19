@@ -51,31 +51,23 @@
       <script>
          $(document).ready(function(){
              $('#jstree').jstree({
-               "core" : {
-                          "check_callback" : true,
-                          // 'data' : [
-                          //             { "id" : "root", "parent" : "#", "text" : "Root", "icon":"/public/images/folder-16-16.png" }
-                          //           ]
-                          'data' : $.ajax({
-                                            type:'GET',
-                                            url: '/api/tree',
-                                            success: function(data){
-                                               console.log("SUCCESS: Tree data is fetched successfully!!!");
-                                               console.log(data);
-                                            },
-                                            error: function(){
-                                               console.log("FAILED: Failed to fetch tree data!!!");
+                     "core" : {
+                                "check_callback" : true,
+                                'data' : {
+                                            'url' : '/api/tree',
+                                            'data' : function (node) {
+                                                return { 'id' : node.id };
                                             }
-                                          })
-                          },
-               "types" : {
-                            "#" : { "max_children" : 100, "max_depth" : 10, "valid_children" : ["root"] },
-                            "root" : { "icon" : "/public/images/folder-16-16.png", "valid_children" : ["folder"] },
-                            "folder" : { "icon" : "/public/images/folder-16-16.png", "valid_children" : ["folder","file"] },
-                            "file" : { "icon" : "/public/images/file-16-16.ico", "valid_children" : [] }
-                          },
-               "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types" ]
-             });
+                                         }
+                               },
+                     "types" : {
+                                  "#" : { "max_children" : 100, "max_depth" : 10, "valid_children" : ["root"] },
+                                  "root" : { "icon" : "/public/images/folder-16-16.png", "valid_children" : ["folder"] , "selected": false},
+                                  "folder" : { "icon" : "/public/images/folder-16-16.png", "valid_children" : ["folder","file"] },
+                                  "file" : { "icon" : "/public/images/file-16-16.ico", "valid_children" : [] }
+                                },                      
+                     "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types" ]
+                });
          });
 
          function addFolder() {
@@ -86,7 +78,7 @@
               return false;
             }
             currentSelected = currentSelected[0];
-            currentSelected = treeRef.create_node(currentSelected, {"type": "folder"});
+            currentSelected = treeRef.create_node(currentSelected, {"type": "folder", "text": prompt("Enter folder name:")});
 
             if (currentSelected) {
               treeRef.edit(currentSelected);
@@ -103,7 +95,7 @@
              return false;
            }
            currentSelected = currentSelected[0];
-           currentSelected = treeRef.create_node(currentSelected, {"type": "file"});
+           currentSelected = treeRef.create_node(currentSelected, {"type": "file", "text": prompt("Enter script name:")});
 
            if (currentSelected) {
              treeRef.edit(currentSelected);
@@ -150,18 +142,33 @@
 
         function postTreeDataToServer(){
           var treeRef = $('#jstree').jstree(true);
-          rootJson = treeRef.get_json("root", "options.flat");
+          rootJson = treeRef.get_json(null, { "flat" : true });
+          console.log(rootJson);
           $.ajax({
-            type:'POST',
-            url:'/api/tree',
-            data: "[" + JSON.stringify(rootJson) + "]",
-            success:function(){
-                console.log("SUCCESS: tree data is added to the file");
-            },
-            error:function(){
-                console.log("FAILED: failed to add tree data to the file");
-            }
+              type:'POST',
+              url:'/api/tree',
+              data: "[" + JSON.stringify(rootJson) + "]",
+              success:function(){
+                  console.log("SUCCESS: tree data is added to the file");
+              },
+              error:function(){
+                  console.log("FAILED: failed to add tree data to the file");
+              }
           });
+
+          function getTreeDataFromServer(){
+              $.ajax({
+                  type:'GET',
+                  url: '/api/tree',
+                  success: function(data){
+                     console.log("SUCCESS: Tree data is fetched successfully!!!");
+                     console.log(data);
+                  },
+                  error: function(){
+                     console.log("FAILED: Failed to fetch tree data!!!");
+                  }
+              })
+          };
         }
       </script>
    </body>

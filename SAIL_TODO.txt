@@ -1,0 +1,23 @@
+Express Validator - Error messages
+
+Session authentication with passport
+
+How to refresh the browser page when code is changed during development?
+
+Tree Structure
+    Known Issues
+    -------------
+       1) If user is trying to create folder/script with the same one as existing ones then error is not shown. Need to handle these scenarios.
+       2) Increase/decrease the width of the tree is not implemented
+       3) Cut & Copy operations are not implemented. But drag & drop functionality is available.
+       4) When mouse hover is done, tree data should be posted - This is already fixed but need to test it.
+       5) Error messages in client console when alert/prompt is displayed
+
+Tabs
+
+Capturing data of dynamic HTML
+
+
+validation messages using jquery
+--------------------------------
+http://jsfiddle.net/aoksoh69/17/
