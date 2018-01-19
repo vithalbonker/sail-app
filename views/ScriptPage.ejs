@@ -65,7 +65,7 @@
                                   "root" : { "icon" : "/public/images/folder-16-16.png", "valid_children" : ["folder"] , "selected": false},
                                   "folder" : { "icon" : "/public/images/folder-16-16.png", "valid_children" : ["folder","file"] },
                                   "file" : { "icon" : "/public/images/file-16-16.ico", "valid_children" : [] }
-                                },                      
+                                },
                      "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types" ]
                 });
          });
@@ -140,6 +140,7 @@
           }
         };
 
+        //This is implementation of "jquery AJAX POST request"
         function postTreeDataToServer(){
           var treeRef = $('#jstree').jstree(true);
           rootJson = treeRef.get_json(null, { "flat" : true });
@@ -156,6 +157,7 @@
               }
           });
 
+          //below function is not used. This is implementation of "jquery AJAX GET request"
           function getTreeDataFromServer(){
               $.ajax({
                   type:'GET',
