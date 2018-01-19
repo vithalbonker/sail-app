@@ -35,7 +35,7 @@
    <body>
       <div id="script-tree">
         <div id="script-tree-border">
-          <span>Actions</span>
+          <span><strong>Actions</strong></span>
           <br>
           <img src="/public/images/addfolder-32-32.png" alt="Add Folder" onclick="addFolder();" />
           <img src="/public/images/addscript-32-32.png" alt="Add Script" onclick="addScript();" />
@@ -53,16 +53,21 @@
              $('#jstree').jstree({
                "core" : {
                           "check_callback" : true,
-                          'data' : [
-                                      { "id" : "root", "parent" : "#", "text" : "Root", "icon":"/public/images/folder-16-16.png" }
-                                    ]
-                         //  'data' : {
-                         //             'url' : 'data/tree.json'
-                         //            }
+                          // 'data' : [
+                          //             { "id" : "root", "parent" : "#", "text" : "Root", "icon":"/public/images/folder-16-16.png" }
+                          //           ]
+                          'data' : $.ajax({
+                                            type:'GET',
+                                            url: '/api/tree',
+                                            success: function(data){
+                                               console.log("SUCCESS: Tree data is fetched successfully!!!");
+                                               console.log(data);
+                                            },
+                                            error: function(){
+                                               console.log("FAILED: Failed to fetch tree data!!!");
+                                            }
+                                          })
                           },
-               "checkbox" : {
-                              "keep_selected_style" : false
-                            },
                "types" : {
                             "#" : { "max_children" : 100, "max_depth" : 10, "valid_children" : ["root"] },
                             "root" : { "icon" : "/public/images/folder-16-16.png", "valid_children" : ["folder"] },
@@ -74,7 +79,7 @@
          });
 
          function addFolder() {
-            var treeRef = $('#jstree').jstree(true),
+            var treeRef = $('#jstree').jstree(true);
             currentSelected = treeRef.get_selected();
             if (!currentSelected.length) {
               alert("Please select a folder before creating new folder");
@@ -91,7 +96,7 @@
         };
 
         function addScript() {
-           var treeRef = $('#jstree').jstree(true),
+           var treeRef = $('#jstree').jstree(true);
            currentSelected = treeRef.get_selected();
            if (!currentSelected.length) {
              alert("Please select a folder before creating new script");
@@ -108,7 +113,7 @@
        };
 
         function renameNode(){
-          var treeRef = $('#jstree').jstree(true),
+          var treeRef = $('#jstree').jstree(true);
           currentSelected = treeRef.get_selected();
           if (!currentSelected.length) {
              alert("Please select a folder before renaming");
@@ -124,7 +129,7 @@
         };
 
         function deleteNode() {
-          var treeRef = $('#jstree').jstree(true),
+          var treeRef = $('#jstree').jstree(true);
           currentSelected = treeRef.get_selected();
           if (!currentSelected.length) {
             alert("Please select a folder before deleting");
@@ -144,9 +149,8 @@
         };
 
         function postTreeDataToServer(){
-          var treeRef = $('#jstree').jstree(true),
-          //rootJson = "[" + treeRef.get_json("root") + "]";
-          rootJson = treeRef.get_json("root");
+          var treeRef = $('#jstree').jstree(true);
+          rootJson = treeRef.get_json("root", "options.flat");
           $.ajax({
             type:'POST',
             url:'/api/tree',
