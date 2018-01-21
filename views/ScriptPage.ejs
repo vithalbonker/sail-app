@@ -30,6 +30,10 @@
          img{
            margin: 5px 15px;
          }
+
+         #script-tree-border, #script_pane{
+           display:inline-table;
+         }
       </style>
    </head>
    <body>
@@ -43,6 +47,8 @@
           <img src="/public/images/delete-32-32.png" alt="Delete" onclick="deleteNode();" />
           <div id="jstree"></div>
         </div>
+        <div id="script_pane">
+        </div>
       </div>
 
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
@@ -50,7 +56,20 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/jstree.min.js"></script>
       <script>
          $(document).ready(function(){
-             $('#jstree').jstree({
+             $('#jstree')
+
+                .on('changed.jstree', function (e, data) {
+                    if(data.instance.get_type(data.selected[0]) == 'file'){
+                      console.log(data.selected[0]);
+                      selectedNode = data.instance.get_node(data.selected[0]).id;
+                      parent = data.instance.get_parent(data.selected[0]);
+                      $('#script_pane').html('Selected: ' + selectedNode + '<br>' + 'Parent:' + parent);
+                    }else{
+                      $('#script_pane').html('');
+                    }
+                })
+
+                .jstree({
                      "core" : {
                                 "check_callback" : true,
                                 'data' : {
@@ -69,6 +88,10 @@
                      "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types" ]
                 });
          });
+
+         function getParent(nodeId){
+
+         }
 
          function addFolder() {
             var treeRef = $('#jstree').jstree(true);
@@ -142,36 +165,42 @@
 
         //This is implementation of "jquery AJAX POST request"
         function postTreeDataToServer(){
-          var treeRef = $('#jstree').jstree(true);
-          rootJson = treeRef.get_json(null, { "flat" : true });
-          console.log(rootJson);
-          $.ajax({
-              type:'POST',
-              url:'/api/tree',
-              data: "[" + JSON.stringify(rootJson) + "]",
-              success:function(){
-                  console.log("SUCCESS: tree data is added to the file");
-              },
-              error:function(){
-                  console.log("FAILED: failed to add tree data to the file");
-              }
-          });
-
-          //below function is not used. This is implementation of "jquery AJAX GET request"
-          function getTreeDataFromServer(){
-              $.ajax({
-                  type:'GET',
-                  url: '/api/tree',
-                  success: function(data){
-                     console.log("SUCCESS: Tree data is fetched successfully!!!");
-                     console.log(data);
-                  },
-                  error: function(){
-                     console.log("FAILED: Failed to fetch tree data!!!");
-                  }
-              })
-          };
+            var treeRef = $('#jstree').jstree(true);
+            rootJson = treeRef.get_json(null, { "flat" : true });
+            $.ajax({
+                type:'POST',
+                url:'/api/tree',
+                data: "[" + JSON.stringify(rootJson) + "]",
+                success:function(){
+                    console.log("SUCCESS: tree data is added to the file");
+                },
+                error:function(){
+                    console.log("FAILED: failed to add tree data to the file");
+                }
+            });
         }
+
+        //below function is not used. This is implementation of "jquery AJAX GET request"
+        function getTreeDataFromServer(){
+            $.ajax({
+                type:'GET',
+                url: '/api/tree',
+                success: function(data){
+                   console.log("SUCCESS: Tree data is fetched successfully!!!");
+                   console.log(data);
+                },
+                error: function(){
+                   console.log("FAILED: Failed to fetch tree data!!!");
+                }
+            })
+        };
+      </script>
+      <script>
+            function getSelectedNode(){
+              var treeRef = $('#jstree').jstree(true);
+              selectedNode = treeRef.getSelected().get_text();
+              selectedText = treeRef.get_text(selectedNode);
+            }
       </script>
    </body>
 </html>
