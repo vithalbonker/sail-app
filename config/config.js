@@ -1,6 +1,5 @@
 module.exports = {
-  // ipAddress:'localhost',
-  ipAddress:'192.168.1.34',
+  ipAddress:'localhost',
   admin_username:'admin',
   admin_password:'admin'
 };
