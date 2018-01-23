@@ -8,19 +8,82 @@ const config = require('../config/config');
 const common = require('./common');
 
 module.exports = app => {
-  app.post('/', function(request, response){
-    var username = request.body.username;
-    var password = request.body.password;
+  app.get('/user', function(request, response){
+         //common.writeConsoleMessage("*******************SCRIPT PAGE RENDER START****************");
+         response.render('AdminLogin.ejs');
+         //common.writeConsoleMessage("*******************SCRIPT PAGE RENDER END****************");
+      });
+      app.get('/project', function(request, response){
+             //common.writeConsoleMessage("*******************SCRIPT PAGE RENDER START****************");
+             response.render('ProjectLogin.ejs');
+             //common.writeConsoleMessage("*******************SCRIPT PAGE RENDER END****************");
+          });
 
-    if(username == config.admin_username && password == config.admin_password){
-          response.redirect('/users');
-    }else{
-      response.write("Incorrect username/password. Please check and try again!!!");
-      response.write("<br><br><a href='/'>BACK</a>");
-      response.end();
-    }
-  });
+          app.post('/project', function(request, response){
+            var username = request.body.username;
+            var password = request.body.password;
+            common.writeConsoleMessage(username);
+            common.writeConsoleMessage(password);
 
+
+
+            common.writeConsoleMessage("*******************EDIT START****************");
+
+            var jsonObj;
+            fs.readFile('data/users.json', 'utf8', function(err, data) {
+               if (err) throw err;
+               jsonObj = JSON.parse(data);
+
+               common.writeConsoleMessage("Before Editing users:" + JSON.stringify(jsonObj));
+               var index = -1;
+               for(var i = 0;i < Object.keys(jsonObj).length;i++){
+                 if(jsonObj[i].firstName == username){
+                   index = i;
+
+                   break;
+                 }
+
+               }
+
+               common.writeConsoleMessage("Index is " + index);
+
+if(index != -1){
+  common.writeConsoleMessage("User is " + jsonObj[index].firstName);
+  common.writeConsoleMessage("Password is " + jsonObj[index].lastName);
+   if(username == jsonObj[index].firstName && password == jsonObj[index].lastName){
+     response.render('projectlab.ejs');
+   } else {
+     // response.write("Incorrect username/password. Please check and try again!!!");
+     // response.write("<br><br><a href='/'>BACK</a>");
+     // response.end();
+   response.render('invalid.ejs');
+   }
+
+} else {
+   response.render('invalid.ejs');
+}
+
+               common.writeConsoleMessage("*******************EDIT END****************");
+            });
+          });
+
+  // app.post('/', function(request, response){
+  //   var username = request.body.username;
+  //   var password = request.body.password;
+  //   common.writeConsoleMessage(username);
+  //   common.writeConsoleMessage(password);
+  //   if(username == config.admin_username && password == config.admin_username){
+  //
+  //       //  response.redirect('/users');
+  //   }else if(username == config.admin_username && password == config.admin_password){
+  //       response.render('adminlab.ejs');
+  //   }else {
+  //     // response.write("Incorrect username/password. Please check and try again!!!");
+  //     // response.write("<br><br><a href='/'>BACK</a>");
+  //     // response.end();
+  //        response.render('invalid.ejs');
+  //   }
+  // });
   app.get('/users', function(request, response){
     common.writeConsoleMessage("*******************USERS PAGE RENDER START****************");
     fs.readFile('data/users.json', 'utf8', function(err, data) {
@@ -122,4 +185,8 @@ module.exports = app => {
          common.writeConsoleMessage("*******************EDIT END****************");
       });
   });
+
+
+
+
 };
