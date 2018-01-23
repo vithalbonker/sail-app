@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+    <head>
+        <title>Admin View</title>
+        <meta http-equiv="x-ua-compatible" content="IE=edge" />
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-touch-fullscreen" content="yes">
+        <link rel="stylesheet" type="text/css" href="js/adminlab/snap.css" />
+        <link rel="stylesheet" type="text/css" href="js/adminlab/assets/demo.css" />
+    </head>
+    <body>
+      <form class="login" action="/" method="POST">
+        <div class="snap-drawers">
+            <div class="snap-drawer snap-drawer-left">
+                <div>
+                    <h3>Admin View</h3>
+
+                    <h4>Users</h4>
+                    <ul>
+                        <li><a href="/newUser">Create User</a></li>
+                        <li><a href="/userdetails">View User</a></li>
+                    </ul>
+					                 <h4>Projects</h4>
+                    <ul>
+                        <li><a href="/newproject">Create Project</a></li>
+                        <li><a href="/projectdetails">View Project</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="snap-drawer snap-drawer-right"></div>
+        </div>
+
+        <div id="content" class="snap-content">
+            <div id="toolbar">
+                <a href="#" id="open-left"></a>
+                <h1>Scriptless Tool</h1>
+            </div>
+        </div>
+      
+<span style="display:inline-block; width: 1000px;"></span><a href="/">Logout</a>
+        <script type="text/javascript" src="js/adminlab/snap.js"></script>
+        <script type="text/javascript">
+            var snapper = new Snap({
+                element: document.getElementById('content')
+            });
+
+        </script>
+        <script type="text/javascript" src="js/adminlab/assets/demo.js"></script>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      </form>
+
+    </body>
+</html>

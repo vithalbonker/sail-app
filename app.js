@@ -6,7 +6,15 @@ const config = require('./config/config');
 
 var users = require('./js/users');
 var script = require('./js/scriptpage');
+
+var admin = require('./routes/admin');
+
 var routes = require('./routes/routes');
+
+var newUser = require('./routes/newUser');
+var userdetails = require('./routes/userdetails');
+var newproject = require('./routes/newproject');
+var projectdetails = require('./routes/projectdetails');
 
 var app = express();
 const port = 3000;
@@ -24,6 +32,11 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use('/', routes);
 
 users(app);
+admin(app);
+newUser(app);
+userdetails(app);
+newproject(app);
+projectdetails(app);
 script(app);
 
 app.listen(port, config.ipAddress, function(){
