@@ -4,6 +4,6 @@ module.exports = {
   admin_password:'admin',
   user_username:'user',
   user_password:'user',
-  user_passcode: '9999'
+  user_passcode: '9999',
   project_tool: 'Selenium'
 };
