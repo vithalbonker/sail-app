@@ -1,0 +1,233 @@
+<html>
+  <head>
+    <title>Admin View</title>
+    <meta http-equiv="x-ua-compatible" content="IE=edge" />
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <link rel="stylesheet" type="text/css" href="js/adminlab/snap.css" />
+    <link rel="stylesheet" type="text/css" href="js/adminlab/assets/demo.css" />
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="/public/css/styles.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+       a.action{
+         padding: 0px 10px;
+         margin: 0px 10px;
+       }
+
+       .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        .edit-modal-content input{
+          display:block;
+          margin: 10px 10px;
+        }
+
+        .edit-modal-content label{
+          float: left;
+        }
+
+        #saveUser, #closeModal{
+          float: left;
+          display: inline;
+          margin: 10px 10px;
+        }
+
+
+        /* Modal Content */
+        .edit-modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 40px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+
+        /* Modal Content */
+        .create-modal-content {
+            background-color: black;
+            margin: auto;
+            padding: 40px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+
+        button.link{
+          background:none!important;
+          border:none;
+          padding:0!important;
+          color: -webkit-link;
+          text-decoration:underline;
+          cursor:pointer;
+        }
+
+    </style>
+  </head>
+  <body>
+<h2>User Details</h2>
+  <form action="/projectdetails" method="POST">
+    <div class="snap-drawers">
+        <div class="snap-drawer snap-drawer-left">
+            <div>
+                <h3>Admin View</h3>
+
+                <h4>Users</h4>
+                <ul>
+                    <li><a href="/newUser">Create User</a></li>
+                    <li><a href="/userdetails">View User</a></li>
+                </ul>
+                       <h4>Projects</h4>
+                <ul>
+                    <li><a href="/newproject">Create Project</a></li>
+                    <li><a href="/projectdetails">View Project</a></li>
+                </ul>
+
+            </div>
+        </div>
+        <div class="snap-drawer snap-drawer-right"></div>
+    </div>
+
+    <div id="content" class="snap-content">
+        <div id="toolbar">
+            <a href="#" id="open-left"></a>
+            <h1>Scriptless Tool</h1>
+        </div>
+
+
+        <div id="users-data">
+            <h4>Total records: <%= users.length || '' %></h4>
+
+            <a href="/newproject">Create New Project</a>
+
+            <br/>
+            <br/>
+            <table id="userstable">
+              <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Project Name</th>
+                    <th>GroupId</th>
+                    <th>Tool</th>
+                    <th>Action</th>
+                  </tr>
+              </thead>
+
+              <tbody>
+                   <% for(var i=0; i < users.length; i++) { %>
+                     <tr>
+                       <td><%= users[i].id %></td>
+                       <td><%= users[i].firstName %></td>
+                       <td><%= users[i].lastName %></td>
+                       <td><%= users[i].email %></td>
+                       <td>
+                           <button class="link">Edit</button>
+                           <div id="edit-modal" class="modal">
+                              <div class="edit-modal-content">
+                                <Button id="closeModal" name="closeModal" onclick="closeEditUser()">Close</Button>
+                                  <h3>Change User Details</h3>
+                                  <!-- <form action="/users/edit?firstName=<%= users[i].firstName %>&lastName=<%= users[i].lastName %>&email=<%= users[i].email %>" method="POST"> -->
+                                  <form action="/projectdetails/edit" method="POST">
+                                      <label>ID:</label>
+                                      <input type="text" id="id" name="id" style="border:none;" readonly/>
+                                      <label>First Name:</label>
+                                      <input type="text" id="update_firstName" name="update_firstName" />
+                                      <label>Last Name:</label>
+                                      <input type="text" id="update_lastName" name="update_lastName" />
+                                      <label>Email:</label>
+                                      <input type="email" id="update_email" name="update_email" />
+                                      <input type="submit" id="saveUser" name="saveUser" value="Save Details" />
+                                      <br/>
+                                        <br/>
+                                          <br/>
+                                  </form>
+
+
+                              </div>
+                           </div>
+
+                           <a href='/projectdetails/delete?id=<%= users[i].id %>'
+                              onclick="return confirm('Do yo want to delete this user record?')"class="action">Delete</a>
+                       </td>
+                     </tr>
+                 <% } %>
+              </tbody>
+            </table>
+         </div>
+        </form>
+        </body>
+        <script>
+            // Get the modal
+            var modal = document.getElementById('edit-modal');
+            var editLinks = document.getElementsByClassName('link');
+
+
+            var createmodal = document.getElementById('create-modal');
+            var createLinks = document.getElementsByClassName('createlink');
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+              if (event.target == modal) {
+                modal.style.display = "none";
+              }
+            }
+
+            function closeEditUser(){
+              modal.style.display = "none";
+            }
+
+            for(var i=0;i<editLinks.length;i++){
+              editLinks[i].onclick = function(){
+                modal.style.display = "block";
+              }
+            }
+
+
+            for(var i=0;i<createLinks.length;i++){
+              createLinks[i].onclick = function(){
+                modal.style.display = "block";
+              }
+            }
+        </script>
+        <script>
+            $("#createUser").click(function(){
+              window.setTimeout(function(){
+                 window.location.reload();
+              }, 5000);
+            });
+
+            $(document).ready(function(){
+                $(".link").click(function(){
+                    $("#id").val($(this).parent().siblings(":first").text());
+                    $("#update_firstName").val($(this).parent().siblings(":first").next().text());
+                    $("#update_lastName").val($(this).parent().siblings(":first").next().next().text());
+                    $("#update_email").val($(this).parent().siblings(":first").next().next().next().text());
+                });
+            });
+        </script>
+    </div>
+
+    <script type="text/javascript" src="js/adminlab/snap.js"></script>
+    <script type="text/javascript">
+        var snapper = new Snap({
+            element: document.getElementById('content')
+        });
+
+    </script>
+    <script type="text/javascript" src="js/adminlab/assets/demo.js"></script>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+</html>

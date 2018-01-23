@@ -14,11 +14,7 @@ a.button {
   margin: 10px;
 }
 
-#login-form{
-  width: 400px;
-  float: right;
-  margin: 500px 0px;
-}
+
 
 table {
   border-collapse: collapse;
@@ -36,7 +32,7 @@ tr:nth-child(even){
 }
 
 th {
-  background-color: #4CAF50;
+  background-color: #2e5696;
   color: white;
 }
 
@@ -55,4 +51,14 @@ th, td{
 h2{
   text-decoration: underline;
   color: coral;
+}
+
+hr {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 5px;
+    color: red;
+
 }
