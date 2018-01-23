@@ -1,0 +1,45 @@
+Express Validator - Error messages
+
+Session authentication with passport
+
+How to refresh the browser page when code is changed during development?
+
+Tree Structure
+    JSON content of root folder:
+    -----------------------------
+      [{ "id" : "root", "parent" : "#", "text" : "Root", "icon":"/public/images/folder-16-16.png" }]
+
+    Known Issues
+    -------------
+       1) If user is trying to create folder/script with the same one as existing ones then error is not shown. Need to handle these scenarios.
+       2) Increase/decrease the width of the tree is not implemented
+       3) Cut & Copy operations are not implemented. But drag & drop functionality is available.
+       4) When mouse hover is done, tree data should be posted - This is already fixed but need to test it.
+       5) Error messages in client console when alert/prompt is displayed
+
+Tabs
+
+Capturing data of dynamic HTML
+
+
+validation messages using jquery
+--------------------------------
+http://jsfiddle.net/aoksoh69/17/
+
+
+jsTree good reference links
+----------------------------
+https://www.jstree.com/
+https://www.javascripting.com/view/jstree
+jsTree operations code - http://jsfiddle.net/ba75Y/2/
+
+jQuery AJAX tutorial
+--------------------
+https://www.youtube.com/watch?v=fEYx8dQr_cQ&list=PLoYCgNOIyGABdI2V8I_SWo22tFpgh2s6_&index=7
+https://www.youtube.com/watch?v=5nL7X1UMWsc&index=8&list=PLoYCgNOIyGABdI2V8I_SWo22tFpgh2s6_
+
+Packaging NodeJS apps
+---------------------
+https://github.com/zeit/pkg - Need to explore some more on this....how to provide data & views
+https://stackoverflow.com/questions/9413123/secure-distribution-of-nodejs-applications
+https://github.com/JoseExposito/v8-compiler

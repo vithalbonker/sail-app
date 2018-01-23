@@ -1,10 +1,14 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+
 const config = require('./config/config');
 
 var users = require('./js/users');
+var script = require('./js/scriptpage');
+
 var admin = require('./routes/admin');
+
 var routes = require('./routes/routes');
 
 var newUser = require('./routes/newUser');
@@ -33,6 +37,7 @@ newUser(app);
 userdetails(app);
 newproject(app);
 projectdetails(app);
+script(app);
 
 app.listen(port, config.ipAddress, function(){
   console.log("Server started on http://" + config.ipAddress + ":" + port);
