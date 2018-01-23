@@ -37,3 +37,9 @@ jQuery AJAX tutorial
 --------------------
 https://www.youtube.com/watch?v=fEYx8dQr_cQ&list=PLoYCgNOIyGABdI2V8I_SWo22tFpgh2s6_&index=7
 https://www.youtube.com/watch?v=5nL7X1UMWsc&index=8&list=PLoYCgNOIyGABdI2V8I_SWo22tFpgh2s6_
+
+Packaging NodeJS apps
+---------------------
+https://github.com/zeit/pkg - Need to explore some more on this....how to provide data & views
+https://stackoverflow.com/questions/9413123/secure-distribution-of-nodejs-applications
+https://github.com/JoseExposito/v8-compiler
