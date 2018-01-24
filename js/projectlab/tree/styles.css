@@ -1,0 +1,47 @@
+#script-tree-border{
+ border:1px solid black;
+ margin: 90px 0px 0px 0px;
+ /* height:700px; */
+ width:280px;
+ font-family: Arial, Helvetica, sans-serif;
+ font-size: 11px;
+}
+
+#tree-create-folder, #tree-create-script, #tree-node-rename, #tree-node-delete{
+ font-size:11px;
+ display: inline-block;
+ margin: 10px 0px 6px 6px;
+}
+
+#tree-node-delete{
+ margin-left: 35px;
+}
+
+#jstree{
+ border:1px solid black;
+ height:642px;
+ width:280px;
+ overflow:scroll;
+}
+
+img{
+ margin: 5px 15px;
+}
+
+#script-tree-border, #script_pane{
+ display:inline-table;
+}
+
+#script_pane{
+ border: 1px solid #ccc;
+ height: 800px;
+ width: 950px;
+ font-family: Arial, Helvetica, sans-serif;
+ font-size: 11px;
+ overflow-y: scroll;
+}
+
+#scriptName, #scriptTreePath{
+ margin: 5px 10px;
+ width: 300px;
+}

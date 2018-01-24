@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const config = require('./config/config');
 
 var users = require('./js/users');
-var script = require('./js/scriptpage');
+var script = require('./routes/scriptpage');
 
 var admin = require('./routes/admin');
 

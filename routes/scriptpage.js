@@ -1,4 +1,4 @@
-const common = require('./common');
+const common = require('../js/common');
 var fs = require('fs');
 
 var exec = require('child_process').exec;
@@ -27,5 +27,21 @@ module.exports = app => {
             response.sendStatus(200);
           }
       });
+    });
+
+    app.post('/api/createScriptFolder', function(request, response){      
+      var newScriptData = request.body;
+      console.log(newScriptData);
+
+      var newFolderName = newScriptData.id + '__' + newScriptData.name;
+      console.log(newFolderName);
+
+      try {
+        fs.statSync('data/scripts/' + newFolderName);
+      } catch(e) {
+        fs.mkdirSync('data/scripts/' + newFolderName);
+        response.sendStatus(200);
+      }
+
     });
 };
