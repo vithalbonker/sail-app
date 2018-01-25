@@ -26,6 +26,7 @@
 
 img{
  margin: 5px 15px;
+ cursor:pointer;
 }
 
 #script-tree-border, #script_pane{

@@ -29,19 +29,77 @@ module.exports = app => {
       });
     });
 
-    app.post('/api/createScriptFolder', function(request, response){      
-      var newScriptData = request.body;
-      console.log(newScriptData);
+    app.post('/api/tree/createScriptFolder', function(request, response){
+        var scriptFolderData = request.body;
 
-      var newFolderName = newScriptData.id + '__' + newScriptData.name;
-      console.log(newFolderName);
+        var newFolderName = scriptFolderData.id + '__' + scriptFolderData.name;
+        newFolderPath = 'data/scripts/' + newFolderName;
 
-      try {
-        fs.statSync('data/scripts/' + newFolderName);
-      } catch(e) {
-        fs.mkdirSync('data/scripts/' + newFolderName);
-        response.sendStatus(200);
-      }
+        try {
+          fs.statSync(newFolderPath);
+        } catch(e) {
+          fs.mkdirSync(newFolderPath);
+          console.log('"' + newFolderPath + '" script folder is created successfully!!!');
+          common.createNewFileOnServer('automation.html', newFolderPath);
+          common.createNewFileOnServer('manual.json', newFolderPath);
+          common.createNewFileOnServer('testdata.json', newFolderPath);
 
+          response.sendStatus(200);
+        }
     });
+
+    app.post('/api/tree/renameScriptFolder', function(request, response){
+        var scriptFolderData = request.body;
+
+        index = -1;
+        fs.readdir('data/scripts/', function(err, files){
+            if(err) throw err;
+            for(var i = 0; i < files.length; i++){
+               if(files[i].startsWith(scriptFolderData.id)){
+                   index = i;
+                   break;
+               }
+            }
+
+            fs.rename('data/scripts/' + files[i], 'data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name, function(err){
+              if (err) throw err;
+              console.log('Script folder is renamed successfully!!!');
+            })
+        })
+    });
+
+    app.post('/api/tree/deleteScriptFolder', function(request, response){
+        var scriptFolderData = request.body;
+
+        folderNameToBeDeleted = 'data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name;
+
+        index = -1;
+        fs.readdir('data/scripts/', function(err, files){
+            if(err) throw err;
+            for(var i = 0; i < files.length; i++){
+               if(files[i].startsWith(scriptFolderData.id)){
+                   index = i;
+                   break;
+               }
+            }
+
+            deleteFolderRecursive(folderNameToBeDeleted);
+            console.log('"' + folderNameToBeDeleted + '" script folder is deleted successfully!!!');
+
+        })
+    });
+
+    var deleteFolderRecursive = function(path) {
+        if(fs.existsSync(path)) {
+          fs.readdirSync(path).forEach(function(file,index){
+            var curPath = path + "/" + file;
+            if(fs.lstatSync(curPath).isDirectory()) { // recurse
+              deleteFolderRecursive(curPath);
+            } else { // delete file
+              fs.unlinkSync(curPath);
+            }
+          });
+          fs.rmdirSync(path);
+        }
+    };
 };

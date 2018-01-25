@@ -3,37 +3,34 @@ $(document).ready(function(){
 
        .on('changed.jstree', function (e, data) {
              if(data.instance.get_type(data.selected[0]) == 'file'){
-               selectedNode = data.instance.get_node(data.selected[0]).id;
                currentNodeText = data.instance.get_node(data.selected[0]).text;
-               currentNode = selectedNode;
-               parentPath = [];
-               while(true){
-                   parentNodeId = data.instance.get_parent(currentNode);
-                   if(parentNodeId == '#'){
-                     break;
-                   }
-                   parentText = data.instance.get_node(parentNodeId).text;
-                   parentPath.push(parentText);
-                   currentNode = parentNodeId;
-               }
-
-               parentPath = parentPath.reverse();
-               parentPathStr = "";
-               for(var i = 0; i < parentPath.length;i++){
-                 parentPathStr += parentPath[i] + String.fromCharCode(92);
-               }
-
-
+               parentPathStr = getNodeParentHierarchy(data);
                $('#scriptName').val(currentNodeText);
                $('#scriptTreePath').val(parentPathStr);
              }
        })
 
        .on('create_node.jstree',function(e, data){
-          if(data.instance.get_type(data.node) == 'file'){
-              console.log('Inside create_node event.....node id is ' + data.node.id + "~" + data.instance.get_text(data.node) + "~" +data.instance.get_type(data.node));
+            if(data.instance.get_type(data.node) == 'file'){
+              console.log('Inside create_node event.....node id is ' + data.node.id + "~" + data.instance.get_text(data.node) + "~" + data.instance.get_type(data.node));
               createScriptFolderOnServer(data.node.id, data.instance.get_text(data.node));
-          }
+            }
+       })
+
+       .on('rename_node.jstree',function(e, data){
+            if(data.instance.get_type(data.node) == 'file'){
+              console.log('Inside rename_node event.....node id is ' + data.node.id + "~" + data.instance.get_text(data.node) + "~" + data.instance.get_type(data.node));
+              renameScriptFolderOnServer(data.node.id, data.instance.get_text(data.node));
+              postTreeDataToServer();
+            }
+       })
+
+       .on('delete_node.jstree',function(e, data){
+            if(data.instance.get_type(data.node) == 'file'){
+              console.log('Inside delete_node event.....node id is ' + data.node.id + "~" + data.instance.get_text(data.node) + "~" + data.instance.get_type(data.node));
+              deleteScriptFolderOnServer(data.node.id, data.instance.get_text(data.node));
+              postTreeDataToServer();
+            }
        })
 
        .jstree({
@@ -52,9 +49,33 @@ $(document).ready(function(){
                          "folder" : { "icon" : "/public/images/folder-16-16.png", "valid_children" : ["folder","file"] },
                          "file" : { "icon" : "/public/images/file-16-16.ico", "valid_children" : [] }
                        },
-            "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types" ]
+            "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types"]
        });
 });
+
+function getNodeParentHierarchy(data){
+    selectedNode = data.instance.get_node(data.selected[0]).id;
+    currentNodeText = data.instance.get_node(data.selected[0]).text;
+    currentNode = selectedNode;
+    parentPath = [];
+    while(true){
+        parentNodeId = data.instance.get_parent(currentNode);
+        if(parentNodeId == '#'){
+          break;
+        }
+        parentText = data.instance.get_node(parentNodeId).text;
+        parentPath.push(parentText);
+        currentNode = parentNodeId;
+    }
+
+    parentPath = parentPath.reverse();
+    parentPathStr = "";
+    for(var i = 0; i < parentPath.length;i++){
+      parentPathStr += parentPath[i] + String.fromCharCode(92);
+    }
+
+    return parentPathStr;
+};
 
 function addFolder() {
    var treeRef = $('#jstree').jstree(true);
@@ -74,56 +95,56 @@ function addFolder() {
 };
 
 function addScript() {
-  var treeRef = $('#jstree').jstree(true);
-  currentSelected = treeRef.get_selected();
-  if (!currentSelected.length) {
-    alert("Please select a folder before creating new script");
-    return false;
-  }
-  currentSelected = currentSelected[0];
-  currentSelected = treeRef.create_node(currentSelected, {"type": "file", "text": prompt("Enter script name:")});
+    var treeRef = $('#jstree').jstree(true);
+    currentSelected = treeRef.get_selected();
+    if (!currentSelected.length) {
+      alert("Please select a folder before creating new script");
+      return false;
+    }
+    currentSelected = currentSelected[0];
+    currentSelected = treeRef.create_node(currentSelected, {"type": "file", "text": prompt("Enter script name:")});
 
-  if (currentSelected) {
-    treeRef.edit(currentSelected);
-  }
+    if (currentSelected) {
+      treeRef.edit(currentSelected);
+    }
 
-  postTreeDataToServer();
+    postTreeDataToServer();
 };
 
 function renameNode(){
- var treeRef = $('#jstree').jstree(true);
- currentSelected = treeRef.get_selected();
- if (!currentSelected.length) {
-    alert("Please select a folder before renaming");
-    return false;
- }
- if(currentSelected == "root"){
-   alert("Root folder cannot be renamed!!!");
- }else{
-   currentSelected = currentSelected[0];
-   treeRef.edit(currentSelected);
-   postTreeDataToServer();
- }
+   var treeRef = $('#jstree').jstree(true);
+   currentSelected = treeRef.get_selected();
+   if (!currentSelected.length) {
+      alert("Please select a folder before renaming");
+      return false;
+   }
+   if(currentSelected == "root"){
+     alert("Root folder cannot be renamed!!!");
+   }else{
+     currentSelected = currentSelected[0];
+     treeRef.edit(currentSelected);
+     postTreeDataToServer();
+   }
 };
 
 function deleteNode() {
- var treeRef = $('#jstree').jstree(true);
- currentSelected = treeRef.get_selected();
- if (!currentSelected.length) {
-   alert("Please select a folder before deleting");
-   return false;
- }
- else{
-   if(currentSelected == "root"){
-     alert("Root folder cannot be deleted!!!");
+   var treeRef = $('#jstree').jstree(true);
+   currentSelected = treeRef.get_selected();
+   if (!currentSelected.length) {
+     alert("Please select a folder before deleting");
+     return false;
    }
    else{
-       if(confirm("Are you sure to delete this?")){
-           treeRef.delete_node(currentSelected);           
-           postTreeDataToServer();
-       }
+     if(currentSelected == "root"){
+       alert("Root folder cannot be deleted!!!");
+     }
+     else{
+         if(confirm("Are you sure to delete this?\n\nTHIS ACTION CANNOT BE UNDONE!!!")){
+             treeRef.delete_node(currentSelected);
+             postTreeDataToServer();
+         }
+     }
    }
- }
 };
 
 //This is implementation of "jquery AJAX POST request"
@@ -159,10 +180,10 @@ function getTreeDataFromServer(){
 };
 
 function createScriptFolderOnServer(scriptId, scriptName){
-  var scriptDetails = {'id' : scriptId ,'name' : scriptName};
+   var scriptDetails = {'id' : scriptId ,'name' : scriptName};
    $.ajax({
        type:'POST',
-       url:'/api/createScriptFolder',
+       url:'/api/tree/createScriptFolder',
        data: scriptDetails,
        success:function(){
            console.log("SUCCESS: script folder is created on the server");
@@ -171,4 +192,34 @@ function createScriptFolderOnServer(scriptId, scriptName){
            console.log("FAILED: failed to create script folder on server");
        }
    });
+};
+
+function renameScriptFolderOnServer(scriptId, newScriptName){
+  var scriptDetails = {'id' : scriptId ,'name' : newScriptName};
+  $.ajax({
+      type:'POST',
+      url:'/api/tree/renameScriptFolder',
+      data: scriptDetails,
+      success:function(){
+          console.log("SUCCESS: script folder is renamed on the server");
+      },
+      error:function(){
+          console.log("FAILED: failed to rename script folder on server");
+      }
+  });
+};
+
+function deleteScriptFolderOnServer(scriptId, newScriptName){
+  var scriptDetails = {'id' : scriptId ,'name' : newScriptName};
+  $.ajax({
+      type:'POST',
+      url:'/api/tree/deleteScriptFolder',
+      data: scriptDetails,
+      success:function(){
+          console.log("SUCCESS: script folder is deleted on the server");
+      },
+      error:function(){
+          console.log("FAILED: failed to delete script folder on server");
+      }
+  });
 };
