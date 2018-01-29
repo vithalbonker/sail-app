@@ -1,3 +1,23 @@
+document.getElementById("defaultTab").click();
+
+$(document).ready(function(){
+  $("#steps-dropdown").click(function(){
+      switch($('#steps-dropdown :selected').text()){
+        case "GET method":
+          addTemplateById("get-method");
+          break;
+        case "POST method":
+          addTemplateById("post-method");
+          break;
+      }
+      $(this).prop('selectedIndex', 0);
+  });
+
+  $('#step-expand-collapse').click(function(){
+     $('#step-header').toggle();
+  })
+});
+
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -12,4 +32,8 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " active";
 }
 
-document.getElementById("defaultTab").click();
+function addTemplateById(templateId){
+  var temp = document.getElementById(templateId);
+  var cloneTemplate = temp.content.cloneNode(true);
+  document.getElementById("Automation").appendChild(cloneTemplate);
+}

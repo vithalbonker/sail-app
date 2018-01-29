@@ -15,6 +15,7 @@
                 <br>
                 <label>Script Path:</label>
                 <input type="text" name="scriptTreePath" id="scriptTreePath" readonly/>
+                <!-- <button id="save-script" name="save-script"><strong>Save</strong></button> -->
                 <br>
                 <br>
 
@@ -25,8 +26,8 @@
                 </div>
 
                 <div id="Automation" class="tabcontent">
-                    <h3>Automation</h3>
-                    <p>This tab is for automation</p>
+                    <% include StepsDropDown.ejs %>
+                    <% include StepsTemplate.ejs %>
                 </div>
 
                 <div id="Manual" class="tabcontent">
@@ -39,17 +40,14 @@
                           </tr>
                         </thead>
                         <tbody>
-                               <!-- <tr>
-                                 <td>1</td>
-                                 <td>sample step</td>
-                                 <td>sample expected result</td>
-                               </tr> -->
                         </tbody>
                     </table>
                 </div>
 
                 <div id="Testdata" class="tabcontent">
-                    <a href="#">Testdata Template</a>
+                    <label>Testdata Template</label>
+                    <a href="#">click here</a>
+                    <br>
                     <br>
                     <textarea id="testdata" style="height:600px;width:850px;"></textarea>
                 </div>

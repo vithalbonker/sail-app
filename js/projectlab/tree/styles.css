@@ -32,17 +32,3 @@ img{
 #script-tree-border, #script_pane{
  display:inline-table;
 }
-
-#script_pane{
- border: 1px solid #ccc;
- height: 800px;
- width: 950px;
- font-family: Arial, Helvetica, sans-serif;
- font-size: 11px;
- overflow-y: scroll;
-}
-
-#scriptName, #scriptTreePath{
- margin: 5px 10px;
- width: 300px;
-}
