@@ -63,14 +63,14 @@
 }
 
 #steps-dropdown{
-  margin: 10px 0px 10px 5px;
+  margin: 10px 0px 5px 5px;
 }
 
 #step{
   width: 500px;
   border: 10px 10px 10px 10px;
   border-style:ridge;
-  margin: 10px 10px;
+  margin: 10px 30px;
 }
 
 .step-expand-collapse{
