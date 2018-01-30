@@ -4,7 +4,7 @@
  width: 950px;
  font-family: Arial, Helvetica, sans-serif;
  font-size: 11px;
- overflow-y: scroll;
+ overflow-y: auto;
 }
 
 #scriptName, #scriptTreePath{
@@ -66,32 +66,33 @@
   margin: 10px 0px 10px 5px;
 }
 
-#step-panel{
+#step{
   width: 500px;
   border: 10px 10px 10px 10px;
   border-style:ridge;
-}
-
-#step-expand-collapse-checkbox{
-  display: none;
+  margin: 10px 10px;
 }
 
 .step-expand-collapse{
   cursor: pointer;
-  display: block;
-  font-size: 15px;
+  display:inline-flex;
+  font-size: 18px;
   font-weight: bold;
   background-color: silver;
+  width: 475px;
+  float:left;
+  margin:0px 0px 5px 0px;
 }
 
-/* .step-expand-collapse + input{
-  display: block;
+.step-expand-collapse, #deleteStep{
+    display: inline;
 }
 
-.step-expand-collapse + input + div{
-  display:block;
+#deleteStep{
+  float:right;
 }
 
-.step-expand-collapse + input:checked + div{
-  display:none;
-} */
+#captureUrl{
+ margin: 5px 10px;
+ width: 300px;
+}

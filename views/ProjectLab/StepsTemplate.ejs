@@ -1,25 +1,22 @@
 <template id="get-method">
-   <br>
-   <div id="step-panel">
-       <label class="step-expand-collapse" for="step-expand-collapse-checkbox">GET Method</label>
-       <input id="step-expand-collapse-checkbox" type="checkbox">
-       <div id="step-header">
-         <br>
-         <label>Enter Endpoint URL:</label>
-         <input type="text" id="captureUrl" name="captureUrl" />
-       </div>
-   </div>
+    <div id="step">
+      <label class="step-expand-collapse">GET Method</label>
+      <button id="deleteStep" onclick="deleteStep(this);">X</button>
+      <div id="step-body">
+        <br>
+        <label>Enter Endpoint URL:</label>
+        <input type="text" id="captureUrl" name="captureUrl" />
+      </div>
+    </div>
 </template>
 
 <template id="post-method">
-    <br>
-    <div id="step-panel">
-         <label class="step-expand-collapse" for="step-expand-collapse-checkbox">POST Method</label>
-         <input id="step-expand-collapse-checkbox" type="checkbox">
-         <div id="step-header">
-           <br>
-           <label>Enter Endpoint URL:</label>
-           <input type="text" id="captureUrl" name="captureUrl" />
-         </div>
-     </div>
+    <div id="step">
+      <label class="step-expand-collapse">POST Method</label>
+      <button id="deleteStep" onclick="deleteStep(this);">X</button>
+      <div id="step-body">
+        <label>Enter Endpoint URL:</label>
+        <input type="text" id="captureUrl" name="captureUrl" />
+      </div>
+    </div>
 </template>

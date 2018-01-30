@@ -11,11 +11,7 @@ $(document).ready(function(){
           break;
       }
       $(this).prop('selectedIndex', 0);
-  });
-
-  $('#step-expand-collapse').click(function(){
-     $('#step-header').toggle();
-  })
+  });  
 });
 
 function openTab(evt, tabName) {
@@ -36,4 +32,8 @@ function addTemplateById(templateId){
   var temp = document.getElementById(templateId);
   var cloneTemplate = temp.content.cloneNode(true);
   document.getElementById("Automation").appendChild(cloneTemplate);
+}
+
+function deleteStep(param){
+  param.parentNode.parentNode.removeChild(param.parentNode)
 }
