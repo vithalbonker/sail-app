@@ -11,7 +11,7 @@ $(document).ready(function(){
           break;
       }
       $(this).prop('selectedIndex', 0);
-  });  
+  });
 });
 
 function openTab(evt, tabName) {
@@ -35,5 +35,7 @@ function addTemplateById(templateId){
 }
 
 function deleteStep(param){
-  param.parentNode.parentNode.removeChild(param.parentNode)
+  if(confirm("Are you sure you want to delete this step?")){
+    param.parentNode.parentNode.removeChild(param.parentNode);
+  }
 }
