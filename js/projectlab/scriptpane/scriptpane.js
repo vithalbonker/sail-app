@@ -50,11 +50,11 @@ function saveScript(){
       url:'/api/saveScriptToHtml',
       data: stepsData,
       success:function(){
-          alert("Script details are save successfully!!!");
+          // alert("Script details are save successfully!!!");
           console.log("SUCCESS: Script HTML data is added to the file");
       },
       error:function(){
-          alert("There was problem in saving script details!!!");
+          // alert("There was problem in saving script details!!!");
           console.log("FAILED: failed to add script HTML data to the file");
       }
   });
