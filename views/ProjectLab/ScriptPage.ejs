@@ -10,12 +10,13 @@
           <% include tree.ejs %>
 
           <div id="script_pane">
+                <input type="text" name="scriptId" id="scriptId" readonly/>
                 <label>Script Name:</label>
                 <input type="text" name="scriptName" id="scriptName" readonly/>
                 <br>
                 <label>Script Path:</label>
                 <input type="text" name="scriptTreePath" id="scriptTreePath" readonly/>
-                <!-- <button id="save-script" name="save-script"><strong>Save</strong></button> -->
+                <button id="save-script" name="save-script" onclick="saveScript();"><strong>Save</strong></button>
                 <br>
                 <br>
 
@@ -28,6 +29,7 @@
                 <div id="Automation" class="tabcontent">
                     <% include StepsDropDown.ejs %>
                     <% include StepsTemplate.ejs %>
+                    <div id="automation-content"></div>
                 </div>
 
                 <div id="Manual" class="tabcontent">

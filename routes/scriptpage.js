@@ -61,7 +61,7 @@ module.exports = app => {
                }
             }
 
-            fs.rename('data/scripts/' + files[i], 'data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name, function(err){
+            fs.rename('data/scripts/' + files[index], 'data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name, function(err){
               if (err) throw err;
               console.log('Script folder is renamed successfully!!!');
             })
@@ -70,23 +70,9 @@ module.exports = app => {
 
     app.post('/api/tree/deleteScriptFolder', function(request, response){
         var scriptFolderData = request.body;
-
         folderNameToBeDeleted = 'data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name;
-
-        index = -1;
-        fs.readdir('data/scripts/', function(err, files){
-            if(err) throw err;
-            for(var i = 0; i < files.length; i++){
-               if(files[i].startsWith(scriptFolderData.id)){
-                   index = i;
-                   break;
-               }
-            }
-
-            deleteFolderRecursive(folderNameToBeDeleted);
-            console.log('"' + folderNameToBeDeleted + '" script folder is deleted successfully!!!');
-
-        })
+        deleteFolderRecursive(folderNameToBeDeleted);
+        console.log('"' + folderNameToBeDeleted + '" script folder is deleted successfully!!!');
     });
 
     var deleteFolderRecursive = function(path) {
@@ -102,4 +88,25 @@ module.exports = app => {
           fs.rmdirSync(path);
         }
     };
+
+    app.post('/api/saveScriptToHtml', function(request, response){
+        var scriptHTMLData = request.body;
+
+        index = -1;
+        fs.readdir('data/scripts/', function(err, files){
+            if(err) throw err;
+            for(var i = 0; i < files.length; i++){
+               if(files[i].startsWith(scriptHTMLData.id)){
+                   index = i;
+                   break;
+               }
+            }
+
+            fs.writeFile('data/scripts/' + files[index] + '/automation.html', scriptHTMLData.html , (err) => {
+                if (err) throw err;                
+                console.log('HTML data is saved to automation.html in "' + files[index] + '" folder');
+            });
+
+        })
+    });
 };

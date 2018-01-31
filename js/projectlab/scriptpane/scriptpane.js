@@ -31,11 +31,31 @@ function openTab(evt, tabName) {
 function addTemplateById(templateId){
   var temp = document.getElementById(templateId);
   var cloneTemplate = temp.content.cloneNode(true);
-  document.getElementById("Automation").appendChild(cloneTemplate);
+  document.getElementById("automation-content").appendChild(cloneTemplate);
 }
 
 function deleteStep(param){
   if(confirm("Are you sure you want to delete this step?")){
     param.parentNode.parentNode.removeChild(param.parentNode);
   }
+}
+
+function saveScript(){
+  var stepsHtml = $("#automation-content").html();
+  var scriptId = $("#scriptId").val();
+  var stepsData = {'id' : scriptId ,'html' : stepsHtml};
+
+  $.ajax({
+      type:'POST',
+      url:'/api/saveScriptToHtml',
+      data: stepsData,
+      success:function(){
+          alert("Script details are save successfully!!!");
+          console.log("SUCCESS: Script HTML data is added to the file");
+      },
+      error:function(){
+          alert("There was problem in saving script details!!!");
+          console.log("FAILED: failed to add script HTML data to the file");
+      }
+  });
 }

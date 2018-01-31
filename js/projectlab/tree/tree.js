@@ -5,6 +5,7 @@ $(document).ready(function(){
              if(data.instance.get_type(data.selected[0]) == 'file'){
                currentNodeText = data.instance.get_node(data.selected[0]).text;
                parentPathStr = getNodeParentHierarchy(data);
+               $('#scriptId').val(data.selected[0]);
                $('#scriptName').val(currentNodeText);
                $('#scriptTreePath').val(parentPathStr);
              }
@@ -36,6 +37,7 @@ $(document).ready(function(){
        .jstree({
             "core" : {
                        "check_callback" : true,
+                       "animation" : 0,
                        'data' : {
                                    'url' : '/api/tree',
                                    'data' : function (node) {
@@ -51,6 +53,8 @@ $(document).ready(function(){
                        },
             "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types"]
        });
+
+       treeResize();
 });
 
 function getNodeParentHierarchy(data){
@@ -223,3 +227,23 @@ function deleteScriptFolderOnServer(scriptId, newScriptName){
       }
   });
 };
+
+var resize_el = document.getElementById("resize");
+
+function treeResize(){
+    var m_pos;    
+    resize_el.addEventListener("mousedown", function(e){
+      m_pos = e.x;
+      document.addEventListener("mousemove", resize, false);
+    }, false);
+    document.addEventListener("mouseup", function(){
+      document.removeEventListener("mousemove", resize, false);
+    }, false);
+}
+
+function resize(e){
+  var parent = resize_el.parentNode;
+  var dx = m_pos - e.x;
+  m_pos = e.x;
+  parent.style.width = (parseInt(getComputedStyle(parent, '').width) + dx) + "px";
+}

@@ -18,10 +18,29 @@
 }
 
 #jstree{
- border:1px solid black;
- height:642px;
- width:280px;
- overflow:scroll;
+   border:1px solid black;
+   height:642px;
+   width:280px;
+   overflow:scroll;
+   position: absolute;
+}
+
+#right_panel {
+  position: absolute;
+  width: 1px;
+  padding-left: 1px;
+  height: 100%;
+  right: 0;
+  background-color: #f0f0f0;
+}
+
+#resize {
+    background-color: #ccc;
+    position: absolute;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    cursor: w-resize;
 }
 
 img{
@@ -29,6 +48,6 @@ img{
  cursor:pointer;
 }
 
-#script-tree-border, #script_pane{
+#script-tree-border, #right_panel, #script_pane{
  display:inline-table;
 }

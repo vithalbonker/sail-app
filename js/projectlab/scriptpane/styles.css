@@ -1,15 +1,21 @@
 #script_pane{
  border: 1px solid #ccc;
- height: 800px;
+ height: 720px;
  width: 950px;
  font-family: Arial, Helvetica, sans-serif;
- font-size: 11px;
+ font-size: 12px;
  overflow-y: auto;
+ border-bottom: none;
+}
+
+#scriptId{
+  display:none;
 }
 
 #scriptName, #scriptTreePath{
  margin: 5px 10px;
- width: 300px;
+ width: 500px;
+ display:inline-grid;
 }
 
 /* #scriptName, #save-script{
@@ -70,15 +76,16 @@
   width: 500px;
   border: 10px 10px 10px 10px;
   border-style:ridge;
-  margin: 10px 30px;
+  margin: 20px 30px;
 }
 
 .step-expand-collapse{
-  cursor: pointer;
+  cursor: pointer;  
   display:inline-flex;
   font-size: 18px;
   font-weight: bold;
-  background-color: silver;
+  background-color: #5499C7;
+  /* color:#FFFFFF; */
   width: 475px;
   float:left;
   margin:0px 0px 5px 0px;
@@ -90,6 +97,10 @@
 
 #deleteStep{
   float:right;
+}
+
+#step-body label,input{
+  display:inline;
 }
 
 #captureUrl{
