@@ -41,6 +41,7 @@ module.exports = app => {
           fs.mkdirSync(newFolderPath);
           console.log('"' + newFolderPath + '" script folder is created successfully!!!');
           common.createNewFileOnServer('automation.html', newFolderPath);
+          common.createNewFileOnServer('automationData.json', newFolderPath);
           common.createNewFileOnServer('manual.json', newFolderPath);
           common.createNewFileOnServer('testdata.json', newFolderPath);
 
@@ -103,10 +104,31 @@ module.exports = app => {
             }
 
             fs.writeFile('data/scripts/' + files[index] + '/automation.html', scriptHTMLData.html , (err) => {
-                if (err) throw err;                
+                if (err) throw err;
                 console.log('HTML data is saved to automation.html in "' + files[index] + '" folder');
+                response.sendStatus(200);
             });
 
-        })
+        });
+    });
+
+    app.get('/api/getAutomationHtml', function(request, response){
+      var scriptId = request.query.id;
+
+      index = -1;
+      fs.readdir('data/scripts/', function(err, files){
+          if(err) throw err;
+          for(var i = 0; i < files.length; i++){
+             if(files[i].startsWith(scriptId)){
+                 index = i;
+                 break;
+             }
+          }
+
+          fs.readFile('data/scripts/' + files[index] + '/automation.html', 'utf8', function(err, data) {
+             if (err) throw err;
+             response.send(data);
+          });
+      });
     });
 };

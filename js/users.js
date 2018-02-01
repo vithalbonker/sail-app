@@ -66,7 +66,7 @@ module.exports = app => {
               if(index != -1){
                 common.writeConsoleMessage("User is " + jsonObj[index].firstName);
                 common.writeConsoleMessage("Password is " + jsonObj[index].lastName);
-                 if(username == jsonObj[index].firstName && password == jsonObj[index].lastName){
+                 if(username == jsonObj[index].firstName && password == jsonObj[index].lastName){                   
                    response.render('ProjectLab/ScriptPage.ejs');
                  } else {
                    // response.write("Incorrect username/password. Please check and try again!!!");

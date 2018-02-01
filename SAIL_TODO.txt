@@ -14,8 +14,8 @@ Tree Structure
        1) If user is trying to create folder/script with the same one as existing ones then error is not shown. Need to handle these scenarios.
        2) Increase/decrease the width of the tree is not implemented
        3) Cut & Copy operations are not implemented. But drag & drop functionality is available.
-       4) When mouse hover is done, tree data should be posted - This is already fixed but need to test it.
-       5) Error messages in client console when alert/prompt is displayed
+       4) Error messages in client console when alert/prompt is displayed
+       5) When folder is deleted from tree, script folders will be remained in server. This creates junk folders
 
 Tabs
 

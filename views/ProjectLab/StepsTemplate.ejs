@@ -1,22 +1,23 @@
 <template id="get-method">
-    <div id="step">
+    <div class="step">
       <label class="step-expand-collapse">GET Method</label>
       <button id="deleteStep" onclick="deleteStep(this);">X</button>
       <div id="step-body">
-        <br>
+        <input type="text" id="methodType" name="getmethod-methodtype" value="GET"/>
         <label>Enter Endpoint URL:</label>
-        <input type="text" id="captureUrl" name="captureUrl" />
+        <input type="text" id="captureUrl" name="getmethod-captureUrl" />
       </div>
     </div>
 </template>
 
 <template id="post-method">
-    <div id="step">
+    <div class="step">
       <label class="step-expand-collapse">POST Method</label>
       <button id="deleteStep" onclick="deleteStep(this);">X</button>
       <div id="step-body">
+        <input type="text" id="methodType" name="postmethod-methodtype" value="POST"/>
         <label>Enter Endpoint URL:</label>
-        <input type="text" id="captureUrl" name="captureUrl" />
+        <input type="text" id="captureUrl" name="postmethod-captureUrl" />
       </div>
     </div>
 </template>

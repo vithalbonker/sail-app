@@ -3,11 +3,24 @@ $(document).ready(function(){
 
        .on('changed.jstree', function (e, data) {
              if(data.instance.get_type(data.selected[0]) == 'file'){
-               currentNodeText = data.instance.get_node(data.selected[0]).text;
-               parentPathStr = getNodeParentHierarchy(data);
-               $('#scriptId').val(data.selected[0]);
-               $('#scriptName').val(currentNodeText);
-               $('#scriptTreePath').val(parentPathStr);
+
+                 // alert(localStorage.getItem('isScriptChanged'));
+                 // alert(localStorage.getItem('saveScriptClicked'));
+                 // if(localStorage.getItem('isScriptChanged') && !localStorage.getItem('saveScriptClicked')){
+                 //      alert("Script is not saved. You will lose your changes made");
+                 // }
+                 //
+                 // localStorage.setItem('isTreeNodeVisited', true);
+                 // $('#script_pane').show();
+
+                 currentNodeText = data.instance.get_node(data.selected[0]).text;
+                 parentPathStr = getNodeParentHierarchy(data);
+
+                 $('#scriptId').val(data.selected[0]);
+                 $('#scriptName').val(currentNodeText);
+                 $('#scriptTreePath').val(parentPathStr);
+
+                 getAutomationDataFromServer();
              }
        })
 
@@ -53,8 +66,6 @@ $(document).ready(function(){
                        },
             "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types"]
        });
-
-       treeResize();
 });
 
 function getNodeParentHierarchy(data){
@@ -228,22 +239,40 @@ function deleteScriptFolderOnServer(scriptId, newScriptName){
   });
 };
 
-var resize_el = document.getElementById("resize");
+// var resize_el = document.getElementById("resize");
+//
+// function treeResize(){
+//     var m_pos;
+//     resize_el.addEventListener("mousedown", function(e){
+//       m_pos = e.x;
+//       document.addEventListener("mousemove", resize, false);
+//     }, false);
+//     document.addEventListener("mouseup", function(){
+//       document.removeEventListener("mousemove", resize, false);
+//     }, false);
+// }
+//
+// function resize(e){
+//   var parent = resize_el.parentNode;
+//   var dx = m_pos - e.x;
+//   m_pos = e.x;
+//   parent.style.width = (parseInt(getComputedStyle(parent, '').width) + dx) + "px";
+// }
 
-function treeResize(){
-    var m_pos;    
-    resize_el.addEventListener("mousedown", function(e){
-      m_pos = e.x;
-      document.addEventListener("mousemove", resize, false);
-    }, false);
-    document.addEventListener("mouseup", function(){
-      document.removeEventListener("mousemove", resize, false);
-    }, false);
-}
+function getAutomationDataFromServer(){
+  var scriptId = { 'id' : $("#scriptId").val() };
 
-function resize(e){
-  var parent = resize_el.parentNode;
-  var dx = m_pos - e.x;
-  m_pos = e.x;
-  parent.style.width = (parseInt(getComputedStyle(parent, '').width) + dx) + "px";
+  $.ajax({
+      type:'GET',
+      url: '/api/getAutomationHtml',
+      data: scriptId,
+      success: function(data){
+         console.log("SUCCESS: Automation HTML data is fetched successfully!!!");
+         // console.log(data);
+         $("#automation-content").html(data);
+      },
+      error: function(){
+         console.log("FAILED: Failed to fetch Automation HTML data!!!");
+      }
+  })
 }

@@ -18,6 +18,10 @@
  display:inline-grid;
 }
 
+#methodType{
+  display:none;
+}
+
 /* #scriptName, #save-script{
   display: inline;
 } */
@@ -66,13 +70,15 @@
   float:right;
   background-color: coral;
   margin: 0px 5px;
+  padding: 12px 12px;
+
 }
 
 #steps-dropdown{
   margin: 10px 0px 5px 5px;
 }
 
-#step{
+.step{
   width: 500px;
   border: 10px 10px 10px 10px;
   border-style:ridge;
@@ -80,12 +86,13 @@
 }
 
 .step-expand-collapse{
-  cursor: pointer;  
+  cursor: pointer;
   display:inline-flex;
   font-size: 18px;
   font-weight: bold;
+  font-family:inherit;
   background-color: #5499C7;
-  /* color:#FFFFFF; */
+  color:#FFFFFF;
   width: 475px;
   float:left;
   margin:0px 0px 5px 0px;
