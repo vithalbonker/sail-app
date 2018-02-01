@@ -66,25 +66,24 @@ function saveScript(){
   }
 
   var stepsDiv = document.getElementsByClassName('step');
-  var data = {};
+  var userEnteredData = {};
 
   for(var i = 0;i < stepsDiv.length;i++){
     var stepObject = {
-                       'method': stepsDiv[i].getElementById('methodType').value,
-                       'url': stepsDiv[i].getElementById('captureUrl').value,
-                       'manual':'GET request for the endpoint URL ' +  stepsDiv[i].getElementById('captureUrl').value
+                       'method': stepsDiv[i].getElementsByClassName('methodType')[0].value,
+                       'url': stepsDiv[i].getElementsByClassName('captureUrl')[0].value,
+                       'manual':'GET request for the endpoint URL ' +  stepsDiv[i].getElementsByClassName('captureUrl')[0].value
                       }
-    data[i].key = "step" + (i + 1);
-    data[i].value = stepObject
+    userEnteredData["step" + (i + 1)] = stepObject;
   }
 
-  alert(data);
+  //alert(JSON.stringify(userEnteredData));
 
-  var stepsData = {'id' : scriptId ,'html' : stepsHtml};
+  var stepsData = {'id' : scriptId ,'html' : stepsHtml, 'data' : JSON.stringify(userEnteredData)};
 
   $.ajax({
       type:'POST',
-      url:'/api/saveScriptToHtml',
+      url:'/api/saveScriptData',
       data: stepsData,
       success:function(){
           //alert("Script details are save successfully!!!");

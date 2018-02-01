@@ -90,7 +90,7 @@ module.exports = app => {
         }
     };
 
-    app.post('/api/saveScriptToHtml', function(request, response){
+    app.post('/api/saveScriptData', function(request, response){
         var scriptHTMLData = request.body;
 
         index = -1;
