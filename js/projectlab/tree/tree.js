@@ -20,7 +20,7 @@ $(document).ready(function(){
                  $('#scriptName').val(currentNodeText);
                  $('#scriptTreePath').val(parentPathStr);
 
-                 getAutomationDataFromServer();
+                 getAutomationHtmlDataFromServer();
              }
        })
 
@@ -259,20 +259,55 @@ function deleteScriptFolderOnServer(scriptId, newScriptName){
 //   parent.style.width = (parseInt(getComputedStyle(parent, '').width) + dx) + "px";
 // }
 
-function getAutomationDataFromServer(){
+function getAutomationHtmlDataFromServer(){
   var scriptId = { 'id' : $("#scriptId").val() };
 
+  //This is the AJAX GET request for fetching the HTML content
   $.ajax({
       type:'GET',
       url: '/api/getAutomationHtml',
       data: scriptId,
       success: function(data){
          console.log("SUCCESS: Automation HTML data is fetched successfully!!!");
-         // console.log(data);
          $("#automation-content").html(data);
+         getAutomationDataFromServer();
       },
       error: function(){
          console.log("FAILED: Failed to fetch Automation HTML data!!!");
       }
-  })
+  });
+}
+
+function getAutomationDataFromServer(){
+  var scriptId = { 'id' : $("#scriptId").val() };
+
+  //This is the AJAX GET request for fetching the user entered data in the script
+  $.ajax({
+      type:'GET',
+      url: '/api/getAutomationUserEnteredData',
+      data: scriptId,
+      success: function(data){
+         console.log("SUCCESS: Automation user entered data is fetched successfully!!!");
+         if(data.length > 0){
+            populateUserEnteredData(data);
+         }
+      },
+      error: function(){
+         console.log("FAILED: Failed to fetch automation user entered data!!!");
+      }
+  });
+}
+
+function populateUserEnteredData(jsonData){
+  var stepsDiv = document.getElementsByClassName('step');
+  var parsedJsonData = JSON.parse(jsonData);
+
+  $("#manual-tc tbody").children().remove()
+
+  for(var i = 0;i < stepsDiv.length;i++){
+      stepsDiv[i].getElementsByClassName('captureUrl')[0].value = parsedJsonData["step" + (i + 1)].url;
+      if(parsedJsonData["step" + (i + 1)].url){
+        $('#manual-tc').append('<tr><td>' + (i + 1) + '</td><td>' + parsedJsonData["step" + (i + 1)].manual.stepDesc + '</td><td>' + parsedJsonData["step" + (i + 1)].manual.expectedResult + '</td></tr>');
+      }
+  }
 }

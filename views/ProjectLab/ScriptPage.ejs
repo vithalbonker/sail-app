@@ -22,14 +22,47 @@
 
                 <div class="tab">
                     <button class="tablinks" id="defaultTab" onclick="openTab(event, 'Automation')">Automation</button>
-                    <button class="tablinks" onclick="openTab(event, 'Manual')">Manual Testcase</button>
                     <button class="tablinks" onclick="openTab(event, 'Testdata')">Testdata</button>
+                    <button class="tablinks" onclick="openTab(event, 'Manual')">Manual Testcase</button>
                 </div>
 
                 <div id="Automation" class="tabcontent">
                     <% include StepsDropDown.ejs %>
                     <% include StepsTemplate.ejs %>
                     <div id="automation-content"></div>
+                </div>
+
+                <div id="Testdata" class="tabcontent">
+                    <!-- <label>Testdata Template</label>
+                    <a href="#">click here</a>
+                    <br>
+                    <br>
+                    <textarea id="testdata" style="height:600px;width:850px;"></textarea> -->
+
+                    <h2>Params</h2>
+                    <hr>
+                    <% include TestDataTemplate.ejs %>
+                    <button name="add-param" id="add-param" onclick="addParamRow();"><strong>Add Param</strong></button>
+                    <table id="params-data">
+                        <thead>
+                          <tr>
+                              <th>Param Type</th>
+                              <th>Name</th>
+                              <th>Value</th>
+                              <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                    <h2>Test data</h2>
+                    <hr>
+                    <button name="add-testdata-row" id="add-testdata-row" onclick="addTestDataRow();"><strong>Add Iteration Row</strong></button>
+                    <button name="add-testdata-column" id="add-testdata-column" onclick="addTestDataColumn();"><strong>Add Data Column</strong></button>
+                    <table id="testdata-table">
+                      <thead></thead>
+                      <tbody></tbody>
+                    </table>
                 </div>
 
                 <div id="Manual" class="tabcontent">
@@ -41,17 +74,8 @@
                               <th>Expected Result</th>
                           </tr>
                         </thead>
-                        <tbody>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
-                </div>
-
-                <div id="Testdata" class="tabcontent">
-                    <label>Testdata Template</label>
-                    <a href="#">click here</a>
-                    <br>
-                    <br>
-                    <textarea id="testdata" style="height:600px;width:850px;"></textarea>
                 </div>
           </div>
       </div>

@@ -1,0 +1,21 @@
+<template id="params-table-row">
+    <tr>
+      <td>
+        <select id="params-dropdown">
+           <option value="select param">--select param--</option>
+           <option value="header param">Header Param</option>
+           <option value="query param">Query Param</option>
+           <option value="path param">Path Param</option>
+        </select>
+      </td>
+      <td>
+        <input type="text" id="param-name" class="param-name" name="param-name" />
+      </td>
+      <td>
+        <input type="text" id="param-value" class="param-value" name="param-value" />
+      </td>
+      <td>
+        <img src="/public/images/trash-16-16.ico" onclick="deleteParamRow(this);"/>
+      </td>
+    </tr>
+</template>

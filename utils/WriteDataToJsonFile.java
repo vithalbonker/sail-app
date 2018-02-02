@@ -3,15 +3,14 @@ package utils;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class WriteTreeDataToJson {
+public class WriteDataToJsonFile {
 
 	public static void main(String[] args) {
 
-		try {
-			 String fileName = "data/tree.json";
-             FileWriter writer=new FileWriter(fileName, false);            
+		try {			 
+             FileWriter writer=new FileWriter(args[0], false);
 			 
-			 String content = args[0];
+			 String content = args[1];
 			 content = content.replace("\\", "");
 			 content = content.replace("{\"[", "");
 			 content = content.replace("]\":\"\"", "");

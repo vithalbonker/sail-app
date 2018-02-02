@@ -25,9 +25,9 @@ table, th, td {
    padding: 10px;
 }
 
-tr:nth-child(even){
+/* tr:nth-child(even){
   background-color: #d1d1d1
-}
+} */
 
 th {
   background-color: #2e5696;
@@ -46,7 +46,7 @@ th, td{
   padding: 10px 10px;
 }
 
-h2{
+/* h2{
   text-decoration: underline;
   color: coral;
 }
@@ -59,4 +59,4 @@ hr {
     border-width: 5px;
     color: red;
 
-}
+} */

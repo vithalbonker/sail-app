@@ -4,8 +4,8 @@
  width: 950px;
  font-family: Arial, Helvetica, sans-serif;
  font-size: 12px;
- overflow-y: auto;
- border-bottom: none;
+ overflow:scroll;
+ /* border-bottom: none; */
 }
 
 #scriptId{
@@ -113,4 +113,40 @@
 #captureUrl{
  margin: 5px 10px;
  width: 300px;
+}
+
+#manual-tc{
+  font-family: inherit;
+  font-size: inherit;
+}
+
+#manual-tc tbody tr td{
+  text-align: left;
+}
+
+#add-param, #add-testdata-row, #add-testdata-column{
+  margin: 10px 10px;
+}
+
+#Testdata{
+  overflow: scroll;
+  height: inherit;
+  width:900px;
+  font-size: 12px;
+  font-family: inherit;
+}
+
+#Testdata h2{
+  color: coral;
+}
+
+#Testdata table{
+  font-size: 12px;
+  font-family: inherit;
+}
+
+#Testdata table tbody td{
+  font-size: 12px;
+  font-family: inherit;
+  padding: 2px 2px;
 }

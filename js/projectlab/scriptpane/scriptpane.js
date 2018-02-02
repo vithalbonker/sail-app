@@ -1,4 +1,4 @@
-
+document.getElementById("defaultTab").click();
 
 $(document).ready(function(){
 
@@ -9,8 +9,6 @@ $(document).ready(function(){
   // }else{
   //     document.getElementById("script_pane").style.visibility='hidden';
   // }
-
-  document.getElementById("defaultTab").click();
 
   $("#steps-dropdown").click(function(){
       switch($('#steps-dropdown :selected').text()){
@@ -67,17 +65,31 @@ function saveScript(){
 
   var stepsDiv = document.getElementsByClassName('step');
   var userEnteredData = {};
+  var stepObject;
 
   for(var i = 0;i < stepsDiv.length;i++){
-    var stepObject = {
-                       'method': stepsDiv[i].getElementsByClassName('methodType')[0].value,
-                       'url': stepsDiv[i].getElementsByClassName('captureUrl')[0].value,
-                       'manual':'GET request for the endpoint URL ' +  stepsDiv[i].getElementsByClassName('captureUrl')[0].value
-                      }
-    userEnteredData["step" + (i + 1)] = stepObject;
-  }
+        var methodName = stepsDiv[i].getElementsByClassName('methodType')[0].value;
+        var url = stepsDiv[i].getElementsByClassName('captureUrl')[0].value;
 
-  //alert(JSON.stringify(userEnteredData));
+        if(url.length > 0){
+          stepObject = {
+                         'method': methodName,
+                         'url': url,
+                         'manual':{
+                                    'stepDesc': methodName + ' request for the endpoint URL "' +  url + '"',
+                                    'expectedResult': methodName + ' request is configured successfully'
+                                   }
+                      }
+        }else{
+          stepObject = {
+                         'method': methodName,
+                         'url': url,
+                         'manual':{}
+                      }
+        }
+
+        userEnteredData["step" + (i + 1)] = stepObject;
+  }
 
   var stepsData = {'id' : scriptId ,'html' : stepsHtml, 'data' : JSON.stringify(userEnteredData)};
 
@@ -87,11 +99,56 @@ function saveScript(){
       data: stepsData,
       success:function(){
           //alert("Script details are save successfully!!!");
-          console.log("SUCCESS: Script HTML data is added to the file");
+          console.log("SUCCESS: Script data is saved to the files");
       },
       error:function(){
           alert("There was problem in saving script details!!!");
-          console.log("FAILED: failed to add script HTML data to the file");
+          console.log("FAILED: failed to save script data to the files");
       }
   });
+
+  getAutomationHtmlDataFromServer();
+}
+
+function addParamRow(){
+  var temp = document.getElementById('params-table-row');
+  var cloneTemplate = temp.content.cloneNode(true);
+  $('#params-data tbody').append(cloneTemplate);
+}
+
+function deleteParamRow(param){
+  param.parentNode.parentNode.parentNode.removeChild(param.parentNode.parentNode);
+}
+
+function addTestDataRow(){
+    if($('#testdata-table thead tr').length == 0){
+        $('#testdata-table thead').append('<tr><th></tr></th>');
+    }
+
+    $('#testdata-table tbody').append('<tr><td>Iteration ' + ($('#testdata-table tbody tr').length + 1) +'</tr></td>');
+
+    for(var i=0;i<$('#testdata-table tbody tr').length - 1;i++){
+      for(var j=0;j < $('#testdata-table thead tr th').length - $('#testdata-table tbody tr:nth-child(' + (i + 1) + ') td').length;j++){
+        $('#testdata-table tbody tr:nth-child(' + (i + 1) + ')').append('<td><input type="text" id="testdata-body-row" class="testdata-body-row" name="testdata-body-row" /></td>');
+      }
+    }
+
+    if($('#testdata-table tbody tr:last').length != $('#testdata-table thead tr th').length){
+      diff = $('#testdata-table thead tr th').length - $('#testdata-table tbody tr:last').length;
+      var k = 0;
+      while(k < diff){
+          $('#testdata-table tbody tr:last').append('<td><input type="text" id="testdata-body-row" class="testdata-body-row" name="testdata-body-row" /></td>');
+          k++;
+      }
+    }
+}
+
+function addTestDataColumn(){
+    $('#testdata-table thead tr').append('<th><input type="text" id="testdata-header-row" class="testdata-header-row" name="testdata-header-row" /></th>');
+
+    for(var i=0;i<$('#testdata-table tbody tr').length;i++){
+      for(var j=0;j < $('#testdata-table thead tr th').length - $('#testdata-table tbody tr:nth-child(' + (i + 1) + ') td').length;j++){
+        $('#testdata-table tbody tr:nth-child(' + (i + 1) + ')').append('<td><input type="text" id="testdata-body-row" class="testdata-body-row" name="testdata-body-row" /></td>');
+      }
+    }
 }

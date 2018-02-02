@@ -1,0 +1,1 @@
+{"step1":{"method":"GET","url":"abc","manual":{"stepDesc":"GET request for the endpoint URL \"abc\"","expectedResult":"GET request is configured successfully"}},"step2":{"method":"POST","url":"def","manual":{"stepDesc":"POST request for the endpoint URL \"def\"","expectedResult":"POST request is configured successfully"}}}

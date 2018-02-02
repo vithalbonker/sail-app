@@ -20,7 +20,7 @@ module.exports = app => {
 
     app.post('/api/tree', function(request, response, next){
       var treeData = JSON.stringify(request.body)
-      child = exec("java utils.WriteTreeDataToJson " + treeData , function (error, stdout, stderr) {
+      child = exec("java utils.WriteDataToJsonFile " + 'data/tree.json' + " " + treeData , function (error, stdout, stderr) {
           if (error !== null) {
             common.writeConsoleMessage('exec error: ' + error);
           }else{
@@ -42,7 +42,7 @@ module.exports = app => {
           console.log('"' + newFolderPath + '" script folder is created successfully!!!');
           common.createNewFileOnServer('automation.html', newFolderPath);
           common.createNewFileOnServer('automationData.json', newFolderPath);
-          common.createNewFileOnServer('manual.json', newFolderPath);
+          //common.createNewFileOnServer('manual.json', newFolderPath);
           common.createNewFileOnServer('testdata.json', newFolderPath);
 
           response.sendStatus(200);
@@ -91,24 +91,27 @@ module.exports = app => {
     };
 
     app.post('/api/saveScriptData', function(request, response){
-        var scriptHTMLData = request.body;
+        var scriptData = request.body;
 
         index = -1;
         fs.readdir('data/scripts/', function(err, files){
             if(err) throw err;
             for(var i = 0; i < files.length; i++){
-               if(files[i].startsWith(scriptHTMLData.id)){
+               if(files[i].startsWith(scriptData.id)){
                    index = i;
                    break;
                }
             }
 
-            fs.writeFile('data/scripts/' + files[index] + '/automation.html', scriptHTMLData.html , (err) => {
+            fs.writeFile('data/scripts/' + files[index] + '/automation.html', scriptData.html , (err) => {
                 if (err) throw err;
-                console.log('HTML data is saved to automation.html in "' + files[index] + '" folder');
+
+                fs.writeFile('data/scripts/' + files[index] + '/automationData.json', scriptData.data , (err) => {
+                    if (err) throw err;
+                    console.log('Script data is saved to files in "' + files[index] + '" folder');
+                });
                 response.sendStatus(200);
             });
-
         });
     });
 
@@ -126,6 +129,26 @@ module.exports = app => {
           }
 
           fs.readFile('data/scripts/' + files[index] + '/automation.html', 'utf8', function(err, data) {
+             if (err) throw err;
+             response.send(data);
+          });
+      });
+    });
+
+    app.get('/api/getAutomationUserEnteredData', function(request, response){
+      var scriptId = request.query.id;
+
+      index = -1;
+      fs.readdir('data/scripts/', function(err, files){
+          if(err) throw err;
+          for(var i = 0; i < files.length; i++){
+             if(files[i].startsWith(scriptId)){
+                 index = i;
+                 break;
+             }
+          }
+
+          fs.readFile('data/scripts/' + files[index] + '/automationData.json', 'utf8', function(err, data) {
              if (err) throw err;
              response.send(data);
           });
