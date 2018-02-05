@@ -1,0 +1,37 @@
+{
+  "qa":
+  {
+	"APITest":
+	[
+	  {
+		"execute": "yes",
+		"authenticationRequired": "no",
+		"uri": "https://www.mysite.qa.com/resource"
+	  }
+	]
+  },
+  
+  "uat":
+  {
+	"APITest":
+	[
+	  {
+		"execute": "yes",
+		"authenticationRequired": "no",
+		"uri": "https://www.mysite.uat.com/resource"
+	  }
+	]
+  },
+  
+  "production":
+  {
+	"APITest":
+	[
+	  {
+		"execute": "yes",
+		"authenticationRequired": "no",
+		"uri": "https://www.mysite.com/resource"
+	  }
+	]
+  }  
+}

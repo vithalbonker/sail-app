@@ -42,10 +42,17 @@ module.exports = app => {
           console.log('"' + newFolderPath + '" script folder is created successfully!!!');
           common.createNewFileOnServer('automation.html', newFolderPath);
           common.createNewFileOnServer('automationData.json', newFolderPath);
-          //common.createNewFileOnServer('manual.json', newFolderPath);
+          //common.createNewFileOnServer('testdata.html', newFolderPath);
           common.createNewFileOnServer('testdata.json', newFolderPath);
 
-          response.sendStatus(200);
+          // fs.readFile('templates/testDataTemplate.html', 'utf8', function(err, data) {
+          //    if (err) throw err;
+          //
+          //    fs.writeFile(newFolderPath + '/testdata.html', data , (err) => {
+          //        if (err) throw err;
+          //        response.sendStatus(200);
+          //    });
+          // });
         }
     });
 
@@ -103,19 +110,23 @@ module.exports = app => {
                }
             }
 
-            fs.writeFile('data/scripts/' + files[index] + '/automation.html', scriptData.html , (err) => {
+            fs.writeFile('data/scripts/' + files[index] + '/automation.html', scriptData.stepsHtml , (err) => {
                 if (err) throw err;
 
-                fs.writeFile('data/scripts/' + files[index] + '/automationData.json', scriptData.data , (err) => {
+                fs.writeFile('data/scripts/' + files[index] + '/automationData.json', scriptData.automationUserEnteredData , (err) => {
+                    if (err) throw err;
+                });
+
+                fs.writeFile('data/scripts/' + files[index] + '/testdata.json', scriptData.testData , (err) => {
                     if (err) throw err;
                     console.log('Script data is saved to files in "' + files[index] + '" folder');
+                    response.sendStatus(200);
                 });
-                response.sendStatus(200);
             });
         });
     });
 
-    app.get('/api/getAutomationHtml', function(request, response){
+    app.get('/api/getScriptHtml', function(request, response){
       var scriptId = request.query.id;
 
       index = -1;
@@ -128,9 +139,17 @@ module.exports = app => {
              }
           }
 
+          var scriptHtml = {};
           fs.readFile('data/scripts/' + files[index] + '/automation.html', 'utf8', function(err, data) {
              if (err) throw err;
-             response.send(data);
+             scriptHtml["automationHtml"] = data;
+             response.send(scriptHtml);
+
+            //  fs.readFile('data/scripts/' + files[index] + '/testdata.html', 'utf8', function(err, data) {
+            //     if (err) throw err;
+            //     scriptHtml["testdataHtml"] = data;
+            //     response.send(scriptHtml);
+            // });
           });
       });
     });
@@ -151,6 +170,27 @@ module.exports = app => {
           fs.readFile('data/scripts/' + files[index] + '/automationData.json', 'utf8', function(err, data) {
              if (err) throw err;
              response.send(data);
+
+          });
+      });
+    });
+
+    app.get('/api/getTestDataUserEnteredData', function(request, response){
+      var scriptId = request.query.id;
+
+      index = -1;
+      fs.readdir('data/scripts/', function(err, files){
+          if(err) throw err;
+          for(var i = 0; i < files.length; i++){
+             if(files[i].startsWith(scriptId)){
+                 index = i;
+                 break;
+             }
+          }
+
+         fs.readFile('data/scripts/' + files[index] + '/testdata.json', 'utf8', function(err, data) {
+                if (err) throw err;
+                response.send(data);
           });
       });
     });

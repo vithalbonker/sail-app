@@ -20,7 +20,7 @@ $(document).ready(function(){
                  $('#scriptName').val(currentNodeText);
                  $('#scriptTreePath').val(parentPathStr);
 
-                 getAutomationHtmlDataFromServer();
+                 getScriptHtmlDataFromServer();
              }
        })
 
@@ -259,26 +259,27 @@ function deleteScriptFolderOnServer(scriptId, newScriptName){
 //   parent.style.width = (parseInt(getComputedStyle(parent, '').width) + dx) + "px";
 // }
 
-function getAutomationHtmlDataFromServer(){
+function getScriptHtmlDataFromServer(){
   var scriptId = { 'id' : $("#scriptId").val() };
 
   //This is the AJAX GET request for fetching the HTML content
   $.ajax({
       type:'GET',
-      url: '/api/getAutomationHtml',
+      url: '/api/getScriptHtml',
       data: scriptId,
       success: function(data){
-         console.log("SUCCESS: Automation HTML data is fetched successfully!!!");
-         $("#automation-content").html(data);
-         getAutomationDataFromServer();
+         console.log("SUCCESS: Script HTML data is fetched successfully!!!");
+         $("#automation-content").html(data.automationHtml);
+         //$("#Testdata").html(data.testdataHtml);
+         getScriptDataFromServer();
       },
       error: function(){
-         console.log("FAILED: Failed to fetch Automation HTML data!!!");
+         console.log("FAILED: Failed to fetch script HTML data!!!");
       }
   });
 }
 
-function getAutomationDataFromServer(){
+function getScriptDataFromServer(){
   var scriptId = { 'id' : $("#scriptId").val() };
 
   //This is the AJAX GET request for fetching the user entered data in the script
@@ -286,28 +287,41 @@ function getAutomationDataFromServer(){
       type:'GET',
       url: '/api/getAutomationUserEnteredData',
       data: scriptId,
-      success: function(data){
+      success: function(scriptData){
          console.log("SUCCESS: Automation user entered data is fetched successfully!!!");
-         if(data.length > 0){
-            populateUserEnteredData(data);
-         }
+         populateAutomationUserEnteredData(scriptData);
       },
       error: function(){
          console.log("FAILED: Failed to fetch automation user entered data!!!");
       }
   });
+
+  $.ajax({
+      type:'GET',
+      url: '/api/getTestDataUserEnteredData',
+      data: scriptId,
+      success: function(testdata){
+         console.log("SUCCESS: Test data is fetched successfully!!!");
+         document.getElementById('testdata-textarea').value = testdata;
+      },
+      error: function(){
+         console.log("FAILED: Failed to fetch test data!!!");
+      }
+  });
 }
 
-function populateUserEnteredData(jsonData){
+function populateAutomationUserEnteredData(scriptJsonData){
   var stepsDiv = document.getElementsByClassName('step');
-  var parsedJsonData = JSON.parse(jsonData);
+  $("#manual-tc tbody").children().remove();
 
-  $("#manual-tc tbody").children().remove()
+  if(scriptJsonData.length > 0){
+    var parsedJsonData = JSON.parse(scriptJsonData);
 
-  for(var i = 0;i < stepsDiv.length;i++){
-      stepsDiv[i].getElementsByClassName('captureUrl')[0].value = parsedJsonData["step" + (i + 1)].url;
-      if(parsedJsonData["step" + (i + 1)].url){
-        $('#manual-tc').append('<tr><td>' + (i + 1) + '</td><td>' + parsedJsonData["step" + (i + 1)].manual.stepDesc + '</td><td>' + parsedJsonData["step" + (i + 1)].manual.expectedResult + '</td></tr>');
-      }
+    for(var i = 0;i < stepsDiv.length;i++){
+        stepsDiv[i].getElementsByClassName('captureUrl')[0].value = parsedJsonData["step" + (i + 1)].url;
+        if(parsedJsonData["step" + (i + 1)].url){
+          $('#manual-tc').append('<tr><td>' + (i + 1) + '</td><td>' + parsedJsonData["step" + (i + 1)].manual.stepDesc + '</td><td>' + parsedJsonData["step" + (i + 1)].manual.expectedResult + '</td></tr>');
+        }
+    }
   }
 }

@@ -62,8 +62,8 @@
     padding: 6px 12px;
     /* border: 1px solid #ccc; */
     border-top: none;
-    height:500;
-    width:700;
+    /* height:inherit;
+    width:inherit; */
 }
 
 #save-script{
@@ -129,9 +129,9 @@
 }
 
 #Testdata{
-  overflow: scroll;
+  /* overflow: scroll;
   height: inherit;
-  width:900px;
+  width:900px; */
   font-size: 12px;
   font-family: inherit;
 }
@@ -150,3 +150,14 @@
   font-family: inherit;
   padding: 2px 2px;
 }
+
+#testdata-textarea{
+  height:570px;
+  width:850px;"
+  margin: 20px 0px;
+  background-color: #FCF5D8;
+}
+
+/* #Automation, #Manual{
+  overflow-y:scroll;
+} */

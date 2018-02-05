@@ -25,6 +25,14 @@ $(document).ready(function(){
   $("#automation-content").change(function(){
       saveScript();
   });
+
+  $("#testdata-textarea").change(function(){
+      saveScript();
+  });
+
+  // $("#add-param", "#add-testdata-row", "#add-testdata-column").click(function(){
+  //     saveScript();
+  // });
 });
 
 function openTab(evt, tabName) {
@@ -59,12 +67,19 @@ function saveScript(){
   var scriptId = $("#scriptId").val();
 
   var stepsHtml = $("#automation-content").html();
+  // var testDataHtml = $("#Testdata").html();
+  var testdataJson = $("#testdata-textarea").val();
+
   if(stepsHtml.length > 0){
     stepsHtml = stepsHtml.trim();
   }
 
+  // if(testDataHtml.length > 0){
+  //   testDataHtml = testDataHtml.trim();
+  // }
+
   var stepsDiv = document.getElementsByClassName('step');
-  var userEnteredData = {};
+  var automationUserEnteredData = {};
   var stepObject;
 
   for(var i = 0;i < stepsDiv.length;i++){
@@ -88,15 +103,19 @@ function saveScript(){
                       }
         }
 
-        userEnteredData["step" + (i + 1)] = stepObject;
+        automationUserEnteredData["step" + (i + 1)] = stepObject;
   }
 
-  var stepsData = {'id' : scriptId ,'html' : stepsHtml, 'data' : JSON.stringify(userEnteredData)};
+  var scriptData = { 'id' : scriptId ,
+                     'stepsHtml' : stepsHtml,
+                     'automationUserEnteredData' : JSON.stringify(automationUserEnteredData),
+                     'testData': testdataJson
+                  };
 
   $.ajax({
       type:'POST',
       url:'/api/saveScriptData',
-      data: stepsData,
+      data: scriptData,
       success:function(){
           //alert("Script details are save successfully!!!");
           console.log("SUCCESS: Script data is saved to the files");
@@ -107,7 +126,7 @@ function saveScript(){
       }
   });
 
-  getAutomationHtmlDataFromServer();
+  getScriptHtmlDataFromServer();
 }
 
 function addParamRow(){
