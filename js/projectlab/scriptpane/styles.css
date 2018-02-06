@@ -31,6 +31,10 @@
     overflow: hidden;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
+    width: 800px;
+    margin: 0px 40px;
+    display: flex;
+    justify-content: space-around;
 }
 
 /* Style the buttons inside the tab */
@@ -54,6 +58,7 @@
     background-color: #ccc;
     font-weight: bold;
     color: blue;
+    border-bottom: none;
 }
 
 /* Style the tab content */
@@ -158,6 +163,46 @@
   background-color: #FCF5D8;
 }
 
-/* #Automation, #Manual{
-  overflow-y:scroll;
-} */
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    /* padding-top: 50px; /* Location of the box */ */
+    /* left: 50; */
+    top: 10;
+    width: 70%; /* Full width */
+    height: 50%; /* Full height */
+    /* overflow: auto; /* Enable scroll if needed */ */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+}
+
+#testdata-template{
+	width: 90%;
+  height:80%;
+  background-color:  lightblue;
+}
+
+#clickhere{
+  color: blue;
+  text-decoration: underline;
+}
+
+#tablinks{
+  font-size: 12px;
+  font-weight: inherit;
+}
+
+#copy,#close{
+  margin: 10px 5px;
+}

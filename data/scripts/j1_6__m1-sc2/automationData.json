@@ -1,1 +1,1 @@
-{"step1":{"method":"GET","url":"123","manual":{"stepDesc":"GET request for the endpoint URL \"123\"","expectedResult":"GET request is configured successfully"}}}
+{"step1":{"method":"GET","url":"123","manual":{"stepDesc":"GET request for the endpoint URL \"123\"","expectedResult":"GET request is configured successfully"}},"step2":{"method":"POST","url":"456","manual":{"stepDesc":"POST request for the endpoint URL \"456\"","expectedResult":"POST request is configured successfully"}},"step3":{"method":"GET","url":"","manual":{}},"step4":{"method":"GET","url":"","manual":{}}}

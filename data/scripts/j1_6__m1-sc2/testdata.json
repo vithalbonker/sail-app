@@ -1,96 +1,37 @@
 {
-
-  "nimbus-qa1":
+  "qa":
   {
-
-      "VerifyGetCategoriesSuperOfferYTest":
-      [
-        {
-          "execute": "yes",
-          "authenticationRequired": "no",
-          "uri": "https://nimbus-qa1.safeway.com/J4UProgram1/services/offer/categories",
-          "superoffer": "Y"
-        }
-
-      ],
-    "VerifyGetCategoriesSuperOfferNTest":
-    [
-      {
-        "execute": "yes",
-        "authenticationRequired": "no",
-        "uri": "https://nimbus-qa1.safeway.com/J4UProgram1/services/offer/categories",
-        "superoffer": "N"
-      }
-
-    ]
-
+	"APITest":
+	[
+	  {
+		"execute": "yes",
+		"authenticationRequired": "no",
+		"uri": "https://www.mysite.qa.com/resource"
+	  }
+	]
   },
-  "prod":
+  
+  "uat":
   {
-    "VerifyGetCategoriesSuperOfferYTest":
-      [
-        {
-            "execute": "yes",
-            "authenticationRequired": "no",
-            "uri": "https://nimbus.safeway.com/J4UProgram1/services/offer/categories",
-            "superoffer": "Y"
-        }
-     ],
-    "VerifyGetCategoriesSuperOfferNTest":
-    [
-      {
-        "execute": "yes",
-        "authenticationRequired": "no",
-        "uri": "https://nimbus.safeway.com/J4UProgram1/services/offer/categories",
-        "superoffer": "N"
-      }
-    ]
-
-   },
-
-  "qi":
-  {
-    "VerifyGetCategoriesSuperOfferYTest":
-    [
-      {
-        "execute": "yes",
-        "authenticationRequired": "no",
-        "uri": "https://nimbus.safeway.com/J4UProgram1/services/offer/categories",
-        "superoffer": "Y"
-      }
-    ],
-    "VerifyGetCategoriesSuperOfferNTest":
-    [
-      {
-        "execute": "yes",
-        "authenticationRequired": "no",
-        "uri": "https://nimbus.safeway.com/J4UProgram1/services/offer/categories",
-        "superoffer": "N"
-      }
-    ]
-
+	"APITest":
+	[
+	  {
+		"execute": "yes",
+		"authenticationRequired": "no",
+		"uri": "https://www.mysite.uat.com/resource"
+	  }
+	]
   },
-  "perf":
+  
+  "production":
   {
-    "VerifyGetCategoriesSuperOfferYTest":
-    [
-      {
-        "execute": "yes",
-        "authenticationRequired": "no",
-        "uri": "https://nimbus.safeway.com/J4UProgram1/services/offer/categories",
-        "superoffer": "Y"
-      }
-    ],
-    "VerifyGetCategoriesSuperOfferNTest":
-    [
-      {
-        "execute": "yes",
-        "authenticationRequired": "no",
-        "uri": "https://nimbus.safeway.com/J4UProgram1/services/offer/categories",
-        "superoffer": "N"
-      }
-    ]
-
-  }
-
+	"APITest":
+	[
+	  {
+		"execute": "yes",
+		"authenticationRequired": "no",
+		"uri": "https://www.mysite.com/resource"
+	  }
+	]
+  }  
 }

@@ -33,6 +33,42 @@ $(document).ready(function(){
   // $("#add-param", "#add-testdata-row", "#add-testdata-column").click(function(){
   //     saveScript();
   // });
+
+  // Get the modal
+   var modal = document.getElementById('myModal');
+
+   // Get the link that opens the modal
+   var link = document.getElementById("clickhere");
+
+   // Get the button element that has copy
+   var copy = document.getElementsByClassName("copy")[0];
+
+   // Get the button element that closes the modal
+   var close = document.getElementsByClassName("close")[0];
+
+   // When the user clicks the link, open the modal
+   link.onclick = function() {
+       modal.style.display = "block";
+       populateTestDataTemplate();
+   }
+
+    // When the user clicks the copy, copy the text in textarea
+   copy.onclick = function() {
+        $("#testdata-template").select();
+      document.execCommand('copy');
+   }
+
+   // When the user clicks the link, open the modal
+   close.onclick = function() {
+       modal.style.display = "none";
+   }
+
+   // When the user clicks anywhere outside of the modal, close it
+   window.onclick = function(event) {
+       if (event.target == modal) {
+           modal.style.display = "none";
+       }
+ }
 });
 
 function openTab(evt, tabName) {
@@ -170,4 +206,18 @@ function addTestDataColumn(){
         $('#testdata-table tbody tr:nth-child(' + (i + 1) + ')').append('<td><input type="text" id="testdata-body-row" class="testdata-body-row" name="testdata-body-row" /></td>');
       }
     }
+}
+
+function populateTestDataTemplate(){
+  $.ajax({
+      type:'GET',
+      url: '/api/getTestDataTemplate',
+      success: function(data){
+         console.log("SUCCESS: Testdata template is fetched successfully!!!");
+         document.getElementById('testdata-template').value = data;
+      },
+      error: function(){
+         console.log("FAILED: Failed to fetch Testdata template data!!!");
+      }
+  })
 }

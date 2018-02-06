@@ -194,4 +194,11 @@ module.exports = app => {
           });
       });
     });
+
+    app.get('/api/getTestDataTemplate', function(request, response){
+       fs.readFile('templates/testdataJsonTemplate.json', 'utf8', function(err, data) {
+              if (err) throw err;
+              response.send(data);
+        });
+    });
 };

@@ -3,16 +3,6 @@ $(document).ready(function(){
 
        .on('changed.jstree', function (e, data) {
              if(data.instance.get_type(data.selected[0]) == 'file'){
-
-                 // alert(localStorage.getItem('isScriptChanged'));
-                 // alert(localStorage.getItem('saveScriptClicked'));
-                 // if(localStorage.getItem('isScriptChanged') && !localStorage.getItem('saveScriptClicked')){
-                 //      alert("Script is not saved. You will lose your changes made");
-                 // }
-                 //
-                 // localStorage.setItem('isTreeNodeVisited', true);
-                 // $('#script_pane').show();
-
                  currentNodeText = data.instance.get_node(data.selected[0]).text;
                  parentPathStr = getNodeParentHierarchy(data);
 
