@@ -69,7 +69,7 @@ module.exports = app => {
                }
             }
 
-            if(files[index] != scriptFolderData.id + '__' + scriptFolderData.name){
+            if(files[index] !== scriptFolderData.id + '__' + scriptFolderData.name){
               fs.rename('data/scripts/' + files[index], 'data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name, function(err){
                 if (err) throw err;
                 console.log('Script folder is renamed successfully!!!');
@@ -225,7 +225,7 @@ module.exports = app => {
       var automationData = fs.readFileSync(scriptPath + '/automationData.json', 'utf8')
       var parsedAutoData = JSON.parse(automationData);
 
-      var scriptCode = "";      
+      var scriptCode = "";
       currentStepCode = "";
 
       for(var i = 0; i < Object.keys(parsedAutoData).length;i++){

@@ -3,6 +3,10 @@ $(document).ready(function(){
 
        .on('changed.jstree', function (e, data) {
              if(data.instance.get_type(data.selected[0]) == 'file'){
+
+                 $('#script_pane').show();
+                 document.getElementById("defaultTab").click();
+
                  currentNodeText = data.instance.get_node(data.selected[0]).text;
                  parentPathStr = getNodeParentHierarchy(data);
 
@@ -11,6 +15,8 @@ $(document).ready(function(){
                  $('#scriptTreePath').val(parentPathStr);
 
                  getScriptHtmlDataFromServer();
+             }else{
+               $('#script_pane').hide();
              }
        })
 
@@ -35,6 +41,8 @@ $(document).ready(function(){
               deleteScriptFolderOnServer(data.node.id, data.instance.get_text(data.node));
               postTreeDataToServer();
             }
+
+            $('#script_pane').hide();
        })
 
        .jstree({
