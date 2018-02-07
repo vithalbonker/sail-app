@@ -69,16 +69,19 @@ module.exports = app => {
                }
             }
 
-            fs.rename('data/scripts/' + files[index], 'data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name, function(err){
-              if (err) throw err;
-              console.log('Script folder is renamed successfully!!!');
-            })
-        })
+            if(files[index] != scriptFolderData.id + '__' + scriptFolderData.name){
+              fs.rename('data/scripts/' + files[index], 'data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name, function(err){
+                if (err) throw err;
+                console.log('Script folder is renamed successfully!!!');
+              });
+            }
+        });
     });
 
     app.post('/api/tree/deleteScriptFolder', function(request, response){
         var scriptFolderData = request.body;
         folderNameToBeDeleted = 'data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name;
+        console.log(folderNameToBeDeleted);
         deleteFolderRecursive(folderNameToBeDeleted);
         console.log('"' + folderNameToBeDeleted + '" script folder is deleted successfully!!!');
     });
@@ -113,9 +116,7 @@ module.exports = app => {
             fs.writeFile('data/scripts/' + files[index] + '/automation.html', scriptData.stepsHtml , (err) => {
                 if (err) throw err;
 
-                fs.writeFile('data/scripts/' + files[index] + '/automationData.json', scriptData.automationUserEnteredData , (err) => {
-                    if (err) throw err;
-                });
+                fs.writeFileSync('data/scripts/' + files[index] + '/automationData.json', scriptData.automationUserEnteredData)
 
                 fs.writeFile('data/scripts/' + files[index] + '/testdata.json', scriptData.testData , (err) => {
                     if (err) throw err;
@@ -124,6 +125,10 @@ module.exports = app => {
                 });
             });
         });
+
+        setTimeout(function() {
+            generateScriptJavaCode(scriptData.id);
+        }, 1000);
     });
 
     app.get('/api/getScriptHtml', function(request, response){
@@ -170,7 +175,6 @@ module.exports = app => {
           fs.readFile('data/scripts/' + files[index] + '/automationData.json', 'utf8', function(err, data) {
              if (err) throw err;
              response.send(data);
-
           });
       });
     });
@@ -201,4 +205,48 @@ module.exports = app => {
               response.send(data);
         });
     });
+
+    function generateScriptJavaCode(scriptId){
+
+      index = -1;
+      var files = fs.readdirSync('data/scripts');
+      for(var i = 0; i < files.length; i++){
+         if(files[i].startsWith(scriptId)){
+             index = i;
+             break;
+         }
+      }
+
+      var scriptPath = 'data/scripts/' + files[index];
+      var apiScriptCodeTemplate = fs.readFileSync('templates/code_templates/API_Script_Java_Code_Template.txt', 'utf8');
+      var scriptName = scriptPath.split('__')[1];
+      apiScriptCodeTemplate = apiScriptCodeTemplate.replace('SCRIPT_CLASS_NAME', scriptName);
+
+      var automationData = fs.readFileSync(scriptPath + '/automationData.json', 'utf8')
+      var parsedAutoData = JSON.parse(automationData);
+
+      var scriptCode = "";      
+      currentStepCode = "";
+
+      for(var i = 0; i < Object.keys(parsedAutoData).length;i++){
+        var url = parsedAutoData['step'+ (i + 1)].url;
+
+        switch(parsedAutoData['step'+ (i + 1)].method){
+           case "GET":
+               if(url.length > 0){
+                 currentStepCode = fs.readFileSync('templates/code_templates/GET_Method_Code_Template.txt', 'utf8');
+                 scriptCode+= currentStepCode.replace('ENDPOINT_URL', url);
+                 scriptCode+= "\n";
+               }
+               break;
+           case "POST":
+               break;
+        }
+      }
+
+      var apiScriptCode = apiScriptCodeTemplate.replace('SCRIPT_CODE', scriptCode);
+
+      fs.writeFileSync('data/automation_code/' + scriptName + '.java', apiScriptCode);
+      console.log('Script code is generated and saved in ' + scriptName + '.java file');
+    }
 };

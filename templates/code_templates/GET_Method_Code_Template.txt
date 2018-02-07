@@ -1,1 +1,1 @@
-given().when().get("ENDPOINT_URL")
+given().when().get("ENDPOINT_URL");

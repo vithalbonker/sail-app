@@ -219,5 +219,5 @@ function populateTestDataTemplate(){
       error: function(){
          console.log("FAILED: Failed to fetch Testdata template data!!!");
       }
-  })
+  });
 }

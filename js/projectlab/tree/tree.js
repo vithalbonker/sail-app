@@ -214,8 +214,8 @@ function renameScriptFolderOnServer(scriptId, newScriptName){
   });
 };
 
-function deleteScriptFolderOnServer(scriptId, newScriptName){
-  var scriptDetails = {'id' : scriptId ,'name' : newScriptName};
+function deleteScriptFolderOnServer(scriptId, scriptName){
+  var scriptDetails = {'id' : scriptId ,'name' : scriptName};
   $.ajax({
       type:'POST',
       url:'/api/tree/deleteScriptFolder',
