@@ -82,6 +82,24 @@ function getNodeParentHierarchy(data){
     return parentPathStr;
 };
 
+function getValidNodeName(nodeType){
+    var validName = false;
+    var name;
+    while(!validName){
+        name = prompt('Enter ' + nodeType + ' name:');
+        name = name.replace(/[^a-z0-9]/gi, '');
+
+        if(name.length == 0){
+          alert('Enter valid ' + nodeType + ' name using alphabets and numbers only!!!');
+        }
+        else{
+          validName = true;
+        }
+    }
+
+    return name;
+}
+
 function addFolder() {
    var treeRef = $('#jstree').jstree(true);
    currentSelected = treeRef.get_selected();
@@ -90,7 +108,7 @@ function addFolder() {
      return false;
    }
    currentSelected = currentSelected[0];
-   currentSelected = treeRef.create_node(currentSelected, {"type": "folder", "text": prompt("Enter folder name:")});
+   currentSelected = treeRef.create_node(currentSelected, {"type": "folder","text": getValidNodeName('folder')});
 
    if (currentSelected) {
      treeRef.edit(currentSelected);
@@ -107,7 +125,7 @@ function addScript() {
       return false;
     }
     currentSelected = currentSelected[0];
-    currentSelected = treeRef.create_node(currentSelected, {"type": "file", "text": prompt("Enter script name:")});
+    currentSelected = treeRef.create_node(currentSelected, {"type": "file","text": getValidNodeName('script')});
 
     if (currentSelected) {
       treeRef.edit(currentSelected);
