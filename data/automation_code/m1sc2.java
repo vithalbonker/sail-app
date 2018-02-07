@@ -1,7 +1,7 @@
 import static com.jayway.restassured.RestAssured.given;
 import org.junit.Test;
 
-public class m1-sc2 {
+public class m1sc2 {
 
 	@Test
 	public void testMethod() {
