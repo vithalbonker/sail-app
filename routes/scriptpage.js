@@ -2,6 +2,7 @@ const common = require('../js/common');
 var fs = require('fs');
 
 var exec = require('child_process').exec;
+var execSync = require('child_process').execSync;
 var child;
 
 module.exports = app => {
@@ -19,15 +20,37 @@ module.exports = app => {
     });
 
     app.post('/api/tree', function(request, response, next){
-      var treeData = JSON.stringify(request.body)
-      child = exec("java utils.WriteDataToJsonFile " + 'data/tree.json' + " " + treeData , function (error, stdout, stderr) {
-          if (error !== null) {
-            common.writeConsoleMessage('exec error: ' + error);
-          }else{
-            response.sendStatus(200);
-          }
-      });
+      var treeData = JSON.stringify(request.body);
+      execSync("java utils.WriteDataToJsonFile " + 'data/tree.json' + " " + treeData);
+      deleteJunkScriptFoldersFromServer();
+      response.sendStatus(200);
     });
+
+    function deleteJunkScriptFoldersFromServer(){
+      var treeData = fs.readFileSync('data/tree.json', 'utf8');
+      var parsedTreeData = JSON.parse(treeData);
+      var keys = Object.keys(parsedTreeData);
+
+      var scriptFolders = fs.readdirSync('data/scripts');
+      for(var i = 0; i < scriptFolders.length; i++){
+         var scriptId = scriptFolders[i].split('__')[0];
+         var scriptName = scriptFolders[i].split('__')[1];
+         var found = false;
+
+         for(var j = 0; j < keys.length;j++){
+            if(parsedTreeData[keys[j]].id === scriptId && parsedTreeData[keys[j]].text === scriptName){
+              console.log('Found: ' + scriptFolders[i]);
+               found = true;
+               break;
+            }
+         }
+
+         if(!found){
+           console.log('NOT Found: ' + scriptFolders[i]);
+           deleteFolderRecursive('data/scripts/' + scriptFolders[i]);
+         }
+      }      
+    }
 
     app.post('/api/tree/createScriptFolder', function(request, response){
         var scriptFolderData = request.body;

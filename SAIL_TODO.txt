@@ -15,8 +15,6 @@ Tree Structure
        2) Increase/decrease the width of the tree is not implemented
        3) Cut & Copy operations are not implemented. But drag & drop functionality is available.
        4) Error messages in client console when alert/prompt is displayed
-       5) When folder is deleted from tree, script folders will be remained in server. This creates junk folders and creates issue when creating node with same name again
-
 
 validation messages using jquery
 --------------------------------

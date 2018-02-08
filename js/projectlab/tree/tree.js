@@ -25,24 +25,27 @@ $(document).ready(function(){
               console.log('Inside create_node event.....node id is ' + data.node.id + "~" + data.instance.get_text(data.node) + "~" + data.instance.get_type(data.node));
               createScriptFolderOnServer(data.node.id, data.instance.get_text(data.node));
             }
+
+            postTreeDataToServer();
        })
 
        .on('rename_node.jstree',function(e, data){
             if(data.instance.get_type(data.node) == 'file'){
               console.log('Inside rename_node event.....node id is ' + data.node.id + "~" + data.instance.get_text(data.node) + "~" + data.instance.get_type(data.node));
               renameScriptFolderOnServer(data.node.id, data.instance.get_text(data.node));
-              postTreeDataToServer();
             }
+
+            postTreeDataToServer();
        })
 
        .on('delete_node.jstree',function(e, data){
             if(data.instance.get_type(data.node) == 'file'){
               console.log('Inside delete_node event.....node id is ' + data.node.id + "~" + data.instance.get_text(data.node) + "~" + data.instance.get_type(data.node));
               deleteScriptFolderOnServer(data.node.id, data.instance.get_text(data.node));
-              postTreeDataToServer();
             }
 
             $('#script_pane').hide();
+            postTreeDataToServer();
        })
 
        .jstree({
@@ -62,7 +65,7 @@ $(document).ready(function(){
                          "folder" : { "icon" : "/public/images/folder-16-16.png", "valid_children" : ["folder","file"] },
                          "file" : { "icon" : "/public/images/file-16-16.ico", "valid_children" : [] }
                        },
-            "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types"]
+            "plugins" : [ "changed", "dnd", "sort", "state", "unique", "types" ]
        });
 });
 
@@ -187,10 +190,10 @@ function postTreeDataToServer(){
        url:'/api/tree',
        data: "[" + JSON.stringify(rootJson) + "]",
        success:function(){
-           console.log("SUCCESS: tree data is added to the file");
+           console.log("SUCCESS: Tree data is added to the file");
        },
        error:function(){
-           console.log("FAILED: failed to add tree data to the file");
+           console.log("FAILED: Unsuccessful in adding tree data to the file");
        }
    });
 };
@@ -205,7 +208,7 @@ function getTreeDataFromServer(){
           console.log(data);
        },
        error: function(){
-          console.log("FAILED: Failed to fetch tree data!!!");
+          console.log("FAILED: Unsuccessful in fetching tree data!!!");
        }
    })
 };

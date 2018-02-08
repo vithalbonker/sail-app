@@ -14,7 +14,6 @@
     "body-parser":"*",
     "ejs":"*",
     "nodemon":"*",
-    "supervisor":"*",
-    "reload": "*"
+    "supervisor":"*"
   }
 }
