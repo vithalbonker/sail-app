@@ -31,5 +31,4 @@ module.exports = app => {
         response.redirect('/users');
         }
       });
-
-    
+}
