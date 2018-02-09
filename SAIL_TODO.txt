@@ -37,3 +37,11 @@ Packaging NodeJS apps
 https://github.com/zeit/pkg - Need to explore some more on this....how to provide data & views
 https://stackoverflow.com/questions/9413123/secure-distribution-of-nodejs-applications
 https://github.com/JoseExposito/v8-compiler
+
+Command for packaging node JS app is below:
+--------------------------------------------
+c:\services-automation\sail-app>pkg . -t node6-win-x64 --out-path C:\Users\vbonker\Desktop
+
+Requirements for SAIL app
+-------------------------
+JDK 1.8 must be installed

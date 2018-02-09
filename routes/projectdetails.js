@@ -1,6 +1,7 @@
 var fs = require('fs');
 var routes = require('../routes/routes');
-var userFile = require('../data/users.json')
+var homedir = require('os').homedir();
+var userFile = require(homedir + '/data/users.json')
 var exec = require('child_process').exec;
 var child;
 
@@ -11,7 +12,7 @@ module.exports = app => {
 
   app.get('/projectdetails', function(request, response){
     common.writeConsoleMessage("*******************USERS Details PAGE RENDER START****************");
-    fs.readFile('data/Projects.json', 'utf8', function(err, data) {
+    fs.readFile(homedir + '/data/Projects.json', 'utf8', function(err, data) {
        if (err) throw err;
        var jsonObj = JSON.parse(data);
        response.render('projectdetails.ejs', { users: jsonObj });
@@ -34,7 +35,7 @@ module.exports = app => {
            }
            common.writeConsoleMessage(stdout);
        });
-       
+
        child = exec("java utils.WriteProjectToJson " + projectName + " " + projectName + " " + tool, function (error, stdout, stderr) {
            if (error !== null) {
              common.writeConsoleMessage('exec error: ' + error);
@@ -50,7 +51,7 @@ module.exports = app => {
       common.writeConsoleMessage("*******************User DELETE START****************");
 
       var jsonObj;
-      fs.readFile('data/projects.json', 'utf8', function(err, data) {
+      fs.readFile(homedir + '/data/projects.json', 'utf8', function(err, data) {
          if (err) throw err;
          jsonObj = JSON.parse(data);
 
@@ -72,7 +73,7 @@ module.exports = app => {
          common.writeConsoleMessage("Deleted User Record:" + JSON.stringify(deletedUserRecord));
          common.writeConsoleMessage("After deleting users remaining:" + JSON.stringify(jsonObj));
 
-         fs.writeFile('data/projects.json', JSON.stringify(jsonObj), function(err){
+         fs.writeFile(homedir + '/data/projects.json', JSON.stringify(jsonObj), function(err){
           if(err) throw err;
         });
 
@@ -85,7 +86,7 @@ module.exports = app => {
       common.writeConsoleMessage("*******************EDIT START****************");
 
       var jsonObj;
-      fs.readFile('data/projects.json', 'utf8', function(err, data) {
+      fs.readFile(homedir + '/data/projects.json', 'utf8', function(err, data) {
          if (err) throw err;
          jsonObj = JSON.parse(data);
 
@@ -106,7 +107,7 @@ module.exports = app => {
 
          common.writeConsoleMessage("After editing users:" + JSON.stringify(jsonObj));
 
-         fs.writeFile('data/projects.json', JSON.stringify(jsonObj), function(err){
+         fs.writeFile(homedir + '/data/projects.json', JSON.stringify(jsonObj), function(err){
            if(err) throw err;
          });
 

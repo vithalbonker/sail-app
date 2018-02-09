@@ -1,6 +1,7 @@
 var fs = require('fs');
 var routes = require('../routes/routes');
-var userFile = require('../data/users.json')
+var homedir = require('os').homedir();
+var userFile = require(homedir + '/data/users.json')
 var exec = require('child_process').exec;
 var child;
 

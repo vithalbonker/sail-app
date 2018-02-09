@@ -1,6 +1,7 @@
 var fs = require('fs');
 var routes = require('../routes/routes');
-var userFile = require('../data/users.json')
+var homedir = require('os').homedir();
+var userFile = require(homedir + '/data/users.json')
 var exec = require('child_process').exec;
 var child;
 
@@ -46,7 +47,7 @@ module.exports = app => {
             common.writeConsoleMessage("*******************EDIT START****************");
 
             var jsonObj;
-            fs.readFile('data/users.json', 'utf8', function(err, data) {
+            fs.readFile(homedir + '/data/users.json', 'utf8', function(err, data) {
                if (err) throw err;
                jsonObj = JSON.parse(data);
 
@@ -66,7 +67,7 @@ module.exports = app => {
               if(index != -1){
                 common.writeConsoleMessage("User is " + jsonObj[index].firstName);
                 common.writeConsoleMessage("Password is " + jsonObj[index].lastName);
-                 if(username == jsonObj[index].firstName && password == jsonObj[index].lastName){                   
+                 if(username == jsonObj[index].firstName && password == jsonObj[index].lastName){
                    response.render('ProjectLab/ScriptPage.ejs');
                  } else {
                    // response.write("Incorrect username/password. Please check and try again!!!");
@@ -103,7 +104,7 @@ module.exports = app => {
 
   app.get('/users', function(request, response){
       common.writeConsoleMessage("*******************USERS PAGE RENDER START****************");
-      fs.readFile('data/users.json', 'utf8', function(err, data) {
+      fs.readFile(homedir + '/data/users.json', 'utf8', function(err, data) {
          if (err) throw err;
          var jsonObj = JSON.parse(data);
          response.render('CreateUser.ejs', { users: jsonObj });
@@ -138,7 +139,7 @@ module.exports = app => {
         common.writeConsoleMessage("*******************DELETE START****************");
 
         var jsonObj;
-        fs.readFile('data/users.json', 'utf8', function(err, data) {
+        fs.readFile(homedir + '/data/users.json', 'utf8', function(err, data) {
            if (err) throw err;
            jsonObj = JSON.parse(data);
 
@@ -160,7 +161,7 @@ module.exports = app => {
            common.writeConsoleMessage("Deleted User Record:" + JSON.stringify(deletedUserRecord));
            common.writeConsoleMessage("After deleting users remaining:" + JSON.stringify(jsonObj));
 
-           fs.writeFile('data/users.json', JSON.stringify(jsonObj), function(err){
+           fs.writeFile(userFile, JSON.stringify(jsonObj), function(err){
             if(err) throw err;
           });
 
@@ -173,7 +174,7 @@ module.exports = app => {
       common.writeConsoleMessage("*******************EDIT START****************");
 
       var jsonObj;
-      fs.readFile('data/users.json', 'utf8', function(err, data) {
+      fs.readFile(homedir + '/data/users.json', 'utf8', function(err, data) {
          if (err) throw err;
          jsonObj = JSON.parse(data);
 
@@ -194,7 +195,7 @@ module.exports = app => {
 
          common.writeConsoleMessage("After editing users:" + JSON.stringify(jsonObj));
 
-         fs.writeFile('data/users.json', JSON.stringify(jsonObj), function(err){
+         fs.writeFile(homedir + '/data/users.json', JSON.stringify(jsonObj), function(err){
            if(err) throw err;
          });
 
@@ -202,8 +203,4 @@ module.exports = app => {
          common.writeConsoleMessage("*******************EDIT END****************");
       });
   });
-
-
-
-
 };

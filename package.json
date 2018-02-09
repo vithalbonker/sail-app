@@ -15,5 +15,10 @@
     "ejs":"*",
     "nodemon":"*",
     "supervisor":"*"
-  }
+  },
+  "pkg": {
+    "scripts": ["./app.js", "config/*.js", "js/**/*.js", "routes/*.js"],
+    "assets": ["./index.html", "views/**/*", "public/**/*", "js/**/**/*", "templates/**/*.*", "templates/**/**/*.*", "utils/**/*.*"]
+  },
+  "bin": { "sail-app" : "./app.js" }
 }

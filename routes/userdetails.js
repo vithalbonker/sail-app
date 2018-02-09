@@ -1,6 +1,7 @@
 var fs = require('fs');
 var routes = require('../routes/routes');
-var userFile = require('../data/users.json')
+var homedir = require('os').homedir();
+var userFile = require(homedir + '/data/users.json')
 var exec = require('child_process').exec;
 var child;
 
@@ -11,7 +12,7 @@ module.exports = app => {
 
   app.get('/userdetails', function(request, response){
     common.writeConsoleMessage("*******************USERS Details PAGE RENDER START****************");
-    fs.readFile('data/users.json', 'utf8', function(err, data) {
+    fs.readFile(homedir + '/data/users.json', 'utf8', function(err, data) {
        if (err) throw err;
        var jsonObj = JSON.parse(data);
        response.render('UserDetails.ejs', { users: jsonObj });
@@ -46,7 +47,7 @@ module.exports = app => {
       common.writeConsoleMessage("*******************User DELETE START****************");
 
       var jsonObj;
-      fs.readFile('data/users.json', 'utf8', function(err, data) {
+      fs.readFile(homedir + '/data/users.json', 'utf8', function(err, data) {
          if (err) throw err;
          jsonObj = JSON.parse(data);
 
@@ -81,7 +82,7 @@ module.exports = app => {
       common.writeConsoleMessage("*******************EDIT START****************");
 
       var jsonObj;
-      fs.readFile('data/users.json', 'utf8', function(err, data) {
+      fs.readFile(homedir + '/data/users.json', 'utf8', function(err, data) {
          if (err) throw err;
          jsonObj = JSON.parse(data);
 
@@ -102,7 +103,7 @@ module.exports = app => {
 
          common.writeConsoleMessage("After editing users:" + JSON.stringify(jsonObj));
 
-         fs.writeFile('data/users.json', JSON.stringify(jsonObj), function(err){
+         fs.writeFile(homedir + '/data/users.json', JSON.stringify(jsonObj), function(err){
            if(err) throw err;
          });
 
@@ -139,6 +140,4 @@ module.exports = app => {
      }
      common.writeConsoleMessage("*******************NEW USER CREATION END****************");
   });
-
-
 };
