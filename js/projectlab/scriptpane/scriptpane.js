@@ -30,9 +30,9 @@ $(document).ready(function(){
       saveScript();
   });
 
-  // $("#add-param", "#add-testdata-row", "#add-testdata-column").click(function(){
-  //     saveScript();
-  // });
+  $("#params").change(function(){
+      saveScript();
+  });
 
   // Get the modal
    var modal = document.getElementById('myModal');
@@ -102,17 +102,41 @@ function deleteStep(param){
 function saveScript(){
   var scriptId = $("#scriptId").val();
 
-  var stepsHtml = $("#automation-content").html();
+  var automationStepsHtml = $("#automation-content").html();
+  var paramsHtml = $("#params").html();
   // var testDataHtml = $("#Testdata").html();
   var testdataJson = $("#testdata-textarea").val();
 
-  if(stepsHtml.length > 0){
-    stepsHtml = stepsHtml.trim();
+  if(automationStepsHtml.length > 0){
+    automationStepsHtml = automationStepsHtml.trim();
   }
 
   // if(testDataHtml.length > 0){
   //   testDataHtml = testDataHtml.trim();
   // }
+
+  var paramTypes = document.getElementsByClassName('params-dropdown');
+  var paramNames = document.getElementsByClassName('param-name');
+
+  paramsUserEnteredData = [];
+
+  for(var i = 0; i < paramTypes.length;i++){
+    var paramName = paramNames[i].value;
+    if(paramName.length > 0){
+      switch(paramTypes[i].options[paramTypes[i].selectedIndex].text){
+        case "Header Param":
+            //paramsUserEnteredData["headerParam"][i] = paramName;
+            paramsUserEnteredData.push('{"type":"Header Param", "name":"' + paramName + '"}');
+            break;
+        case "Query Param":
+            paramsUserEnteredData.push('{"type":"Query Param", "name":"' + paramName + '"}');
+            break;
+        case "Path Param":
+            paramsUserEnteredData.push('{"type":"Path Param", "name":"' + paramName + '"}');
+            break;
+      }
+    }
+  }
 
   var stepsDiv = document.getElementsByClassName('step');
   var automationUserEnteredData = {};
@@ -143,10 +167,12 @@ function saveScript(){
   }
 
   var scriptData = { 'id' : scriptId ,
-                     'stepsHtml' : stepsHtml,
+                     'paramsHtml': paramsHtml,
+                     'paramsUserEnteredData': JSON.stringify(paramsUserEnteredData),
+                     'automationStepsHtml' : automationStepsHtml,
                      'automationUserEnteredData' : JSON.stringify(automationUserEnteredData),
                      'testData': testdataJson
-                  };
+                   };
 
   $.ajax({
       type:'POST',
@@ -168,11 +194,12 @@ function saveScript(){
 function addParamRow(){
   var temp = document.getElementById('params-table-row');
   var cloneTemplate = temp.content.cloneNode(true);
-  $('#params-data tbody').append(cloneTemplate);
+  $('#params-table tbody').append(cloneTemplate);
 }
 
 function deleteParamRow(param){
   param.parentNode.parentNode.parentNode.removeChild(param.parentNode.parentNode);
+  saveScript();
 }
 
 function addTestDataRow(){

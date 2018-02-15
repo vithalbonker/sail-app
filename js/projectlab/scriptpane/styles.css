@@ -206,3 +206,43 @@
 #copy,#close{
   margin: 10px 5px;
 }
+
+#addParam{
+  margin: 10px 10px;
+}
+
+#params{
+  width: 60%;
+  border: 1px black solid;
+  padding: 5px 5px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #000000;
+  font-size: 12px;
+}
+
+table, th, td {
+   text-align: center;
+   padding: 10px;
+}
+
+/* tr:nth-child(even){
+  background-color: #d1d1d1
+} */
+
+th {
+  background-color: #5499C7;
+  color: white;
+  padding: 5px 5px;
+}
+
+th, td{
+  border: 1px solid #000000;
+}
+
+td{
+  padding: 1px 1px;
+}

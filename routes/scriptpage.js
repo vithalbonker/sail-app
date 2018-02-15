@@ -65,6 +65,7 @@ module.exports = app => {
           fs.mkdirSync(newFolderPath);
           console.log('"' + newFolderPath + '" script folder is created successfully!!!');
           common.createNewFileOnServer('automation.html', newFolderPath);
+          common.createNewFileOnServer('params.html', newFolderPath);
           common.createNewFileOnServer('automationData.json', newFolderPath);
           //common.createNewFileOnServer('testdata.html', newFolderPath);
           common.createNewFileOnServer('testdata.json', newFolderPath);
@@ -137,9 +138,11 @@ module.exports = app => {
                }
             }
 
-            fs.writeFile(homedir + '/data/scripts/' + files[index] + '/automation.html', scriptData.stepsHtml , (err) => {
+            fs.writeFile(homedir + '/data/scripts/' + files[index] + '/automation.html', scriptData.automationStepsHtml , (err) => {
                 if (err) throw err;
 
+                fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/params.html', scriptData.paramsHtml);
+                fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/paramsData.json', scriptData.paramsUserEnteredData)
                 fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/automationData.json', scriptData.automationUserEnteredData)
 
                 fs.writeFile(homedir + '/data/scripts/' + files[index] + '/testdata.json', scriptData.testData , (err) => {
@@ -175,7 +178,16 @@ module.exports = app => {
              }
              else{
                scriptHtml["automationHtml"] = data;
-               response.send(scriptHtml);
+
+               fs.readFile(homedir + '/data/scripts/' + files[index] + '/params.html', 'utf8', function(err, data) {
+                  if (err) {
+                    console.log('Unable to read the file "' + homedir + '/data/scripts/' + files[index] + '"');
+                  }
+                  else{
+                    scriptHtml["paramsHtml"] = data;
+                    response.send(scriptHtml);
+                  }
+               });
              }
 
             //  fs.readFile('data/scripts/' + files[index] + '/testdata.html', 'utf8', function(err, data) {
@@ -183,6 +195,26 @@ module.exports = app => {
             //     scriptHtml["testdataHtml"] = data;
             //     response.send(scriptHtml);
             // });
+          });
+      });
+    });
+
+    app.get('/api/getParamsUserEnteredData', function(request, response){
+      var scriptId = request.query.id;
+
+      index = -1;
+      fs.readdir(homedir + '/data/scripts/', function(err, files){
+          if(err) throw err;
+          for(var i = 0; i < files.length; i++){
+             if(files[i].startsWith(scriptId)){
+                 index = i;
+                 break;
+             }
+          }
+
+          fs.readFile(homedir + '/data/scripts/' + files[index] + '/paramsData.json', 'utf8', function(err, data) {
+             if (err) throw err;
+             response.send(data);
           });
       });
     });

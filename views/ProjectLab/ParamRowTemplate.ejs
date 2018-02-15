@@ -1,0 +1,17 @@
+<template id="params-table-row">
+    <tr>
+      <td>
+        <select id="params-dropdown" class="params-dropdown">           
+           <option value="header param">Header Param</option>
+           <option value="query param">Query Param</option>
+           <option value="path param">Path Param</option>
+        </select>
+      </td>
+      <td>
+          <input type="text" id="param-name" class="param-name" name="param-name" onchange="saveScript(this.value);"/>
+      </td>
+      <td>
+        <img id="deleteParam" name="deleteParam" class="deleteParam" src="/public/images/param-delete-icon-16-16.png" onclick="deleteParamRow(this);"/>
+      </td>
+    </tr>
+</template>

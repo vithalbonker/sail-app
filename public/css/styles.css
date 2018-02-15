@@ -14,7 +14,7 @@ a.button {
   margin: 10px;
 }
 
-table {
+/* table {
   border-collapse: collapse;
   width: 100%;
   border: 2px solid #000000;
@@ -25,9 +25,9 @@ table, th, td {
    padding: 10px;
 }
 
-/* tr:nth-child(even){
+tr:nth-child(even){
   background-color: #d1d1d1
-} */
+}
 
 th {
   background-color: #2e5696;
@@ -36,7 +36,7 @@ th {
 
 th, td{
   border: 1px solid #000000;
-}
+} */
 
 #create-user{
   border-size:2px;

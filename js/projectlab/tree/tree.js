@@ -288,6 +288,7 @@ function getScriptHtmlDataFromServer(){
       data: scriptId,
       success: function(data){
          console.log("SUCCESS: Script HTML data is fetched successfully!!!");
+         $("#params").html(data.paramsHtml);
          $("#automation-content").html(data.automationHtml);
          //$("#Testdata").html(data.testdataHtml);
          getScriptDataFromServer();
@@ -300,6 +301,20 @@ function getScriptHtmlDataFromServer(){
 
 function getScriptDataFromServer(){
   var scriptId = { 'id' : $("#scriptId").val() };
+
+  //This is the AJAX GET request for fetching the user entered data in the params
+  $.ajax({
+      type:'GET',
+      url: '/api/getParamsUserEnteredData',
+      data: scriptId,
+      success: function(paramsData){
+         console.log("SUCCESS: Params user entered data is fetched successfully!!!");
+         populateParamsUserEnteredData(paramsData);
+      },
+      error: function(){
+         console.log("FAILED: Failed to fetch params user entered data!!!");
+      }
+  });
 
   //This is the AJAX GET request for fetching the user entered data in the script
   $.ajax({
@@ -341,6 +356,20 @@ function populateAutomationUserEnteredData(scriptJsonData){
         if(parsedJsonData["step" + (i + 1)].url){
           $('#manual-tc').append('<tr><td>' + (i + 1) + '</td><td>' + parsedJsonData["step" + (i + 1)].manual.stepDesc + '</td><td>' + parsedJsonData["step" + (i + 1)].manual.expectedResult + '</td></tr>');
         }
+    }
+  }
+}
+
+function populateParamsUserEnteredData(paramJsonData){
+
+  if(paramJsonData.length > 0){
+    var parsedParamJsonData = JSON.parse(paramJsonData);
+    var paramTypes = document.getElementsByClassName('params-dropdown');
+    var paramNames = document.getElementsByClassName('param-name');
+
+    for(var i = 0;i < Object.keys(parsedParamJsonData).length;i++){
+      paramTypes[i].options[paramTypes[i].selectedIndex].text = JSON.parse(parsedParamJsonData[i]).type;
+      paramNames[i].value = JSON.parse(parsedParamJsonData[i]).name;
     }
   }
 }
