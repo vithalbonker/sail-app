@@ -64,8 +64,9 @@ module.exports = app => {
         } catch(e) {
           fs.mkdirSync(newFolderPath);
           console.log('"' + newFolderPath + '" script folder is created successfully!!!');
-          common.createNewFileOnServer('automation.html', newFolderPath);
           common.createNewFileOnServer('params.html', newFolderPath);
+          common.createNewFileOnServer('paramsData.json', newFolderPath);
+          common.createNewFileOnServer('automation.html', newFolderPath);
           common.createNewFileOnServer('automationData.json', newFolderPath);
           //common.createNewFileOnServer('testdata.html', newFolderPath);
           common.createNewFileOnServer('testdata.json', newFolderPath);
@@ -267,47 +268,83 @@ module.exports = app => {
         });
     });
 
+    function escapeRegExp(string){
+        return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
+
+    function replaceAll(str, term, replacement) {
+        return str.replace(new RegExp(escapeRegExp(term), 'g'), replacement);
+    }
+
     function generateScriptJavaCode(scriptId){
-
-      index = -1;
-      var files = fs.readdirSync(homedir + '/data/scripts');
-      for(var i = 0; i < files.length; i++){
-         if(files[i].startsWith(scriptId)){
-             index = i;
-             break;
-         }
-      }
-
-      var scriptPath = homedir + '/data/scripts/' + files[index];
-      var apiScriptCodeTemplate = fs.readFileSync(__dirname + '/../templates/code_templates/API_Script_Java_Code_Template.txt', 'utf8');
-      var scriptName = scriptPath.split('__')[1];
-      apiScriptCodeTemplate = apiScriptCodeTemplate.replace('SCRIPT_CLASS_NAME', scriptName);
-
-      var automationData = fs.readFileSync(scriptPath + '/automationData.json', 'utf8')
-      var parsedAutoData = JSON.parse(automationData);
-
-      var scriptCode = "";
-      currentStepCode = "";
-
-      for(var i = 0; i < Object.keys(parsedAutoData).length;i++){
-        var url = parsedAutoData['step'+ (i + 1)].url;
-
-        switch(parsedAutoData['step'+ (i + 1)].method){
-           case "GET":
-               if(url.length > 0){
-                 currentStepCode = fs.readFileSync(__dirname + '/../templates/code_templates/GET_Method_Code_Template.txt', 'utf8');
-                 scriptCode+= currentStepCode.replace('ENDPOINT_URL', url);
-                 scriptCode+= "\n";
-               }
+        index = -1;
+        var files = fs.readdirSync(homedir + '/data/scripts');
+        for(var i = 0; i < files.length; i++){
+           if(files[i].startsWith(scriptId)){
+               index = i;
                break;
-           case "POST":
-               break;
+           }
         }
-      }
 
-      var apiScriptCode = apiScriptCodeTemplate.replace('SCRIPT_CODE', scriptCode);
+        var scriptPath = homedir + '/data/scripts/' + files[index];
+        var apiScriptCodeTemplate = fs.readFileSync(__dirname + '/../templates/code_templates/API_Script_Java_Code_Template.txt', 'utf8');
+        var scriptName = scriptPath.split('__')[1];
+        apiScriptCodeTemplate = replaceAll(apiScriptCodeTemplate, 'SCRIPT_CLASS_NAME', scriptName);
 
-      fs.writeFileSync(homedir + '/data/automation_code/' + scriptName + '.java', apiScriptCode);
-      console.log('Script code is generated and saved in ' + scriptName + '.java file');
+        var currentStepCode = "";
+
+        var paramsCode = "";
+        var paramsData = fs.readFileSync(scriptPath + '/paramsData.json', 'utf8')
+        var parsedParamsData = JSON.parse(paramsData);
+        currentStepCode = fs.readFileSync(__dirname + '/../templates/code_templates/Param_Java_Code_Template.txt', 'utf8');
+
+        for(var i = 0;i < Object.keys(parsedParamsData).length;i++){
+          if(i > 0){
+            paramsCode+= '\t\t\t\t';
+          }
+          switch(JSON.parse(parsedParamsData[i]).type){
+              case "Header Param":
+                  paramsCode+= currentStepCode.replace('PARAM_TYPE', 'headerParams');
+                  break;
+              case "Query Param":
+                   paramsCode+= currentStepCode.replace('PARAM_TYPE', 'queryParams');
+                   break;
+              case "Path Param":
+                    paramsCode+= currentStepCode.replace('PARAM_TYPE', 'pathParams');
+                    break;
+          }
+
+          paramsCode = replaceAll(paramsCode, 'PARAM_NAME', JSON.parse(parsedParamsData[i]).name);
+          paramsCode+= "\n";
+        }
+
+        var apiScriptCode = replaceAll(apiScriptCodeTemplate, 'PARAMS_CODE', paramsCode);
+
+        var scriptCode = "";
+        var automationData = fs.readFileSync(scriptPath + '/automationData.json', 'utf8')
+        var parsedAutoData = JSON.parse(automationData);
+
+        for(var i = 0; i < Object.keys(parsedAutoData).length;i++){
+          if(i > 0){
+            scriptCode+= "\t\t\t\t";
+          }
+
+          var url = parsedAutoData['step'+ (i + 1)].url;
+          switch(parsedAutoData['step'+ (i + 1)].method){
+             case "GET":
+                 if(url.length > 0){
+                   currentStepCode = fs.readFileSync(__dirname + '/../templates/code_templates/GET_Method_Code_Template.txt', 'utf8');
+                   scriptCode+= currentStepCode.replace('ENDPOINT_URL', url);
+                 }
+                 break;
+             case "POST":
+                 break;
+          }
+          scriptCode+= "\n";
+        }
+
+        apiScriptCode = apiScriptCode.replace('SCRIPT_CODE', scriptCode);
+        fs.writeFileSync(homedir + '/data/automation_code/' + scriptName + '.java', apiScriptCode);
+        console.log('Script code is generated and saved in ' + scriptName + '.java file');
     }
 };

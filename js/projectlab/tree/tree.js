@@ -288,8 +288,14 @@ function getScriptHtmlDataFromServer(){
       data: scriptId,
       success: function(data){
          console.log("SUCCESS: Script HTML data is fetched successfully!!!");
-         $("#params").html(data.paramsHtml);
-         $("#automation-content").html(data.automationHtml);
+         if(data.paramsHtml.length > 0){
+            $("#params").html(data.paramsHtml);
+         }
+
+         if(data.automationHtml.length > 0){
+            $("#automation-content").html(data.automationHtml);
+         }         
+
          //$("#Testdata").html(data.testdataHtml);
          getScriptDataFromServer();
       },

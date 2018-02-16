@@ -1,0 +1,1 @@
+PARAM_TYPE.put("PARAM_NAME",globalConstants.currentTSDataRowJSONObj.get("PARAM_NAME").toString());

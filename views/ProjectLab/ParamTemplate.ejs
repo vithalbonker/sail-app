@@ -1,13 +1,19 @@
 <div id="params">
-  <button id="addParam" name="addParam" class="addParam" onclick="addParamRow();">Add Param</button>
-  <table id="params-table">
-      <thead>
-          <tr>
-            <th>Param Type</th>
-            <th>Param Name</th>
-            <th>Action</th>
-          </tr>
-      </thead>
-      <tbody></tbody>
-  </table>
+  <label class="params-label">Params</label>
+  <button id="params-expand-collapse" onclick="paramsExpandCollapse(this.id);">-</button>
+  <br>
+  <div id="param-div-controls">
+    <button id="addParam" name="addParam" class="addParam" onclick="addParamRow();">Add Param</button>
+    <table id="params-table">
+        <thead>
+            <tr>
+              <th>Param Type</th>
+              <th>Param Name</th>
+              <th>Action</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+  </div>
 </div>
+<br>

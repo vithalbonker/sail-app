@@ -16,6 +16,13 @@ Tree Structure
        3) Cut & Copy operations are not implemented. But drag & drop functionality is available.
        4) Error messages in client console when alert/prompt is displayed
 
+Code Generation
+---------------
+Add Script Variable
+Get Response
+Verify Status Code
+Verify Response Content Type
+
 validation messages using jquery
 --------------------------------
 http://jsfiddle.net/aoksoh69/17/

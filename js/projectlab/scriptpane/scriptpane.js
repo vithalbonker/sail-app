@@ -30,9 +30,11 @@ $(document).ready(function(){
       saveScript();
   });
 
-  $("#params").change(function(){
-      saveScript();
-  });
+  // $("#params").change(function(){
+  //     setTimeout(function() {
+  //         saveScript();
+  //     }, 3000);
+  // });
 
   // Get the modal
    var modal = document.getElementById('myModal');
@@ -68,7 +70,7 @@ $(document).ready(function(){
        if (event.target == modal) {
            modal.style.display = "none";
        }
- }
+   }
 });
 
 function openTab(evt, tabName) {
@@ -111,6 +113,10 @@ function saveScript(){
     automationStepsHtml = automationStepsHtml.trim();
   }
 
+  if(paramsHtml.length > 0){
+    paramsHtml = paramsHtml.trim();
+  }
+
   // if(testDataHtml.length > 0){
   //   testDataHtml = testDataHtml.trim();
   // }
@@ -125,7 +131,6 @@ function saveScript(){
     if(paramName.length > 0){
       switch(paramTypes[i].options[paramTypes[i].selectedIndex].text){
         case "Header Param":
-            //paramsUserEnteredData["headerParam"][i] = paramName;
             paramsUserEnteredData.push('{"type":"Header Param", "name":"' + paramName + '"}');
             break;
         case "Query Param":
@@ -183,7 +188,7 @@ function saveScript(){
           console.log("SUCCESS: Script data is saved to the files");
       },
       error:function(){
-          alert("There was problem in saving script details!!!");
+          //alert("There was problem in saving script details!!!");
           console.log("FAILED: failed to save script data to the files");
       }
   });
@@ -198,8 +203,10 @@ function addParamRow(){
 }
 
 function deleteParamRow(param){
-  param.parentNode.parentNode.parentNode.removeChild(param.parentNode.parentNode);
-  saveScript();
+  if(confirm('Are you sure you want to delete this param?')){
+    param.parentNode.parentNode.parentNode.removeChild(param.parentNode.parentNode);
+    saveScript();
+  }
 }
 
 function addTestDataRow(){
@@ -247,4 +254,16 @@ function populateTestDataTemplate(){
          console.log("FAILED: Failed to fetch Testdata template data!!!");
       }
   });
+}
+
+function paramsExpandCollapse(id){
+  $('#param-div-controls').slideToggle();
+
+  var paramsExpandCollapseBtn = document.getElementById(id);
+
+  if(paramsExpandCollapseBtn.textContent === '-'){
+      paramsExpandCollapseBtn.textContent = '+';
+  }else{
+    paramsExpandCollapseBtn.textContent = '-';
+  }
 }

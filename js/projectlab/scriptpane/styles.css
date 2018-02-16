@@ -214,14 +214,15 @@
 #params{
   width: 60%;
   border: 1px black solid;
-  padding: 5px 5px;
+  padding-bottom: 5px;
 }
 
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: 98%;
   border: 1px solid #000000;
   font-size: 12px;
+  margin: 5px 5px;
 }
 
 table, th, td {
@@ -245,4 +246,32 @@ th, td{
 
 td{
   padding: 1px 1px;
+}
+
+.params-label{
+  cursor: pointer;
+  display:inline-flex;
+  font-size: 18.5px;
+  font-weight: bold;
+  font-family:inherit;
+  background-color: #5499C7;
+  color:#FFFFFF;
+  width: 89%;
+  float:left;
+  margin:0px 0px 5px 0px;
+}
+
+#params-expand-collapse{
+  font-size: 14px;
+  font-weight:bolder;
+  float: right;
+  width: 11%;
+}
+
+.params-label, #params-expand-collapse{
+  display:inline;
+}
+
+#param-name{
+  width: 90%;
 }
