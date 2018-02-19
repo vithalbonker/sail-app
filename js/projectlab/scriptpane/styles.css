@@ -58,7 +58,7 @@
     background-color: #ccc;
     font-weight: bold;
     color: blue;
-    border-bottom: none;
+    /* border-bottom: none; */
 }
 
 /* Style the tab content */
@@ -66,7 +66,7 @@
     display: none;
     padding: 6px 12px;
     /* border: 1px solid #ccc; */
-    border-top: none;
+    /* border-top: none; */
     /* height:inherit;
     width:inherit; */
 }

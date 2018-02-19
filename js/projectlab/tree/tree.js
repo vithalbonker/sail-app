@@ -358,7 +358,19 @@ function populateAutomationUserEnteredData(scriptJsonData){
     var parsedJsonData = JSON.parse(scriptJsonData);
 
     for(var i = 0;i < stepsDiv.length;i++){
-        
+
+        switch(parsedJsonData["step" + (i + 1)].stepName){
+            case "HTTP Method":
+                 stepsDiv[i].getElementsByClassName('http-method-dropdown')[0].value = parsedJsonData["step" + (i + 1)].methodName;
+                 break;
+            case "Verify Status Code":
+                 stepsDiv[i].getElementsByClassName('statusCode')[0].value = parsedJsonData["step" + (i + 1)].statusCode;
+                 break;
+            case "Verify Response Content Type":                   
+                 stepsDiv[i].getElementsByClassName('expected-content-type-dropdown')[0].value = parsedJsonData["step" + (i + 1)].contentType;
+                 break;
+        }
+
         if(parsedJsonData["step" + (i + 1)].manual.stepDesc){
           $('#manual-tc').append('<tr><td>' + (i + 1) + '</td><td>' + parsedJsonData["step" + (i + 1)].manual.stepDesc + '</td><td>' + parsedJsonData["step" + (i + 1)].manual.expectedResult + '</td></tr>');
         }

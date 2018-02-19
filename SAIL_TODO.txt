@@ -22,6 +22,8 @@ Get Response
 Verify Status Code
 Verify Response Content Type
 
+Use javascript to populate the values of params dropdown
+
 validation messages using jquery
 --------------------------------
 http://jsfiddle.net/aoksoh69/17/

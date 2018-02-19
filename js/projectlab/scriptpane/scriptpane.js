@@ -153,24 +153,6 @@ function saveScript(){
   for(var i = 0;i < stepsDiv.length;i++){
         var stepName = stepsDiv[i].getElementsByClassName('stepName')[0].value;
 
-        // var url = stepsDiv[i].getElementsByClassName('captureUrl')[0].value;
-        // if(url.length > 0){
-        //   stepObject = {
-        //                  'method': methodName,
-        //                  'url': url,
-        //                  'manual':{
-        //                             'stepDesc': methodName + ' request for the endpoint URL "' +  url + '"',
-        //                             'expectedResult': methodName + ' request is configured successfully'
-        //                            }
-        //               }
-        // }else{
-        //   stepObject = {
-        //                  'method': methodName,
-        //                  'url': url,
-        //                  'manual':{}
-        //               }
-        // }
-
         switch(stepName){
            case "add-http-method":
                 var methodName = stepsDiv[i].getElementsByClassName('http-method-dropdown')[0].value;
@@ -217,13 +199,13 @@ function saveScript(){
                     if(responseContentType === '-- select content type --'){
                       stepObject = {
                                      'stepName': 'Verify Response Content Type',
-                                     'statusCode': responseContentType,
+                                     'contentType': responseContentType,
                                      'manual':{}
                                    }
                     }else{
                       stepObject = {
                                      'stepName': 'Verify Response Content Type',
-                                     'statusCode': responseContentType,
+                                     'contentType': responseContentType,
                                      'manual':{
                                                 'stepDesc': 'Verify content type in response is "' + responseContentType + '"',
                                                 'expectedResult': 'Actual content type in the response should match with expected content type'
