@@ -10,16 +10,19 @@ $(document).ready(function(){
   //     document.getElementById("script_pane").style.visibility='hidden';
   // }
 
-  $("#steps-dropdown").click(function(){
+  $("#addStep").click(function(){
       switch($('#steps-dropdown :selected').text()){
-        case "GET method":
-          addTemplateById("get-method");
-          break;
-        case "POST method":
-          addTemplateById("post-method");
-          break;
+         case "Add HTTP Method":
+              addTemplateById("add-http-method");
+              break;
+          case "Verify Status Code":
+              addTemplateById("verify-status-code");
+              break;
+         case "Verify Response Content Type":
+              addTemplateById("verify-response-content-type");
+              break;
       }
-      $(this).prop('selectedIndex', 0);
+      //$(this).prop('selectedIndex', 0);
   });
 
   $("#automation-content").change(function(){
@@ -148,24 +151,86 @@ function saveScript(){
   var stepObject;
 
   for(var i = 0;i < stepsDiv.length;i++){
-        var methodName = stepsDiv[i].getElementsByClassName('methodType')[0].value;
-        var url = stepsDiv[i].getElementsByClassName('captureUrl')[0].value;
+        var stepName = stepsDiv[i].getElementsByClassName('stepName')[0].value;
 
-        if(url.length > 0){
-          stepObject = {
-                         'method': methodName,
-                         'url': url,
-                         'manual':{
-                                    'stepDesc': methodName + ' request for the endpoint URL "' +  url + '"',
-                                    'expectedResult': methodName + ' request is configured successfully'
+        // var url = stepsDiv[i].getElementsByClassName('captureUrl')[0].value;
+        // if(url.length > 0){
+        //   stepObject = {
+        //                  'method': methodName,
+        //                  'url': url,
+        //                  'manual':{
+        //                             'stepDesc': methodName + ' request for the endpoint URL "' +  url + '"',
+        //                             'expectedResult': methodName + ' request is configured successfully'
+        //                            }
+        //               }
+        // }else{
+        //   stepObject = {
+        //                  'method': methodName,
+        //                  'url': url,
+        //                  'manual':{}
+        //               }
+        // }
+
+        switch(stepName){
+           case "add-http-method":
+                var methodName = stepsDiv[i].getElementsByClassName('http-method-dropdown')[0].value;
+                //var methodName = $('#http-method-dropdown :selected').text();
+                if(methodName === '-- select method --'){
+                  stepObject = {
+                                 'stepName': 'HTTP Method',
+                                 'methodName': methodName,
+                                 'manual':{}
+                               }
+                }else{
+                  stepObject = {
+                                 'stepName': 'HTTP Method',
+                                 'methodName': methodName,
+                                 'manual':{
+                                            'stepDesc': 'Select the HTTP method as "' + methodName + '"',
+                                            'expectedResult': 'HTTP method is selected'
+                                           }
+                               }
+                }
+
+                break;
+            case "verify-status-code":
+                var statusCode = stepsDiv[i].getElementsByClassName('statusCode')[0].value;
+                if(statusCode.length > 0){
+                  stepObject = {
+                                 'stepName': 'Verify Status Code',
+                                 'statusCode': statusCode,
+                                 'manual':{
+                                            'stepDesc': 'Verify the status code in response is "' + statusCode + '"',
+                                            'expectedResult': 'Actual status code in the response should match with expected status code'
+                                           }
+                               }
+                }else{
+                  stepObject = {
+                                 'stepName': 'Verify Status Code',
+                                 'statusCode': statusCode,
+                                 'manual':{}
+                               }
+                }
+                break;
+            case "verify-response-content-type":
+                    var responseContentType = stepsDiv[i].getElementsByClassName('expected-content-type-dropdown')[0].value;
+                    if(responseContentType === '-- select content type --'){
+                      stepObject = {
+                                     'stepName': 'Verify Response Content Type',
+                                     'statusCode': responseContentType,
+                                     'manual':{}
                                    }
-                      }
-        }else{
-          stepObject = {
-                         'method': methodName,
-                         'url': url,
-                         'manual':{}
-                      }
+                    }else{
+                      stepObject = {
+                                     'stepName': 'Verify Response Content Type',
+                                     'statusCode': responseContentType,
+                                     'manual':{
+                                                'stepDesc': 'Verify content type in response is "' + responseContentType + '"',
+                                                'expectedResult': 'Actual content type in the response should match with expected content type'
+                                               }
+                                   }
+                    }
+                    break;
         }
 
         automationUserEnteredData["step" + (i + 1)] = stepObject;

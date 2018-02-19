@@ -34,9 +34,18 @@ public class SCRIPT_CLASS_NAME extends ConfigTestBase{
     List<String> pathParamsNames = new ArrayList<String>();
     public JSONObject tokenJSONDataObj = null;
     public Response response = null;
-    private String [] categoryCodesList = null;
-    private String [] categoryNamesList = null;
-	//SCRIPT_VARIABLES
+    
+	private String [] keysList1 = null;
+	private String [] keysList2 = null;
+	private String [] keysList3 = null;
+	private String [] keysList4 = null;
+	private String [] keysList5 = null;
+	
+	private String [] valuesList1 = null;
+	private String [] valuesList2 = null;
+	private String [] valuesList3 = null;
+	private String [] valuesList4 = null;
+	private String [] valuesList5 = null;
 
     @BeforeMethod
     public void initializeDataExtractor() throws Exception {

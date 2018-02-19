@@ -294,7 +294,7 @@ function getScriptHtmlDataFromServer(){
 
          if(data.automationHtml.length > 0){
             $("#automation-content").html(data.automationHtml);
-         }         
+         }
 
          //$("#Testdata").html(data.testdataHtml);
          getScriptDataFromServer();
@@ -358,8 +358,8 @@ function populateAutomationUserEnteredData(scriptJsonData){
     var parsedJsonData = JSON.parse(scriptJsonData);
 
     for(var i = 0;i < stepsDiv.length;i++){
-        stepsDiv[i].getElementsByClassName('captureUrl')[0].value = parsedJsonData["step" + (i + 1)].url;
-        if(parsedJsonData["step" + (i + 1)].url){
+        
+        if(parsedJsonData["step" + (i + 1)].manual.stepDesc){
           $('#manual-tc').append('<tr><td>' + (i + 1) + '</td><td>' + parsedJsonData["step" + (i + 1)].manual.stepDesc + '</td><td>' + parsedJsonData["step" + (i + 1)].manual.expectedResult + '</td></tr>');
         }
     }

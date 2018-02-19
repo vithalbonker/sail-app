@@ -1,4 +1,4 @@
-<template id="get-method">
+<!-- <template id="get-method">
     <div class="step">
       <label class="step-expand-collapse">GET Method</label>
       <button id="deleteStep" onclick="deleteStep(this);"><strong>X</strong></button>
@@ -20,4 +20,62 @@
         <input type="text" id="captureUrl" class="captureUrl" name="postmethod-captureUrl" />
       </div>
     </div>
+</template>
+
+<template id="add-script-variable">
+  <div class="step">
+    <label class="step-expand-collapse">Script Variable</label>
+    <button id="deleteStep" onclick="deleteStep(this);"><strong>X</strong></button>
+    <div id="step-body">
+      <input type="text" id="stepName" class="stepName" name="stepName" value="add-script-variable"/>
+      <label>Variable Name:</label>
+      <input type="text" id="variableName" class="variableName" name="variableName" />
+    </div>
+  </div>
+</template> -->
+
+<template id="add-http-method">
+  <div class="step">
+    <label class="step-expand-collapse">HTTP Method</label>
+    <button id="deleteStep" onclick="deleteStep(this);"><strong>X</strong></button>
+    <div id="step-body">
+      <input type="text" id="stepName" class="stepName" name="stepName" value="add-http-method"/>
+      <label>HTTP Method Name:</label>
+      <select id="http-method-dropdown" class="http-method-dropdown">
+         <option value="select method">-- select method --</option>
+         <option value="GET">GET</option>
+         <option value="POST">POST</option>
+         <option value="PUT">PUT</option>
+         <option value="DELETE">DELETE</option>
+      </select>
+    </div>
+  </div>
+</template>
+
+<template id="verify-status-code">
+  <div class="step">
+    <label class="step-expand-collapse">Status Code</label>
+    <button id="deleteStep" onclick="deleteStep(this);"><strong>X</strong></button>
+    <div id="step-body">
+      <input type="text" id="stepName" class="stepName" name="stepName" value="verify-status-code"/>
+      <label>Expected Status Code:</label>
+      <input type="text" id="statusCode" class="statusCode" name="statusCode" />
+    </div>
+  </div>
+</template>
+
+<template id="verify-response-content-type">
+  <div class="step">
+    <label class="step-expand-collapse">Response Content Type</label>
+    <button id="deleteStep" onclick="deleteStep(this);"><strong>X</strong></button>
+    <div id="step-body">
+      <input type="text" id="stepName" class="stepName" name="stepName" value="verify-response-content-type"/>
+      <label>Expected Response Content Type:</label>
+      <select id="expected-content-type-dropdown" class="expected-content-type-dropdown">
+         <option value="select content type">-- select content type --</option>
+         <option value="JSON">JSON</option>
+         <option value="XML">XML</option>
+      </select>
+    </div>
+  </div>
 </template>

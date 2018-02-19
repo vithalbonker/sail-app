@@ -18,7 +18,7 @@
  display:inline-grid;
 }
 
-#methodType{
+#stepName{
   display:none;
 }
 
@@ -272,6 +272,14 @@ td{
   display:inline;
 }
 
-#param-name{
+#param-name {
   width: 90%;
+}
+
+#variableName{
+  width: 75%;
+}
+
+#http-method-dropdown, #expected-content-type-dropdown{
+  margin: 5px 5px;
 }
