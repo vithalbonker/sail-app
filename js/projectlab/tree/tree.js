@@ -366,7 +366,7 @@ function populateAutomationUserEnteredData(scriptJsonData){
             case "Verify Status Code":
                  stepsDiv[i].getElementsByClassName('statusCode')[0].value = parsedJsonData["step" + (i + 1)].statusCode;
                  break;
-            case "Verify Response Content Type":                   
+            case "Verify Response Content Type":
                  stepsDiv[i].getElementsByClassName('expected-content-type-dropdown')[0].value = parsedJsonData["step" + (i + 1)].contentType;
                  break;
         }
@@ -386,7 +386,7 @@ function populateParamsUserEnteredData(paramJsonData){
     var paramNames = document.getElementsByClassName('param-name');
 
     for(var i = 0;i < Object.keys(parsedParamJsonData).length;i++){
-      paramTypes[i].options[paramTypes[i].selectedIndex].text = JSON.parse(parsedParamJsonData[i]).type;
+      paramTypes[i].value = JSON.parse(parsedParamJsonData[i]).type;      
       paramNames[i].value = JSON.parse(parsedParamJsonData[i]).name;
     }
   }

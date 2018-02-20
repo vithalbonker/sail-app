@@ -1,21 +1,14 @@
 document.getElementById("defaultTab").click();
+paramsExpandCollapse('params-expand-collapse');
 
 $(document).ready(function(){
-
-  // localStorage.clear();
-
-  // if(localStorage.getItem('isTreeNodeVisited')){
-  //     document.getElementById("script_pane").style.visibility='visible';
-  // }else{
-  //     document.getElementById("script_pane").style.visibility='hidden';
-  // }
 
   $("#addStep").click(function(){
       switch($('#steps-dropdown :selected').text()){
          case "Add HTTP Method":
               addTemplateById("add-http-method");
               break;
-          case "Verify Status Code":
+         case "Verify Status Code":
               addTemplateById("verify-status-code");
               break;
          case "Verify Response Content Type":

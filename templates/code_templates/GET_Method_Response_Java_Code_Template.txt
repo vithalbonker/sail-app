@@ -1,0 +1,2 @@
+response = getCallWrapper.getAsResponse(restAssuredObj.baseURI,queryParams,pathParams,headersParams,GlobalConstants.GetCallArgs.QUERYPARAM.toString(),pathParamsNames);
+responseDetails = response.getBody().asString();
