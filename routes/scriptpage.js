@@ -71,6 +71,9 @@ module.exports = app => {
           //common.createNewFileOnServer('testdata.html', newFolderPath);
           common.createNewFileOnServer('testdata.json', newFolderPath);
 
+          var paramsTemplate = fs.readFileSync(__dirname + '/../templates/paramsTemplate.html', 'utf8')
+          fs.writeFileSync(newFolderPath + '/params.html', paramsTemplate);
+
           // fs.readFile('templates/testDataTemplate.html', 'utf8', function(err, data) {
           //    if (err) throw err;
           //
