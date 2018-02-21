@@ -292,9 +292,7 @@ function getScriptHtmlDataFromServer(){
             $("#params").html(data.paramsHtml);
          }
 
-         if(data.automationHtml.length > 0){
-            $("#automation-content").html(data.automationHtml);
-         }
+         $("#automation-content").html(data.automationHtml);
 
          //$("#Testdata").html(data.testdataHtml);
          getScriptDataFromServer();
@@ -386,7 +384,7 @@ function populateParamsUserEnteredData(paramJsonData){
     var paramNames = document.getElementsByClassName('param-name');
 
     for(var i = 0;i < Object.keys(parsedParamJsonData).length;i++){
-      paramTypes[i].value = JSON.parse(parsedParamJsonData[i]).type;      
+      paramTypes[i].value = JSON.parse(parsedParamJsonData[i]).type;
       paramNames[i].value = JSON.parse(parsedParamJsonData[i]).name;
     }
   }
