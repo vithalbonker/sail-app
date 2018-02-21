@@ -329,18 +329,32 @@ module.exports = app => {
             scriptCode+= "\t\t\t\t";
           }
 
-          var url = parsedAutoData['step'+ (i + 1)].url;
-          switch(parsedAutoData['step'+ (i + 1)].method){
-             case "GET":
-                 if(url.length > 0){
-                   currentStepCode = fs.readFileSync(__dirname + '/../templates/code_templates/GET_Method_Code_Template.txt', 'utf8');
-                   scriptCode+= currentStepCode.replace('ENDPOINT_URL', url);
-                 }
-                 break;
-             case "POST":
-                 break;
+          switch(parsedAutoData['step'+ (i + 1)].stepName){
+             case "HTTP Method":
+                  switch(parsedAutoData['step'+ (i + 1)].methodName){
+                      case "GET":
+                          scriptCode+= fs.readFileSync(__dirname + '/../templates/code_templates/GET_Method_Response_Java_Code_Template.txt', 'utf8');
+                          break;
+                      case "POST":
+                          break;
+                      case "PUT":
+                          break;
+                      case "DELETE":
+                          break;
+                  }
+                  break;
+             case "Verify Status Code":
+                  var expected_status_code = parsedAutoData['step'+ (i + 1)].statusCode;
+                  currentStepCode = fs.readFileSync(__dirname + '/../templates/code_templates/Verify_Status_Code_Java_Code_Template.txt', 'utf8');
+                  scriptCode+= currentStepCode.replace('EXPECTED_STATUS_CODE', expected_status_code);
+                  break;
+             case "Verify Response Content Type":
+                  var expected_content_type = parsedAutoData['step'+ (i + 1)].contentType;
+                  currentStepCode = fs.readFileSync(__dirname + '/../templates/code_templates/Verify_Response_Content_Type_Java_Code_Template .txt', 'utf8');
+                  scriptCode+= replaceAll(currentStepCode, 'RESPONSE_CONTENT_TYPE', expected_content_type);
+                  break;
           }
-          scriptCode+= "\n";
+          scriptCode+= "\n\n";
         }
 
         apiScriptCode = apiScriptCode.replace('SCRIPT_CODE', scriptCode);

@@ -18,11 +18,7 @@ Tree Structure
 
 Code Generation
 ---------------
-Get Response
-Verify Status Code
-Verify Response Content Type
-
-Use javascript to populate the values of params dropdown
+keys and values validation
 
 validation messages using jquery
 --------------------------------

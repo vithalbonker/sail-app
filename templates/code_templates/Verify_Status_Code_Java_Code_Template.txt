@@ -1,4 +1,4 @@
 statusCode = response.getStatusCode();
-appGeneric.assignDetails("Verify Service Call Status Code", "Service Call is Successful - StatusCode:-" + statusCode, "Service Call Error " + responseDetails);
-Assert.assertTrue(generic.verifyStatusCode(statusCode),"Service Call Error " + responseDetails);
-appGeneric.generateExtentReport(GlobalConstants.ReportStatus.PASS.toString(), testScriptName);
+				appGeneric.assignDetails("Verify Service Call Status Code", "Service Call is Successful - StatusCode:-" + statusCode, "Service Call Error " + responseDetails);
+				Assert.assertEquals(generic.verifyStatusCode(statusCode), Integer.parseInt("EXPECTED_STATUS_CODE"),"Service Call Error " + responseDetails);
+				appGeneric.generateExtentReport(GlobalConstants.ReportStatus.PASS.toString(), testScriptName);

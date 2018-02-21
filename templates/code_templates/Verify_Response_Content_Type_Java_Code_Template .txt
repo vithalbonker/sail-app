@@ -1,0 +1,3 @@
+appGeneric.assignDetails("Verify Response Content Type", "Response Content Type is RESPONSE_CONTENT_TYPE", "Response Content Type is not RESPONSE_CONTENT_TYPE");
+				Assert.assertTrue(getCallWrapper.verifyResponseContentType(response),"Response Content Type is not RESPONSE_CONTENT_TYPE" );
+				appGeneric.generateExtentReport(GlobalConstants.ReportStatus.PASS.toString(), testScriptName);

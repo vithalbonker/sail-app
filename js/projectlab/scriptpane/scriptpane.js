@@ -149,7 +149,6 @@ function saveScript(){
         switch(stepName){
            case "add-http-method":
                 var methodName = stepsDiv[i].getElementsByClassName('http-method-dropdown')[0].value;
-                //var methodName = $('#http-method-dropdown :selected').text();
                 if(methodName === '-- select method --'){
                   stepObject = {
                                  'stepName': 'HTTP Method',
