@@ -98,6 +98,11 @@ function deleteStep(param){
 }
 
 function saveScript(){
+
+  setTimeout(function() {
+        console.log('Will save the script details to server...')
+  }, 500);
+
   var scriptId = $("#scriptId").val();
 
   var automationStepsHtml = $("#automation-content").html();
