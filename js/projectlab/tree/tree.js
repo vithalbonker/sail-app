@@ -296,6 +296,13 @@ function getScriptHtmlDataFromServer(){
 
          $("#automation-content").html(data.automationHtml);
 
+         if(data.automationHtml.length > 0){
+           // alert($("#automation-content").children().length);
+           while($("#automation-content").children().length === 0){
+              $("#automation-content").html(data.automationHtml);
+           }
+         }
+
          //$("#Testdata").html(data.testdataHtml);
          getScriptDataFromServer();
       },
