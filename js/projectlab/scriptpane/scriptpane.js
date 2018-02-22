@@ -101,7 +101,7 @@ function saveScript(){
 
   setTimeout(function() {
         console.log('Will save the script details to server...')
-  }, 500);
+  }, 1000);
 
   var scriptId = $("#scriptId").val();
 
@@ -154,7 +154,7 @@ function saveScript(){
         switch(stepName){
            case "add-http-method":
                 var methodName = stepsDiv[i].getElementsByClassName('http-method-dropdown')[0].value;
-                if(methodName === '-- select method --'){
+                if(methodName === 'select method'){
                   stepObject = {
                                  'stepName': 'HTTP Method',
                                  'methodName': methodName,
