@@ -5,7 +5,7 @@
  font-family: Arial, Helvetica, sans-serif;
  font-size: 12px;
  overflow:scroll;
- /* border-bottom: none; */
+ /* background-color: lightblue; */
 }
 
 #scriptId{
@@ -282,4 +282,8 @@ td{
 
 #http-method-dropdown, #expected-content-type-dropdown{
   margin: 5px 5px;
+}
+
+#addStep{
+  margin: 0px 20px;
 }

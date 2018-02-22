@@ -14,6 +14,8 @@ $(document).ready(function(){
                  $('#scriptName').val(currentNodeText);
                  $('#scriptTreePath').val(parentPathStr);
 
+                 $('#steps-dropdown').prop('selectedIndex', 0);
+
                  getScriptHtmlDataFromServer();
              }else{
                $('#script_pane').hide();
