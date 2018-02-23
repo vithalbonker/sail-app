@@ -14,7 +14,8 @@
     "body-parser":"*",
     "ejs":"*",
     "nodemon":"*",
-    "supervisor":"*"
+    "supervisor":"*",
+    "pkg":"*"
   },
   "pkg": {
     "scripts": ["./app.js", "config/*.js", "js/**/*.js", "routes/*.js"],
