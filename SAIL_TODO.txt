@@ -50,3 +50,19 @@ Requirements for SAIL app
 -------------------------
 JDK 1.8 must be installed
 Maven should be installed
+
+
+Custom Alert code
+-----------------
+function customAlert(msg, duration)
+{
+     var el = document.createElement("div");
+     el.setAttribute("style","position:bottom;top:40%;left:20%;font-weight:bold;background-color:red;margin:3px 0px;");
+     el.innerHTML = msg;
+
+     setTimeout(function(){
+       el.parentNode.removeChild(el);
+     },duration);
+
+     document.body.appendChild(el);
+}
