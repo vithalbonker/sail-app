@@ -281,6 +281,17 @@ function deleteScriptFolderOnServer(scriptId, scriptName){
 // }
 
 function getScriptHtmlDataFromServer(){
+
+  setTimeout(function() {
+        console.log('Will get the script details from server...');
+  }, 2000);
+
+  var scriptId = "";
+  while(scriptId.length === 0 || scriptId === undefined){
+      scriptId = $("#scriptId").val();
+      setTimeout(function(){}, 1000);
+  }
+
   var scriptId = { 'id' : $("#scriptId").val() };
 
   //This is the AJAX GET request for fetching the HTML content
@@ -295,11 +306,14 @@ function getScriptHtmlDataFromServer(){
          }
 
          $("#automation-content").html(data.automationHtml);
+         setTimeout(function(){}, 1000);
 
          if(data.automationHtml.length > 0){
            // alert($("#automation-content").children().length);
            while($("#automation-content").children().length === 0){
+              alert($("#automation-content").children().length);
               $("#automation-content").html(data.automationHtml);
+              setTimeout(function(){}, 1000);
            }
          }
 

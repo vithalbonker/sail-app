@@ -142,19 +142,14 @@ module.exports = app => {
                }
             }
 
-            fs.writeFile(homedir + '/data/scripts/' + files[index] + '/automation.html', scriptData.automationStepsHtml , (err) => {
-                if (err) throw err;
+            fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/automation.html', scriptData.automationStepsHtml);
+            fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/params.html', scriptData.paramsHtml);
+            fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/paramsData.json', scriptData.paramsUserEnteredData);
+            fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/automationData.json', scriptData.automationUserEnteredData);
+            fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/testdata.json', scriptData.testData);
 
-                fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/params.html', scriptData.paramsHtml);
-                fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/paramsData.json', scriptData.paramsUserEnteredData)
-                fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/automationData.json', scriptData.automationUserEnteredData)
-
-                fs.writeFile(homedir + '/data/scripts/' + files[index] + '/testdata.json', scriptData.testData , (err) => {
-                    if (err) throw err;
-                    console.log('Script data is saved to files in "' + files[index] + '" folder');
-                    response.sendStatus(200);
-                });
-            });
+            console.log('Script data is saved to files in "' + files[index] + '" folder');
+            response.sendStatus(200);
         });
 
         setTimeout(function() {

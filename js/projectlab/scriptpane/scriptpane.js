@@ -100,8 +100,8 @@ function deleteStep(param){
 function saveScript(){
 
   setTimeout(function() {
-        console.log('Will save the script details to server...')
-  }, 1000);
+        console.log('Will save the script details to server...');
+  }, 2000);
 
   var scriptId = $("#scriptId").val();
 
