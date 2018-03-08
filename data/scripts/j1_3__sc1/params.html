@@ -1,0 +1,67 @@
+<label class="params-label">Params</label>
+<button id="params-expand-collapse" onclick="paramsExpandCollapse(this.id);">-</button>
+<br>
+<div id="param-div-controls" style="">
+   <button id="addParam" name="addParam" class="addParam" onclick="addParamRow();">Add Param</button>
+   <table id="params-table">
+        <thead>
+            <tr>
+              <th>Param Type</th>
+              <th>Param Name</th>
+              <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+    <tr>
+      <td>
+        <select id="params-dropdown" class="params-dropdown">
+           <option value="select param">--select param--</option>
+           <option value="Header Param">Header Param</option>
+           <option value="Query Param">Query Param</option>
+           <option value="Path Param">Path Param</option>
+        </select>
+      </td>
+      <td>
+          <input type="text" id="param-name" class="param-name" name="param-name" onchange="saveScript();">
+      </td>
+      <td>
+        <img id="deleteParam" name="deleteParam" class="deleteParam" src="/public/images/param-delete-icon-16-16.png" onclick="deleteParamRow(this);">
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <select id="params-dropdown" class="params-dropdown">
+           <option value="select param">--select param--</option>
+           <option value="Header Param">Header Param</option>
+           <option value="Query Param">Query Param</option>
+           <option value="Path Param">Path Param</option>
+        </select>
+      </td>
+      <td>
+          <input type="text" id="param-name" class="param-name" name="param-name" onchange="saveScript();">
+      </td>
+      <td>
+        <img id="deleteParam" name="deleteParam" class="deleteParam" src="/public/images/param-delete-icon-16-16.png" onclick="deleteParamRow(this);">
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <select id="params-dropdown" class="params-dropdown">
+           <option value="select param">--select param--</option>
+           <option value="Header Param">Header Param</option>
+           <option value="Query Param">Query Param</option>
+           <option value="Path Param">Path Param</option>
+        </select>
+      </td>
+      <td>
+          <input type="text" id="param-name" class="param-name" name="param-name" onchange="saveScript();">
+      </td>
+      <td>
+        <img id="deleteParam" name="deleteParam" class="deleteParam" src="/public/images/param-delete-icon-16-16.png" onclick="deleteParamRow(this);">
+      </td>
+    </tr>
+</tbody>
+   </table>
+</div>

@@ -1,0 +1,1 @@
+{"step1":{"stepName":"HTTP Method","methodName":"GET","manual":{"stepDesc":"Select the HTTP method as \"GET\"","expectedResult":"HTTP method is selected"}},"step2":{"stepName":"Verify Status Code","statusCode":"201","manual":{"stepDesc":"Verify the status code in response is \"201\"","expectedResult":"Actual status code in the response should match with expected status code"}}}

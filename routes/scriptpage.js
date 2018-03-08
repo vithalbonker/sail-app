@@ -1,6 +1,8 @@
 const common = require('../js/common');
 var fs = require('fs');
-var homedir = require('os').homedir();
+//var homedir = require('os').homedir();
+
+var data_dir = process.cwd();
 
 var exec = require('child_process').exec;
 var execSync = require('child_process').execSync;
@@ -14,7 +16,7 @@ module.exports = app => {
     });
 
     app.get('/api/tree', function(request, response){
-        fs.readFile(homedir + '/data/tree.json', 'utf8', function(err, data) {
+        fs.readFile(data_dir + '/data/tree.json', 'utf8', function(err, data) {
            if (err) throw err;
            response.send(JSON.parse(data));
         });
@@ -22,17 +24,17 @@ module.exports = app => {
 
     app.post('/api/tree', function(request, response, next){
       var treeData = JSON.stringify(request.body);
-      execSync("cd " + homedir +  "/data && java utils.WriteDataToJsonFile " + homedir + '/data/tree.json' + " " + treeData);
+      execSync("cd " + data_dir +  "/data && java utils.WriteDataToJsonFile " + data_dir + '/data/tree.json' + " " + treeData);
       deleteJunkScriptFoldersFromServer();
       response.sendStatus(200);
     });
 
     function deleteJunkScriptFoldersFromServer(){
-      var treeData = fs.readFileSync(homedir + '/data/tree.json', 'utf8');
+      var treeData = fs.readFileSync(data_dir + '/data/tree.json', 'utf8');
       var parsedTreeData = JSON.parse(treeData);
       var keys = Object.keys(parsedTreeData);
 
-      var scriptFolders = fs.readdirSync(homedir + '/data/scripts');
+      var scriptFolders = fs.readdirSync(data_dir + '/data/scripts');
       for(var i = 0; i < scriptFolders.length; i++){
          var scriptId = scriptFolders[i].split('__')[0];
          var scriptName = scriptFolders[i].split('__')[1];
@@ -48,7 +50,7 @@ module.exports = app => {
 
          if(!found){
            console.log('NOT Found: ' + scriptFolders[i]);
-           deleteFolderRecursive(homedir + '/data/scripts/' + scriptFolders[i]);
+           deleteFolderRecursive(data_dir + '/data/scripts/' + scriptFolders[i]);
          }
       }
     }
@@ -57,7 +59,7 @@ module.exports = app => {
         var scriptFolderData = request.body;
 
         var newFolderName = scriptFolderData.id + '__' + scriptFolderData.name;
-        newFolderPath = homedir + '/data/scripts/' + newFolderName;
+        newFolderPath = data_dir + '/data/scripts/' + newFolderName;
 
         try {
           fs.statSync(newFolderPath);
@@ -89,7 +91,7 @@ module.exports = app => {
         var scriptFolderData = request.body;
 
         index = -1;
-        fs.readdir(homedir + '/data/scripts/', function(err, files){
+        fs.readdir(data_dir + '/data/scripts/', function(err, files){
             if(err) throw err;
             for(var i = 0; i < files.length; i++){
                if(files[i].startsWith(scriptFolderData.id)){
@@ -99,7 +101,7 @@ module.exports = app => {
             }
 
             if(files[index] !== scriptFolderData.id + '__' + scriptFolderData.name){
-              fs.rename(homedir + '/data/scripts/' + files[index], homedir + '/data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name, function(err){
+              fs.rename(data_dir + '/data/scripts/' + files[index], data_dir + '/data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name, function(err){
                 if (err) throw err;
                 console.log('Script folder is renamed successfully!!!');
               });
@@ -109,7 +111,7 @@ module.exports = app => {
 
     app.post('/api/tree/deleteScriptFolder', function(request, response){
         var scriptFolderData = request.body;
-        folderNameToBeDeleted = homedir + '/data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name;
+        folderNameToBeDeleted = data_dir + '/data/scripts/' + scriptFolderData.id + '__' + scriptFolderData.name;
         console.log(folderNameToBeDeleted);
         deleteFolderRecursive(folderNameToBeDeleted);
         console.log('"' + folderNameToBeDeleted + '" script folder is deleted successfully!!!');
@@ -133,7 +135,7 @@ module.exports = app => {
         var scriptData = request.body;
 
         index = -1;
-        fs.readdir(homedir + '/data/scripts/', function(err, files){
+        fs.readdir(data_dir + '/data/scripts/', function(err, files){
             if(err) throw err;
             for(var i = 0; i < files.length; i++){
                if(files[i].startsWith(scriptData.id)){
@@ -142,11 +144,11 @@ module.exports = app => {
                }
             }
 
-            fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/automation.html', scriptData.automationStepsHtml);
-            fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/params.html', scriptData.paramsHtml);
-            fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/paramsData.json', scriptData.paramsUserEnteredData);
-            fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/automationData.json', scriptData.automationUserEnteredData);
-            fs.writeFileSync(homedir + '/data/scripts/' + files[index] + '/testdata.json', scriptData.testData);
+            fs.writeFileSync(data_dir + '/data/scripts/' + files[index] + '/automation.html', scriptData.automationStepsHtml);
+            fs.writeFileSync(data_dir + '/data/scripts/' + files[index] + '/params.html', scriptData.paramsHtml);
+            fs.writeFileSync(data_dir + '/data/scripts/' + files[index] + '/paramsData.json', scriptData.paramsUserEnteredData);
+            fs.writeFileSync(data_dir + '/data/scripts/' + files[index] + '/automationData.json', scriptData.automationUserEnteredData);
+            fs.writeFileSync(data_dir + '/data/scripts/' + files[index] + '/testdata.json', scriptData.testData);
 
             console.log('Script data is saved to files in "' + files[index] + '" folder');
             response.sendStatus(200);
@@ -161,7 +163,7 @@ module.exports = app => {
       var scriptId = request.query.id;
 
       index = -1;
-      fs.readdir(homedir + '/data/scripts/', function(err, files){
+      fs.readdir(data_dir + '/data/scripts/', function(err, files){
           if(err) throw err;
           for(var i = 0; i < files.length; i++){
              if(files[i].startsWith(scriptId)){
@@ -171,16 +173,16 @@ module.exports = app => {
           }
 
           var scriptHtml = {};
-          fs.readFile(homedir + '/data/scripts/' + files[index] + '/automation.html', 'utf8', function(err, data) {
+          fs.readFile(data_dir + '/data/scripts/' + files[index] + '/automation.html', 'utf8', function(err, data) {
              if (err) {
-               console.log('Unable to read the file "' + homedir + '/data/scripts/' + files[index] + '"');
+               console.log('Unable to read the file "' + data_dir + '/data/scripts/' + files[index] + '"');
              }
              else{
                scriptHtml["automationHtml"] = data;
 
-               fs.readFile(homedir + '/data/scripts/' + files[index] + '/params.html', 'utf8', function(err, data) {
+               fs.readFile(data_dir + '/data/scripts/' + files[index] + '/params.html', 'utf8', function(err, data) {
                   if (err) {
-                    console.log('Unable to read the file "' + homedir + '/data/scripts/' + files[index] + '"');
+                    console.log('Unable to read the file "' + data_dir + '/data/scripts/' + files[index] + '"');
                   }
                   else{
                     scriptHtml["paramsHtml"] = data;
@@ -202,7 +204,7 @@ module.exports = app => {
       var scriptId = request.query.id;
 
       index = -1;
-      fs.readdir(homedir + '/data/scripts/', function(err, files){
+      fs.readdir(data_dir + '/data/scripts/', function(err, files){
           if(err) throw err;
           for(var i = 0; i < files.length; i++){
              if(files[i].startsWith(scriptId)){
@@ -211,7 +213,7 @@ module.exports = app => {
              }
           }
 
-          fs.readFile(homedir + '/data/scripts/' + files[index] + '/paramsData.json', 'utf8', function(err, data) {
+          fs.readFile(data_dir + '/data/scripts/' + files[index] + '/paramsData.json', 'utf8', function(err, data) {
              if (err) throw err;
              response.send(data);
           });
@@ -222,7 +224,7 @@ module.exports = app => {
       var scriptId = request.query.id;
 
       index = -1;
-      fs.readdir(homedir + '/data/scripts/', function(err, files){
+      fs.readdir(data_dir + '/data/scripts/', function(err, files){
           if(err) throw err;
           for(var i = 0; i < files.length; i++){
              if(files[i].startsWith(scriptId)){
@@ -231,7 +233,7 @@ module.exports = app => {
              }
           }
 
-          fs.readFile(homedir + '/data/scripts/' + files[index] + '/automationData.json', 'utf8', function(err, data) {
+          fs.readFile(data_dir + '/data/scripts/' + files[index] + '/automationData.json', 'utf8', function(err, data) {
              if (err) throw err;
              response.send(data);
           });
@@ -242,7 +244,7 @@ module.exports = app => {
       var scriptId = request.query.id;
 
       index = -1;
-      fs.readdir(homedir + '/data/scripts/', function(err, files){
+      fs.readdir(data_dir + '/data/scripts/', function(err, files){
           if(err) throw err;
           for(var i = 0; i < files.length; i++){
              if(files[i].startsWith(scriptId)){
@@ -251,7 +253,7 @@ module.exports = app => {
              }
           }
 
-         fs.readFile(homedir + '/data/scripts/' + files[index] + '/testdata.json', 'utf8', function(err, data) {
+         fs.readFile(data_dir + '/data/scripts/' + files[index] + '/testdata.json', 'utf8', function(err, data) {
                 if (err) throw err;
                 response.send(data);
           });
@@ -276,7 +278,7 @@ module.exports = app => {
 
     function generateScriptJavaCode(scriptId){
         index = -1;
-        var files = fs.readdirSync(homedir + '/data/scripts');
+        var files = fs.readdirSync(data_dir + '/data/scripts');
         for(var i = 0; i < files.length; i++){
            if(files[i].startsWith(scriptId)){
                index = i;
@@ -284,7 +286,7 @@ module.exports = app => {
            }
         }
 
-        var scriptPath = homedir + '/data/scripts/' + files[index];
+        var scriptPath = data_dir + '/data/scripts/' + files[index];
         var apiScriptCodeTemplate = fs.readFileSync(__dirname + '/../templates/code_templates/API_Script_Java_Code_Template.txt', 'utf8');
         var scriptName = scriptPath.split('__')[1];
         apiScriptCodeTemplate = replaceAll(apiScriptCodeTemplate, 'SCRIPT_CLASS_NAME', scriptName);
@@ -356,7 +358,7 @@ module.exports = app => {
         }
 
         apiScriptCode = apiScriptCode.replace('SCRIPT_CODE', scriptCode);
-        fs.writeFileSync(homedir + '/data/automation_code/' + scriptName + '.java', apiScriptCode);
+        fs.writeFileSync(data_dir + '/data/automation_code/' + scriptName + '.java', apiScriptCode);
         console.log('Script code is generated and saved in ' + scriptName + '.java file');
     }
 };

@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 
-const config = require('./config/config');
+//const config = require('./config/config');
 
 var users = require('./js/users');
 var script = require('./routes/scriptpage');
@@ -16,8 +16,9 @@ var userdetails = require('./routes/userdetails');
 var newproject = require('./routes/newproject');
 var projectdetails = require('./routes/projectdetails');
 
+var settings = require('./settings.json');
+
 var app = express();
-const port = 3000;
 
 app.set('views', __dirname + '/views');
 app.set('view engine','ejs');
@@ -39,6 +40,6 @@ newproject(app);
 projectdetails(app);
 script(app);
 
-app.listen(port, config.ipAddress, function(){
-  console.log("Server started on http://" + config.ipAddress + ":" + port);
+app.listen(settings.port, settings.ipAddress, function(){
+  console.log("Server started on http://" + settings.ipAddress + ":" + settings.port);
 });
